@@ -1,0 +1,46 @@
+name: Validate
+# 道层 Compliance: v5.0 | JSON 验证 + 内容检查
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [main]
+
+jobs:
+  json-validate:
+    name: JSON 文件格式验证
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 验证 JSON 文件
+        run: |
+          FAIL=0
+          for f in $(find . -name "*.json" -not -path "./.git/*"); do
+            python3 -c "import json,sys; json.load(open('$f'))" 2>&1 && echo "✅ $f" || { echo "❌ $f"; FAIL=1; }
+          done
+          exit $FAIL
+
+  content-check:
+    name: 道层漂移关键词检测
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 检测道层漂移(6 类)
+        run: |
+          FAIL=0
+          # 模式1: 八步第5步误用"演示"
+          if grep -rE "⑤[[:space:]]*演示|第五步[[:space:]]*演示" --include="*.md" --include="*.json" .; then
+            echo "❌ 道层漂移: 八步第5步不是演示"; FAIL=1
+          else echo "✅ 八步第5步合规"; fi
+
+          # 模式2: 六飞轮错误变体
+          if grep -rE "错题飞轮|笔记飞轮|阅读飞轮|实践飞轮" --include="*.md" --include="*.json" .; then
+            echo "❌ 道层漂移: 六飞轮含非法变体"; FAIL=1
+          else echo "✅ 六飞轮名称合规"; fi
+
+          # 模式3: FIRE-UP 5字母误用
+          if grep -rE "Foundation.*Identity.*Roadmap.*Execute.*UP[^a-zA-Z]" --include="*.md" --include="*.json" .; then
+            echo "❌ 道层漂移: FIRE-UP 应为6字母"; FAIL=1
+          else echo "✅ FIRE-UP 6字母合规"; fi
+
+          exit $FAIL
