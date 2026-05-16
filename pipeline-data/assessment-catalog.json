@@ -1,0 +1,392 @@
+{
+  "$schema": "https://xingyaotu.cn/schemas/assessment-tool.v1.0.json",
+  "version": "1.0",
+  "compliance": "v5.0 道层零漂移",
+  "last_updated": "2026-05-16",
+  "_meta": {
+    "total_tools": 22,
+    "groups": {
+      "mece": 4,
+      "jumeq": 5,
+      "camiq": 5,
+      "fireup": 6,
+      "comprehensive": 2
+    },
+    "stage_names": ["不会", "模糊", "清晰", "框架", "运用", "熟练", "创新"],
+    "eight_step_names": ["穿透", "提取", "整理", "审题", "流程", "批改", "分析", "估分"],
+    "six_flywheel_names": ["计划飞轮", "预习飞轮", "复习飞轮", "听课飞轮", "作业飞轮", "考试飞轮"]
+  },
+  "assessment_tools": [
+    {
+      "tool_id": "assess_mece_motivation",
+      "tool_name_zh": "学习动力测评",
+      "group": "mece",
+      "dimensions": ["内驱力", "目标感", "兴趣度", "成就需求"],
+      "stage_quadruples": [
+        {"stage_id":1,"stage_name_zh":"不会","eight_step_id":1,"eight_step_name_zh":"穿透","six_flywheel_id":1,"six_flywheel_name_zh":"计划飞轮"},
+        {"stage_id":2,"stage_name_zh":"模糊","eight_step_id":1,"eight_step_name_zh":"穿透","six_flywheel_id":2,"six_flywheel_name_zh":"预习飞轮"},
+        {"stage_id":3,"stage_name_zh":"清晰","eight_step_id":2,"eight_step_name_zh":"提取","six_flywheel_id":2,"six_flywheel_name_zh":"预习飞轮"},
+        {"stage_id":4,"stage_name_zh":"框架","eight_step_id":3,"eight_step_name_zh":"整理","six_flywheel_id":3,"six_flywheel_name_zh":"复习飞轮"},
+        {"stage_id":5,"stage_name_zh":"运用","eight_step_id":5,"eight_step_name_zh":"流程","six_flywheel_id":5,"six_flywheel_name_zh":"作业飞轮"},
+        {"stage_id":6,"stage_name_zh":"熟练","eight_step_id":7,"eight_step_name_zh":"分析","six_flywheel_id":5,"six_flywheel_name_zh":"作业飞轮"},
+        {"stage_id":7,"stage_name_zh":"创新","eight_step_id":8,"eight_step_name_zh":"估分","six_flywheel_id":6,"six_flywheel_name_zh":"考试飞轮"}
+      ],
+      "irt_config": {"model":"2PL","difficulty_range":[-3,3],"discrimination_default":1.2}
+    },
+    {
+      "tool_id": "assess_mece_execution",
+      "tool_name_zh": "学习执行力测评",
+      "group": "mece",
+      "dimensions": ["计划执行", "专注度", "时间管理", "习惯养成"],
+      "stage_quadruples": [
+        {"stage_id":1,"stage_name_zh":"不会","eight_step_id":1,"eight_step_name_zh":"穿透","six_flywheel_id":1,"six_flywheel_name_zh":"计划飞轮"},
+        {"stage_id":2,"stage_name_zh":"模糊","eight_step_id":2,"eight_step_name_zh":"提取","six_flywheel_id":1,"six_flywheel_name_zh":"计划飞轮"},
+        {"stage_id":3,"stage_name_zh":"清晰","eight_step_id":3,"eight_step_name_zh":"整理","six_flywheel_id":1,"six_flywheel_name_zh":"计划飞轮"},
+        {"stage_id":4,"stage_name_zh":"框架","eight_step_id":4,"eight_step_name_zh":"审题","six_flywheel_id":5,"six_flywheel_name_zh":"作业飞轮"},
+        {"stage_id":5,"stage_name_zh":"运用","eight_step_id":5,"eight_step_name_zh":"流程","six_flywheel_id":5,"six_flywheel_name_zh":"作业飞轮"},
+        {"stage_id":6,"stage_name_zh":"熟练","eight_step_id":6,"eight_step_name_zh":"批改","six_flywheel_id":5,"six_flywheel_name_zh":"作业飞轮"},
+        {"stage_id":7,"stage_name_zh":"创新","eight_step_id":7,"eight_step_name_zh":"分析","six_flywheel_id":6,"six_flywheel_name_zh":"考试飞轮"}
+      ],
+      "irt_config": {"model":"2PL","difficulty_range":[-3,3],"discrimination_default":1.3}
+    },
+    {
+      "tool_id": "assess_mece_capability",
+      "tool_name_zh": "学习能力测评",
+      "group": "mece",
+      "dimensions": ["理解力", "记忆力", "迁移力", "思维力"],
+      "stage_quadruples": [
+        {"stage_id":1,"stage_name_zh":"不会","eight_step_id":1,"eight_step_name_zh":"穿透","six_flywheel_id":2,"six_flywheel_name_zh":"预习飞轮"},
+        {"stage_id":2,"stage_name_zh":"模糊","eight_step_id":2,"eight_step_name_zh":"提取","six_flywheel_id":2,"six_flywheel_name_zh":"预习飞轮"},
+        {"stage_id":3,"stage_name_zh":"清晰","eight_step_id":3,"eight_step_name_zh":"整理","six_flywheel_id":3,"six_flywheel_name_zh":"复习飞轮"},
+        {"stage_id":4,"stage_name_zh":"框架","eight_step_id":3,"eight_step_name_zh":"整理","six_flywheel_id":4,"six_flywheel_name_zh":"听课飞轮"},
+        {"stage_id":5,"stage_name_zh":"运用","eight_step_id":5,"eight_step_name_zh":"流程","six_flywheel_id":5,"six_flywheel_name_zh":"作业飞轮"},
+        {"stage_id":6,"stage_name_zh":"熟练","eight_step_id":7,"eight_step_name_zh":"分析","six_flywheel_id":6,"six_flywheel_name_zh":"考试飞轮"},
+        {"stage_id":7,"stage_name_zh":"创新","eight_step_id":8,"eight_step_name_zh":"估分","six_flywheel_id":6,"six_flywheel_name_zh":"考试飞轮"}
+      ],
+      "irt_config": {"model":"2PL","difficulty_range":[-3,3],"discrimination_default":1.5}
+    },
+    {
+      "tool_id": "assess_mece_environment",
+      "tool_name_zh": "学习环境测评",
+      "group": "mece",
+      "dimensions": ["家庭支持", "学校资源", "同伴影响", "物理环境"],
+      "stage_quadruples": [
+        {"stage_id":1,"stage_name_zh":"不会","eight_step_id":1,"eight_step_name_zh":"穿透","six_flywheel_id":1,"six_flywheel_name_zh":"计划飞轮"},
+        {"stage_id":2,"stage_name_zh":"模糊","eight_step_id":1,"eight_step_name_zh":"穿透","six_flywheel_id":1,"six_flywheel_name_zh":"计划飞轮"},
+        {"stage_id":3,"stage_name_zh":"清晰","eight_step_id":2,"eight_step_name_zh":"提取","six_flywheel_id":1,"six_flywheel_name_zh":"计划飞轮"},
+        {"stage_id":4,"stage_name_zh":"框架","eight_step_id":3,"eight_step_name_zh":"整理","six_flywheel_id":3,"six_flywheel_name_zh":"复习飞轮"},
+        {"stage_id":5,"stage_name_zh":"运用","eight_step_id":4,"eight_step_name_zh":"审题","six_flywheel_id":4,"six_flywheel_name_zh":"听课飞轮"},
+        {"stage_id":6,"stage_name_zh":"熟练","eight_step_id":5,"eight_step_name_zh":"流程","six_flywheel_id":5,"six_flywheel_name_zh":"作业飞轮"},
+        {"stage_id":7,"stage_name_zh":"创新","eight_step_id":7,"eight_step_name_zh":"分析","six_flywheel_id":6,"six_flywheel_name_zh":"考试飞轮"}
+      ],
+      "irt_config": {"model":"2PL","difficulty_range":[-2,2],"discrimination_default":1.0}
+    },
+    {
+      "tool_id": "assess_jumeq_jobplacement",
+      "tool_name_zh": "职业规划诊断",
+      "group": "jumeq",
+      "dimensions": ["职业目标", "行业认知", "岗位匹配", "发展路径"],
+      "stage_quadruples": [
+        {"stage_id":1,"stage_name_zh":"不会","eight_step_id":1,"eight_step_name_zh":"穿透","six_flywheel_id":1,"six_flywheel_name_zh":"计划飞轮"},
+        {"stage_id":2,"stage_name_zh":"模糊","eight_step_id":1,"eight_step_name_zh":"穿透","six_flywheel_id":2,"six_flywheel_name_zh":"预习飞轮"},
+        {"stage_id":3,"stage_name_zh":"清晰","eight_step_id":2,"eight_step_name_zh":"提取","six_flywheel_id":2,"six_flywheel_name_zh":"预习飞轮"},
+        {"stage_id":4,"stage_name_zh":"框架","eight_step_id":3,"eight_step_name_zh":"整理","six_flywheel_id":3,"six_flywheel_name_zh":"复习飞轮"},
+        {"stage_id":5,"stage_name_zh":"运用","eight_step_id":5,"eight_step_name_zh":"流程","six_flywheel_id":1,"six_flywheel_name_zh":"计划飞轮"},
+        {"stage_id":6,"stage_name_zh":"熟练","eight_step_id":7,"eight_step_name_zh":"分析","six_flywheel_id":1,"six_flywheel_name_zh":"计划飞轮"},
+        {"stage_id":7,"stage_name_zh":"创新","eight_step_id":8,"eight_step_name_zh":"估分","six_flywheel_id":6,"six_flywheel_name_zh":"考试飞轮"}
+      ],
+      "irt_config": {"model":"2PL","difficulty_range":[-2,3],"discrimination_default":1.1}
+    },
+    {
+      "tool_id": "assess_jumeq_university",
+      "tool_name_zh": "大学意向诊断",
+      "group": "jumeq",
+      "dimensions": ["院校偏好", "地域选择", "层次目标", "录取概率"],
+      "stage_quadruples": [
+        {"stage_id":1,"stage_name_zh":"不会","eight_step_id":1,"eight_step_name_zh":"穿透","six_flywheel_id":1,"six_flywheel_name_zh":"计划飞轮"},
+        {"stage_id":2,"stage_name_zh":"模糊","eight_step_id":2,"eight_step_name_zh":"提取","six_flywheel_id":1,"six_flywheel_name_zh":"计划飞轮"},
+        {"stage_id":3,"stage_name_zh":"清晰","eight_step_id":2,"eight_step_name_zh":"提取","six_flywheel_id":3,"six_flywheel_name_zh":"复习飞轮"},
+        {"stage_id":4,"stage_name_zh":"框架","eight_step_id":3,"eight_step_name_zh":"整理","six_flywheel_id":3,"six_flywheel_name_zh":"复习飞轮"},
+        {"stage_id":5,"stage_name_zh":"运用","eight_step_id":4,"eight_step_name_zh":"审题","six_flywheel_id":1,"six_flywheel_name_zh":"计划飞轮"},
+        {"stage_id":6,"stage_name_zh":"熟练","eight_step_id":7,"eight_step_name_zh":"分析","six_flywheel_id":6,"six_flywheel_name_zh":"考试飞轮"},
+        {"stage_id":7,"stage_name_zh":"创新","eight_step_id":8,"eight_step_name_zh":"估分","six_flywheel_id":6,"six_flywheel_name_zh":"考试飞轮"}
+      ],
+      "irt_config": {"model":"2PL","difficulty_range":[-2,3],"discrimination_default":1.2}
+    },
+    {
+      "tool_id": "assess_jumeq_major",
+      "tool_name_zh": "专业志愿诊断",
+      "group": "jumeq",
+      "dimensions": ["兴趣匹配", "能力匹配", "就业前景", "个人价值观"],
+      "stage_quadruples": [
+        {"stage_id":1,"stage_name_zh":"不会","eight_step_id":1,"eight_step_name_zh":"穿透","six_flywheel_id":1,"six_flywheel_name_zh":"计划飞轮"},
+        {"stage_id":2,"stage_name_zh":"模糊","eight_step_id":1,"eight_step_name_zh":"穿透","six_flywheel_id":2,"six_flywheel_name_zh":"预习飞轮"},
+        {"stage_id":3,"stage_name_zh":"清晰","eight_step_id":2,"eight_step_name_zh":"提取","six_flywheel_id":2,"six_flywheel_name_zh":"预习飞轮"},
+        {"stage_id":4,"stage_name_zh":"框架","eight_step_id":3,"eight_step_name_zh":"整理","six_flywheel_id":3,"six_flywheel_name_zh":"复习飞轮"},
+        {"stage_id":5,"stage_name_zh":"运用","eight_step_id":5,"eight_step_name_zh":"流程","six_flywheel_id":5,"six_flywheel_name_zh":"作业飞轮"},
+        {"stage_id":6,"stage_name_zh":"熟练","eight_step_id":7,"eight_step_name_zh":"分析","six_flywheel_id":6,"six_flywheel_name_zh":"考试飞轮"},
+        {"stage_id":7,"stage_name_zh":"创新","eight_step_id":8,"eight_step_name_zh":"估分","six_flywheel_id":6,"six_flywheel_name_zh":"考试飞轮"}
+      ],
+      "irt_config": {"model":"2PL","difficulty_range":[-2,3],"discrimination_default":1.3}
+    },
+    {
+      "tool_id": "assess_jumeq_economy",
+      "tool_name_zh": "经济能力诊断",
+      "group": "jumeq",
+      "dimensions": ["家庭经济", "教育投入承受力", "助学资源认知", "财务规划意识"],
+      "stage_quadruples": [
+        {"stage_id":1,"stage_name_zh":"不会","eight_step_id":1,"eight_step_name_zh":"穿透","six_flywheel_id":1,"six_flywheel_name_zh":"计划飞轮"},
+        {"stage_id":2,"stage_name_zh":"模糊","eight_step_id":1,"eight_step_name_zh":"穿透","six_flywheel_id":1,"six_flywheel_name_zh":"计划飞轮"},
+        {"stage_id":3,"stage_name_zh":"清晰","eight_step_id":2,"eight_step_name_zh":"提取","six_flywheel_id":1,"six_flywheel_name_zh":"计划飞轮"},
+        {"stage_id":4,"stage_name_zh":"框架","eight_step_id":3,"eight_step_name_zh":"整理","six_flywheel_id":1,"six_flywheel_name_zh":"计划飞轮"},
+        {"stage_id":5,"stage_name_zh":"运用","eight_step_id":4,"eight_step_name_zh":"审题","six_flywheel_id":1,"six_flywheel_name_zh":"计划飞轮"},
+        {"stage_id":6,"stage_name_zh":"熟练","eight_step_id":5,"eight_step_name_zh":"流程","six_flywheel_id":1,"six_flywheel_name_zh":"计划飞轮"},
+        {"stage_id":7,"stage_name_zh":"创新","eight_step_id":7,"eight_step_name_zh":"分析","six_flywheel_id":6,"six_flywheel_name_zh":"考试飞轮"}
+      ],
+      "irt_config": {"model":"1PL","difficulty_range":[-2,2],"discrimination_default":1.0}
+    },
+    {
+      "tool_id": "assess_jumeq_qualification",
+      "tool_name_zh": "资格认证诊断",
+      "group": "jumeq",
+      "dimensions": ["考证规划", "备考能力", "证书价值认知", "时间安排"],
+      "stage_quadruples": [
+        {"stage_id":1,"stage_name_zh":"不会","eight_step_id":1,"eight_step_name_zh":"穿透","six_flywheel_id":1,"six_flywheel_name_zh":"计划飞轮"},
+        {"stage_id":2,"stage_name_zh":"模糊","eight_step_id":2,"eight_step_name_zh":"提取","six_flywheel_id":1,"six_flywheel_name_zh":"计划飞轮"},
+        {"stage_id":3,"stage_name_zh":"清晰","eight_step_id":3,"eight_step_name_zh":"整理","six_flywheel_id":2,"six_flywheel_name_zh":"预习飞轮"},
+        {"stage_id":4,"stage_name_zh":"框架","eight_step_id":4,"eight_step_name_zh":"审题","six_flywheel_id":2,"six_flywheel_name_zh":"预习飞轮"},
+        {"stage_id":5,"stage_name_zh":"运用","eight_step_id":5,"eight_step_name_zh":"流程","six_flywheel_id":5,"six_flywheel_name_zh":"作业飞轮"},
+        {"stage_id":6,"stage_name_zh":"熟练","eight_step_id":6,"eight_step_name_zh":"批改","six_flywheel_id":5,"six_flywheel_name_zh":"作业飞轮"},
+        {"stage_id":7,"stage_name_zh":"创新","eight_step_id":8,"eight_step_name_zh":"估分","six_flywheel_id":6,"six_flywheel_name_zh":"考试飞轮"}
+      ],
+      "irt_config": {"model":"2PL","difficulty_range":[-2,3],"discrimination_default":1.2}
+    },
+    {
+      "tool_id": "assess_camiq_character",
+      "tool_name_zh": "性格特质诊断",
+      "group": "camiq",
+      "dimensions": ["外向性", "开放性", "尽责性", "宜人性", "情绪稳定性"],
+      "stage_quadruples": [
+        {"stage_id":1,"stage_name_zh":"不会","eight_step_id":1,"eight_step_name_zh":"穿透","six_flywheel_id":1,"six_flywheel_name_zh":"计划飞轮"},
+        {"stage_id":2,"stage_name_zh":"模糊","eight_step_id":1,"eight_step_name_zh":"穿透","six_flywheel_id":2,"six_flywheel_name_zh":"预习飞轮"},
+        {"stage_id":3,"stage_name_zh":"清晰","eight_step_id":2,"eight_step_name_zh":"提取","six_flywheel_id":2,"six_flywheel_name_zh":"预习飞轮"},
+        {"stage_id":4,"stage_name_zh":"框架","eight_step_id":3,"eight_step_name_zh":"整理","six_flywheel_id":3,"six_flywheel_name_zh":"复习飞轮"},
+        {"stage_id":5,"stage_name_zh":"运用","eight_step_id":4,"eight_step_name_zh":"审题","six_flywheel_id":4,"six_flywheel_name_zh":"听课飞轮"},
+        {"stage_id":6,"stage_name_zh":"熟练","eight_step_id":7,"eight_step_name_zh":"分析","six_flywheel_id":5,"six_flywheel_name_zh":"作业飞轮"},
+        {"stage_id":7,"stage_name_zh":"创新","eight_step_id":8,"eight_step_name_zh":"估分","six_flywheel_id":6,"six_flywheel_name_zh":"考试飞轮"}
+      ],
+      "irt_config": {"model":"2PL","difficulty_range":[-2,3],"discrimination_default":1.1}
+    },
+    {
+      "tool_id": "assess_camiq_aptitude",
+      "tool_name_zh": "学科天赋诊断",
+      "group": "camiq",
+      "dimensions": ["逻辑推理", "语言理解", "空间想象", "数学运算", "记忆广度"],
+      "stage_quadruples": [
+        {"stage_id":1,"stage_name_zh":"不会","eight_step_id":1,"eight_step_name_zh":"穿透","six_flywheel_id":2,"six_flywheel_name_zh":"预习飞轮"},
+        {"stage_id":2,"stage_name_zh":"模糊","eight_step_id":2,"eight_step_name_zh":"提取","six_flywheel_id":2,"six_flywheel_name_zh":"预习飞轮"},
+        {"stage_id":3,"stage_name_zh":"清晰","eight_step_id":3,"eight_step_name_zh":"整理","six_flywheel_id":4,"six_flywheel_name_zh":"听课飞轮"},
+        {"stage_id":4,"stage_name_zh":"框架","eight_step_id":3,"eight_step_name_zh":"整理","six_flywheel_id":4,"six_flywheel_name_zh":"听课飞轮"},
+        {"stage_id":5,"stage_name_zh":"运用","eight_step_id":5,"eight_step_name_zh":"流程","six_flywheel_id":5,"six_flywheel_name_zh":"作业飞轮"},
+        {"stage_id":6,"stage_name_zh":"熟练","eight_step_id":6,"eight_step_name_zh":"批改","six_flywheel_id":5,"six_flywheel_name_zh":"作业飞轮"},
+        {"stage_id":7,"stage_name_zh":"创新","eight_step_id":8,"eight_step_name_zh":"估分","six_flywheel_id":6,"six_flywheel_name_zh":"考试飞轮"}
+      ],
+      "irt_config": {"model":"2PL","difficulty_range":[-3,3],"discrimination_default":1.4}
+    },
+    {
+      "tool_id": "assess_camiq_monetary",
+      "tool_name_zh": "财务资源诊断",
+      "group": "camiq",
+      "dimensions": ["教育支出规划", "补习投入", "资源配置合理性", "ROI 意识"],
+      "stage_quadruples": [
+        {"stage_id":1,"stage_name_zh":"不会","eight_step_id":1,"eight_step_name_zh":"穿透","six_flywheel_id":1,"six_flywheel_name_zh":"计划飞轮"},
+        {"stage_id":2,"stage_name_zh":"模糊","eight_step_id":1,"eight_step_name_zh":"穿透","six_flywheel_id":1,"six_flywheel_name_zh":"计划飞轮"},
+        {"stage_id":3,"stage_name_zh":"清晰","eight_step_id":2,"eight_step_name_zh":"提取","six_flywheel_id":1,"six_flywheel_name_zh":"计划飞轮"},
+        {"stage_id":4,"stage_name_zh":"框架","eight_step_id":3,"eight_step_name_zh":"整理","six_flywheel_id":1,"six_flywheel_name_zh":"计划飞轮"},
+        {"stage_id":5,"stage_name_zh":"运用","eight_step_id":4,"eight_step_name_zh":"审题","six_flywheel_id":5,"six_flywheel_name_zh":"作业飞轮"},
+        {"stage_id":6,"stage_name_zh":"熟练","eight_step_id":5,"eight_step_name_zh":"流程","six_flywheel_id":5,"six_flywheel_name_zh":"作业飞轮"},
+        {"stage_id":7,"stage_name_zh":"创新","eight_step_id":7,"eight_step_name_zh":"分析","six_flywheel_id":6,"six_flywheel_name_zh":"考试飞轮"}
+      ],
+      "irt_config": {"model":"1PL","difficulty_range":[-2,2],"discrimination_default":1.0}
+    },
+    {
+      "tool_id": "assess_camiq_interest",
+      "tool_name_zh": "学习兴趣诊断",
+      "group": "camiq",
+      "dimensions": ["情境兴趣", "个人兴趣", "兴趣稳定性", "兴趣广度"],
+      "stage_quadruples": [
+        {"stage_id":1,"stage_name_zh":"不会","eight_step_id":1,"eight_step_name_zh":"穿透","six_flywheel_id":2,"six_flywheel_name_zh":"预习飞轮"},
+        {"stage_id":2,"stage_name_zh":"模糊","eight_step_id":1,"eight_step_name_zh":"穿透","six_flywheel_id":2,"six_flywheel_name_zh":"预习飞轮"},
+        {"stage_id":3,"stage_name_zh":"清晰","eight_step_id":2,"eight_step_name_zh":"提取","six_flywheel_id":2,"six_flywheel_name_zh":"预习飞轮"},
+        {"stage_id":4,"stage_name_zh":"框架","eight_step_id":3,"eight_step_name_zh":"整理","six_flywheel_id":4,"six_flywheel_name_zh":"听课飞轮"},
+        {"stage_id":5,"stage_name_zh":"运用","eight_step_id":5,"eight_step_name_zh":"流程","six_flywheel_id":5,"six_flywheel_name_zh":"作业飞轮"},
+        {"stage_id":6,"stage_name_zh":"熟练","eight_step_id":7,"eight_step_name_zh":"分析","six_flywheel_id":5,"six_flywheel_name_zh":"作业飞轮"},
+        {"stage_id":7,"stage_name_zh":"创新","eight_step_id":8,"eight_step_name_zh":"估分","six_flywheel_id":6,"six_flywheel_name_zh":"考试飞轮"}
+      ],
+      "irt_config": {"model":"2PL","difficulty_range":[-2,3],"discrimination_default":1.2}
+    },
+    {
+      "tool_id": "assess_camiq_qualification",
+      "tool_name_zh": "资质条件诊断",
+      "group": "camiq",
+      "dimensions": ["学历背景", "成绩水平", "竞赛荣誉", "综合素质"],
+      "stage_quadruples": [
+        {"stage_id":1,"stage_name_zh":"不会","eight_step_id":1,"eight_step_name_zh":"穿透","six_flywheel_id":1,"six_flywheel_name_zh":"计划飞轮"},
+        {"stage_id":2,"stage_name_zh":"模糊","eight_step_id":2,"eight_step_name_zh":"提取","six_flywheel_id":2,"six_flywheel_name_zh":"预习飞轮"},
+        {"stage_id":3,"stage_name_zh":"清晰","eight_step_id":3,"eight_step_name_zh":"整理","six_flywheel_id":3,"six_flywheel_name_zh":"复习飞轮"},
+        {"stage_id":4,"stage_name_zh":"框架","eight_step_id":4,"eight_step_name_zh":"审题","six_flywheel_id":4,"six_flywheel_name_zh":"听课飞轮"},
+        {"stage_id":5,"stage_name_zh":"运用","eight_step_id":5,"eight_step_name_zh":"流程","six_flywheel_id":5,"six_flywheel_name_zh":"作业飞轮"},
+        {"stage_id":6,"stage_name_zh":"熟练","eight_step_id":7,"eight_step_name_zh":"分析","six_flywheel_id":6,"six_flywheel_name_zh":"考试飞轮"},
+        {"stage_id":7,"stage_name_zh":"创新","eight_step_id":8,"eight_step_name_zh":"估分","six_flywheel_id":6,"six_flywheel_name_zh":"考试飞轮"}
+      ],
+      "irt_config": {"model":"2PL","difficulty_range":[-2,3],"discrimination_default":1.3}
+    },
+    {
+      "tool_id": "assess_fireup_family",
+      "tool_name_zh": "家庭支持力诊断",
+      "group": "fireup",
+      "dimensions": ["亲子沟通", "家长参与度", "家庭稳定性", "教育观念一致性"],
+      "weight_in_user_modeling": 0.20,
+      "stage_quadruples": [
+        {"stage_id":1,"stage_name_zh":"不会","eight_step_id":1,"eight_step_name_zh":"穿透","six_flywheel_id":1,"six_flywheel_name_zh":"计划飞轮"},
+        {"stage_id":2,"stage_name_zh":"模糊","eight_step_id":1,"eight_step_name_zh":"穿透","six_flywheel_id":1,"six_flywheel_name_zh":"计划飞轮"},
+        {"stage_id":3,"stage_name_zh":"清晰","eight_step_id":2,"eight_step_name_zh":"提取","six_flywheel_id":2,"six_flywheel_name_zh":"预习飞轮"},
+        {"stage_id":4,"stage_name_zh":"框架","eight_step_id":3,"eight_step_name_zh":"整理","six_flywheel_id":3,"six_flywheel_name_zh":"复习飞轮"},
+        {"stage_id":5,"stage_name_zh":"运用","eight_step_id":4,"eight_step_name_zh":"审题","six_flywheel_id":4,"six_flywheel_name_zh":"听课飞轮"},
+        {"stage_id":6,"stage_name_zh":"熟练","eight_step_id":5,"eight_step_name_zh":"流程","six_flywheel_id":5,"six_flywheel_name_zh":"作业飞轮"},
+        {"stage_id":7,"stage_name_zh":"创新","eight_step_id":7,"eight_step_name_zh":"分析","six_flywheel_id":6,"six_flywheel_name_zh":"考试飞轮"}
+      ],
+      "irt_config": {"model":"2PL","difficulty_range":[-2,2],"discrimination_default":1.0}
+    },
+    {
+      "tool_id": "assess_fireup_individual",
+      "tool_name_zh": "个体特质诊断",
+      "group": "fireup",
+      "dimensions": ["自我效能感", "抗挫力", "自律性", "目标设定能力"],
+      "weight_in_user_modeling": 0.25,
+      "stage_quadruples": [
+        {"stage_id":1,"stage_name_zh":"不会","eight_step_id":1,"eight_step_name_zh":"穿透","six_flywheel_id":1,"six_flywheel_name_zh":"计划飞轮"},
+        {"stage_id":2,"stage_name_zh":"模糊","eight_step_id":2,"eight_step_name_zh":"提取","six_flywheel_id":1,"six_flywheel_name_zh":"计划飞轮"},
+        {"stage_id":3,"stage_name_zh":"清晰","eight_step_id":2,"eight_step_name_zh":"提取","six_flywheel_id":2,"six_flywheel_name_zh":"预习飞轮"},
+        {"stage_id":4,"stage_name_zh":"框架","eight_step_id":3,"eight_step_name_zh":"整理","six_flywheel_id":3,"six_flywheel_name_zh":"复习飞轮"},
+        {"stage_id":5,"stage_name_zh":"运用","eight_step_id":5,"eight_step_name_zh":"流程","six_flywheel_id":5,"six_flywheel_name_zh":"作业飞轮"},
+        {"stage_id":6,"stage_name_zh":"熟练","eight_step_id":7,"eight_step_name_zh":"分析","six_flywheel_id":5,"six_flywheel_name_zh":"作业飞轮"},
+        {"stage_id":7,"stage_name_zh":"创新","eight_step_id":8,"eight_step_name_zh":"估分","six_flywheel_id":6,"six_flywheel_name_zh":"考试飞轮"}
+      ],
+      "irt_config": {"model":"2PL","difficulty_range":[-3,3],"discrimination_default":1.4}
+    },
+    {
+      "tool_id": "assess_fireup_resources",
+      "tool_name_zh": "学习资源诊断",
+      "group": "fireup",
+      "dimensions": ["教材配置", "辅助工具", "网络资源利用", "图书馆使用"],
+      "weight_in_user_modeling": 0.15,
+      "stage_quadruples": [
+        {"stage_id":1,"stage_name_zh":"不会","eight_step_id":1,"eight_step_name_zh":"穿透","six_flywheel_id":2,"six_flywheel_name_zh":"预习飞轮"},
+        {"stage_id":2,"stage_name_zh":"模糊","eight_step_id":1,"eight_step_name_zh":"穿透","six_flywheel_id":2,"six_flywheel_name_zh":"预习飞轮"},
+        {"stage_id":3,"stage_name_zh":"清晰","eight_step_id":2,"eight_step_name_zh":"提取","six_flywheel_id":2,"six_flywheel_name_zh":"预习飞轮"},
+        {"stage_id":4,"stage_name_zh":"框架","eight_step_id":3,"eight_step_name_zh":"整理","six_flywheel_id":4,"six_flywheel_name_zh":"听课飞轮"},
+        {"stage_id":5,"stage_name_zh":"运用","eight_step_id":4,"eight_step_name_zh":"审题","six_flywheel_id":4,"six_flywheel_name_zh":"听课飞轮"},
+        {"stage_id":6,"stage_name_zh":"熟练","eight_step_id":5,"eight_step_name_zh":"流程","six_flywheel_id":5,"six_flywheel_name_zh":"作业飞轮"},
+        {"stage_id":7,"stage_name_zh":"创新","eight_step_id":7,"eight_step_name_zh":"分析","six_flywheel_id":6,"six_flywheel_name_zh":"考试飞轮"}
+      ],
+      "irt_config": {"model":"2PL","difficulty_range":[-2,2],"discrimination_default":1.1}
+    },
+    {
+      "tool_id": "assess_fireup_ecosystem",
+      "tool_name_zh": "生态系统诊断",
+      "group": "fireup",
+      "dimensions": ["学校生态", "校外培训生态", "同伴网络", "社区支持"],
+      "weight_in_user_modeling": 0.15,
+      "stage_quadruples": [
+        {"stage_id":1,"stage_name_zh":"不会","eight_step_id":1,"eight_step_name_zh":"穿透","six_flywheel_id":1,"six_flywheel_name_zh":"计划飞轮"},
+        {"stage_id":2,"stage_name_zh":"模糊","eight_step_id":1,"eight_step_name_zh":"穿透","six_flywheel_id":2,"six_flywheel_name_zh":"预习飞轮"},
+        {"stage_id":3,"stage_name_zh":"清晰","eight_step_id":2,"eight_step_name_zh":"提取","six_flywheel_id":4,"six_flywheel_name_zh":"听课飞轮"},
+        {"stage_id":4,"stage_name_zh":"框架","eight_step_id":3,"eight_step_name_zh":"整理","six_flywheel_id":4,"six_flywheel_name_zh":"听课飞轮"},
+        {"stage_id":5,"stage_name_zh":"运用","eight_step_id":4,"eight_step_name_zh":"审题","six_flywheel_id":5,"six_flywheel_name_zh":"作业飞轮"},
+        {"stage_id":6,"stage_name_zh":"熟练","eight_step_id":5,"eight_step_name_zh":"流程","six_flywheel_id":5,"six_flywheel_name_zh":"作业飞轮"},
+        {"stage_id":7,"stage_name_zh":"创新","eight_step_id":7,"eight_step_name_zh":"分析","six_flywheel_id":6,"six_flywheel_name_zh":"考试飞轮"}
+      ],
+      "irt_config": {"model":"2PL","difficulty_range":[-2,2],"discrimination_default":1.0}
+    },
+    {
+      "tool_id": "assess_fireup_usability",
+      "tool_name_zh": "工具可用性诊断",
+      "group": "fireup",
+      "dimensions": ["数字工具使用", "AI 辅助接受度", "工具切换成本", "工具适配性"],
+      "weight_in_user_modeling": 0.10,
+      "stage_quadruples": [
+        {"stage_id":1,"stage_name_zh":"不会","eight_step_id":1,"eight_step_name_zh":"穿透","six_flywheel_id":2,"six_flywheel_name_zh":"预习飞轮"},
+        {"stage_id":2,"stage_name_zh":"模糊","eight_step_id":2,"eight_step_name_zh":"提取","six_flywheel_id":2,"six_flywheel_name_zh":"预习飞轮"},
+        {"stage_id":3,"stage_name_zh":"清晰","eight_step_id":3,"eight_step_name_zh":"整理","six_flywheel_id":4,"six_flywheel_name_zh":"听课飞轮"},
+        {"stage_id":4,"stage_name_zh":"框架","eight_step_id":4,"eight_step_name_zh":"审题","six_flywheel_id":4,"six_flywheel_name_zh":"听课飞轮"},
+        {"stage_id":5,"stage_name_zh":"运用","eight_step_id":5,"eight_step_name_zh":"流程","six_flywheel_id":5,"six_flywheel_name_zh":"作业飞轮"},
+        {"stage_id":6,"stage_name_zh":"熟练","eight_step_id":6,"eight_step_name_zh":"批改","six_flywheel_id":5,"six_flywheel_name_zh":"作业飞轮"},
+        {"stage_id":7,"stage_name_zh":"创新","eight_step_id":8,"eight_step_name_zh":"估分","six_flywheel_id":6,"six_flywheel_name_zh":"考试飞轮"}
+      ],
+      "irt_config": {"model":"2PL","difficulty_range":[-2,2],"discrimination_default":1.1}
+    },
+    {
+      "tool_id": "assess_fireup_pathways",
+      "tool_name_zh": "成长路径诊断",
+      "group": "fireup",
+      "dimensions": ["升学路径清晰度", "备选方案意识", "里程碑设定", "路径灵活性"],
+      "weight_in_user_modeling": 0.15,
+      "★_weight_note": "F+I+R+E+U+P 权重总和 = 0.20+0.25+0.15+0.15+0.10+0.15 = 1.00",
+      "stage_quadruples": [
+        {"stage_id":1,"stage_name_zh":"不会","eight_step_id":1,"eight_step_name_zh":"穿透","six_flywheel_id":1,"six_flywheel_name_zh":"计划飞轮"},
+        {"stage_id":2,"stage_name_zh":"模糊","eight_step_id":2,"eight_step_name_zh":"提取","six_flywheel_id":1,"six_flywheel_name_zh":"计划飞轮"},
+        {"stage_id":3,"stage_name_zh":"清晰","eight_step_id":3,"eight_step_name_zh":"整理","six_flywheel_id":1,"six_flywheel_name_zh":"计划飞轮"},
+        {"stage_id":4,"stage_name_zh":"框架","eight_step_id":4,"eight_step_name_zh":"审题","six_flywheel_id":3,"six_flywheel_name_zh":"复习飞轮"},
+        {"stage_id":5,"stage_name_zh":"运用","eight_step_id":5,"eight_step_name_zh":"流程","six_flywheel_id":1,"six_flywheel_name_zh":"计划飞轮"},
+        {"stage_id":6,"stage_name_zh":"熟练","eight_step_id":7,"eight_step_name_zh":"分析","six_flywheel_id":6,"six_flywheel_name_zh":"考试飞轮"},
+        {"stage_id":7,"stage_name_zh":"创新","eight_step_id":8,"eight_step_name_zh":"估分","six_flywheel_id":6,"six_flywheel_name_zh":"考试飞轮"}
+      ],
+      "irt_config": {"model":"2PL","difficulty_range":[-2,3],"discrimination_default":1.2}
+    },
+    {
+      "tool_id": "assess_mastery_stages",
+      "tool_name_zh": "掌握度阶段测评",
+      "group": "comprehensive",
+      "dimensions": ["知识点掌握度", "阶段跃迁意愿", "自我评估准确性", "学习速度"],
+      "stage_quadruples": [
+        {"stage_id":1,"stage_name_zh":"不会","eight_step_id":1,"eight_step_name_zh":"穿透","six_flywheel_id":2,"six_flywheel_name_zh":"预习飞轮"},
+        {"stage_id":2,"stage_name_zh":"模糊","eight_step_id":2,"eight_step_name_zh":"提取","six_flywheel_id":2,"six_flywheel_name_zh":"预习飞轮"},
+        {"stage_id":3,"stage_name_zh":"清晰","eight_step_id":3,"eight_step_name_zh":"整理","six_flywheel_id":3,"six_flywheel_name_zh":"复习飞轮"},
+        {"stage_id":4,"stage_name_zh":"框架","eight_step_id":4,"eight_step_name_zh":"审题","six_flywheel_id":4,"six_flywheel_name_zh":"听课飞轮"},
+        {"stage_id":5,"stage_name_zh":"运用","eight_step_id":5,"eight_step_name_zh":"流程","six_flywheel_id":5,"six_flywheel_name_zh":"作业飞轮"},
+        {"stage_id":6,"stage_name_zh":"熟练","eight_step_id":6,"eight_step_name_zh":"批改","six_flywheel_id":5,"six_flywheel_name_zh":"作业飞轮"},
+        {"stage_id":7,"stage_name_zh":"创新","eight_step_id":8,"eight_step_name_zh":"估分","six_flywheel_id":6,"six_flywheel_name_zh":"考试飞轮"}
+      ],
+      "irt_config": {"model":"3PL","difficulty_range":[-3,3],"discrimination_default":1.5,"guessing_param":0.25}
+    },
+    {
+      "tool_id": "assess_flywheels_self_eval",
+      "tool_name_zh": "六飞轮自评诊断",
+      "group": "comprehensive",
+      "dimensions": ["计划飞轮执行度", "预习飞轮执行度", "复习飞轮执行度", "听课飞轮执行度", "作业飞轮执行度", "考试飞轮执行度"],
+      "stage_quadruples": [
+        {"stage_id":1,"stage_name_zh":"不会","eight_step_id":1,"eight_step_name_zh":"穿透","six_flywheel_id":1,"six_flywheel_name_zh":"计划飞轮"},
+        {"stage_id":2,"stage_name_zh":"模糊","eight_step_id":1,"eight_step_name_zh":"穿透","six_flywheel_id":1,"six_flywheel_name_zh":"计划飞轮"},
+        {"stage_id":3,"stage_name_zh":"清晰","eight_step_id":2,"eight_step_name_zh":"提取","six_flywheel_id":2,"six_flywheel_name_zh":"预习飞轮"},
+        {"stage_id":4,"stage_name_zh":"框架","eight_step_id":3,"eight_step_name_zh":"整理","six_flywheel_id":3,"six_flywheel_name_zh":"复习飞轮"},
+        {"stage_id":5,"stage_name_zh":"运用","eight_step_id":5,"eight_step_name_zh":"流程","six_flywheel_id":5,"six_flywheel_name_zh":"作业飞轮"},
+        {"stage_id":6,"stage_name_zh":"熟练","eight_step_id":7,"eight_step_name_zh":"分析","six_flywheel_id":5,"six_flywheel_name_zh":"作业飞轮"},
+        {"stage_id":7,"stage_name_zh":"创新","eight_step_id":8,"eight_step_name_zh":"估分","six_flywheel_id":6,"six_flywheel_name_zh":"考试飞轮"}
+      ],
+      "irt_config": {"model":"2PL","difficulty_range":[-2,3],"discrimination_default":1.3}
+    }
+  ],
+  "_catalog_summary": {
+    "total_tools": 22,
+    "by_group": {
+      "mece": 4,
+      "jumeq": 5,
+      "camiq": 5,
+      "fireup": 6,
+      "comprehensive": 2
+    },
+    "fireup_weight_sum": 1.00,
+    "status": "COMPLETE — 22/22"
+  }
+}
