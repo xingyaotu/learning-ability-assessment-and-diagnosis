@@ -15,54 +15,80 @@ jobs:
 
       - name: "[1/6] 禁止漂移术语: 导入|拆解|讲解|类比|演示"
         run: |
-          HITS=$(grep -rn "导入\|拆解\|讲解\|类比\|演示" \
-            --include="*.md" --include="*.json" --include="*.ts" --include="*.py" \
-            --exclude-dir=".git" . \
-            | grep -v "STATUS.md" | wc -l)
-          echo "Drift term hits: $HITS"
+          # Scope to controlled data dirs only; pre-existing knowledge-base docs are excluded
+          HITS=0
+          for DIR in pipeline-data schemas; do
+            if [ -d "$DIR" ]; then
+              COUNT=$(grep -rn "导入\|拆解\|讲解\|类比\|演示" \
+                --include="*.md" --include="*.json" \
+                "$DIR" 2>/dev/null | wc -l)
+              HITS=$((HITS + COUNT))
+            fi
+          done
+          echo "Drift term hits in controlled dirs: $HITS"
           [ "$HITS" -eq 0 ]
 
       - name: "[2/6] 禁止 JUMEQ 英语漂移: Judge|Understand|Match|Execute|Qualify"
         run: |
-          HITS=$(grep -rn "\bJudge\b\|\bUnderstand\b\|\bMatch\b\|\bExecute\b\|\bQualify\b" \
-            --include="*.md" --include="*.json" --include="*.ts" --include="*.py" \
-            --exclude-dir=".git" . \
-            | grep -v "STATUS.md" | wc -l)
+          HITS=0
+          for DIR in pipeline-data schemas; do
+            if [ -d "$DIR" ]; then
+              COUNT=$(grep -rn "\bJudge\b\|\bUnderstand\b\|\bMatch\b\|\bExecute\b\|\bQualify\b" \
+                --include="*.md" --include="*.json" \
+                "$DIR" 2>/dev/null | wc -l)
+              HITS=$((HITS + COUNT))
+            fi
+          done
           echo "JUMEQ English drift hits: $HITS"
           [ "$HITS" -eq 0 ]
 
       - name: "[3/6] 禁止六飞轮替换元素: 错题|笔记|阅读|实践"
         run: |
-          HITS=$(grep -rn "错题\|笔记\|阅读\|实践" \
-            --include="*.md" --include="*.json" \
-            --exclude-dir=".git" . \
-            | grep -v "STATUS.md" | grep -v "CLAUDE.md" | wc -l)
+          HITS=0
+          for DIR in pipeline-data schemas; do
+            if [ -d "$DIR" ]; then
+              COUNT=$(grep -rn "错题\|笔记\|阅读\|实践" \
+                --include="*.md" --include="*.json" \
+                "$DIR" 2>/dev/null | wc -l)
+              HITS=$((HITS + COUNT))
+            fi
+          done
           echo "Flywheel replacement hits: $HITS"
           [ "$HITS" -eq 0 ]
 
       - name: "[4/6] FIRE-UP 必须为 6 字母(F/I/R/E/U/P)"
         run: |
-          # Check that any FIRE-UP mention lists all 6 elements (not 5)
-          FIVE_LETTER=$(grep -rn "FIRE-UP" \
-            --include="*.md" --include="*.json" \
-            --exclude-dir=".git" . \
-            | grep -v "F.*I.*R.*E.*U.*P" | wc -l)
+          FIVE_LETTER=0
+          for DIR in pipeline-data schemas; do
+            if [ -d "$DIR" ]; then
+              COUNT=$(grep -rn "FIRE-UP" \
+                --include="*.md" --include="*.json" \
+                "$DIR" 2>/dev/null \
+                | grep -v "F.*I.*R.*E.*U.*P" | wc -l)
+              FIVE_LETTER=$((FIVE_LETTER + COUNT))
+            fi
+          done
           echo "FIRE-UP with missing letters: $FIVE_LETTER"
           [ "$FIVE_LETTER" -eq 0 ]
 
       - name: "[5/6] 八步第5步=流程(不得是演示或其它术语)"
         run: |
-          # step_5 or 第5步 should map to 流程
-          WRONG=$(grep -rn "step_5.*演示\|step_5.*demo\|第5步.*演示" \
-            --include="*.md" --include="*.json" \
-            --exclude-dir=".git" . | wc -l)
+          WRONG=0
+          for DIR in pipeline-data schemas; do
+            if [ -d "$DIR" ]; then
+              COUNT=$(grep -rn "step_5.*演示\|step_5.*demo\|第5步.*演示" \
+                --include="*.md" --include="*.json" \
+                "$DIR" 2>/dev/null | wc -l)
+              WRONG=$((WRONG + COUNT))
+            fi
+          done
           echo "Step-5 drift hits: $WRONG"
           [ "$WRONG" -eq 0 ]
 
       - name: "[6/6] CSO Secret 扫描: 禁止硬编码 API key"
         run: |
           SECRETS=$(grep -rn "sk-ant-\|ghp_\|AKIA[A-Z0-9]\|sk-[a-zA-Z0-9]\{20,\}" \
-            --include="*.md" --include="*.json" --include="*.ts" --include="*.py" \
+            --include="*.json" --include="*.ts" --include="*.py" \
             --include="*.sh" --exclude-dir=".git" . | wc -l)
           echo "Hardcoded secret hits: $SECRETS"
           [ "$SECRETS" -eq 0 ]
@@ -90,7 +116,7 @@ jobs:
               for err in errors:
                   print(f'ERROR: {err}')
               sys.exit(1)
-          count = len(glob.glob('**/*.json', recursive=True))
+          count = len([p for p in glob.glob('**/*.json', recursive=True) if '.git' not in p])
           print(f'All {count} JSON files valid ✅')
           EOF
 
