@@ -21,7 +21,8 @@
 - [道层合规] 全部 22 工具:八步第5步="流程"(绝非演示),六飞轮无错题/笔记/阅读/实践
 
 ### 待办
-- [ ] CI workflow 配置(python3 json.load 验证 + dao-guard)
+- [x] CI workflow 配置(python3 json.load 验证 + dao-guard)
+- [x] SKILL.md 接口(同类 colleague-skill 接口对接)
 - [ ] IRT 参数标定数据导入(计划 Phase 2.5)
 - [ ] 与 xingyaotu-openmaic 的 quadruple-actions.json 联动测试
 
@@ -44,4 +45,18 @@
 
 - [道层] dao-guard 内联 6/6 0 命中 ✅
 - [CSO] 0 触发(纯 CI 配置,无 API key 引用) ✅
+
+---
+
+## 2026-05-17T22:45:00Z · Phase 0.5 SKILL.md 接口 [完成]
+
+- [DONE] `SKILL.md` (根目录) — assessment-toolkit colleague-skill 入口
+  - 22 工具分组概览(MECE/JUMEQ/CAMIQ/FIRE-UP/综合)
+  - 诊断场景 → 工具选择矩阵(5 场景: 入学/升学/飞轮/瓶颈/单科)
+  - IRT 参数规格(1PL/2PL/3PL 适用工具说明)
+  - 调用接口(scenario / tool_id / student_id)
+  - 七阶 → coaching-sops 教练操作分发链路
+  - PIPL <14岁数据路由提示
+- [道层] dao-guard 6/6 0 命中 ✅(SKILL.md 位于根目录,不在扫描范围)
+- [CSO] 0 触发(纯测评规格,无 API key 引用) ✅
 - [Next] IRT 参数标定数据导入(Phase 2.5) / quadruple-actions.json 联动测试
