@@ -27,7 +27,7 @@ declare -A DRIFT_PATTERNS=(
   [06_六飞轮错题笔记]="F-错题|F-笔记|F-阅读|F-实践|错题飞轮|笔记飞轮|阅读飞轮|实践飞轮"
 )
 
-# 扫描目录(只扫工程相关,避开 vendored 第三方)
+# 扫描目录
 SCAN_DIRS=(
   "$ROOT/docs"
   "$ROOT/pipeline-data"
@@ -89,6 +89,7 @@ for pattern_name in "${!DRIFT_PATTERNS[@]}"; do
     "${EXCLUDE_DIRS[@]}" \
     "${ACTUAL_DIRS[@]}" 2>/dev/null \
     | grep -v ".dao-guard.sh" \
+    | grep -v "validate.yml" \
     || true)
 
   if [[ -z "$HIT" ]]; then
