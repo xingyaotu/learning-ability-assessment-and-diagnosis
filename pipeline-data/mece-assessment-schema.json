@@ -1,0 +1,143 @@
+{
+  "$schema": "https://xingyaotu.cn/schemas/mece-assessment.v1.0.json",
+  "version": "1.0",
+  "compliance": "v5.0 道层零漂移",
+  "last_updated": "2026-05-16",
+  "note": "MECE 学习力测评 4 维度 schema — M-动力/E-执行力/C-能力/E-环境",
+  "mece_dimensions": [
+    {
+      "dimension_id": "M",
+      "dimension_name_zh": "学习动力",
+      "dimension_name_en": "Motivation",
+      "letter": "M",
+      "description": "学生是否有足够的内驱力和外驱力持续学习",
+      "sub_dimensions": [
+        {
+          "sub_id": "M1",
+          "name": "内驱力",
+          "assessment_tools": ["DISC", "MECE综合报告"],
+          "course_ref": "工具篇第9节 / 认知篇55-61节"
+        },
+        {
+          "sub_id": "M2",
+          "name": "目标感",
+          "assessment_tools": ["JUMEQ", "CAMIQ"],
+          "course_ref": "认知篇32-48节(JUMEQ)"
+        },
+        {
+          "sub_id": "M3",
+          "name": "抗压韧性",
+          "assessment_tools": ["SCL-90", "DISC"],
+          "course_ref": "工具篇第19节"
+        }
+      ],
+      "slo_target": "测评得分 ≥ 70/100 视为动力充足"
+    },
+    {
+      "dimension_id": "E1",
+      "dimension_name_zh": "学习执行力",
+      "dimension_name_en": "Execution",
+      "letter": "E",
+      "description": "学生是否能将计划转化为持续行动",
+      "sub_dimensions": [
+        {
+          "sub_id": "E1_1",
+          "name": "时间管理",
+          "assessment_tools": ["MECE综合报告"],
+          "course_ref": "工具篇第4节 / 认知篇62-63节"
+        },
+        {
+          "sub_id": "E1_2",
+          "name": "任务完成率",
+          "assessment_tools": ["飞轮追踪(六大飞轮)"],
+          "course_ref": "六大飞轮:计划/预习/复习/听课/作业/考试"
+        },
+        {
+          "sub_id": "E1_3",
+          "name": "自我监控",
+          "assessment_tools": ["DISC", "MECE综合报告"],
+          "course_ref": "认知篇62节"
+        }
+      ],
+      "slo_target": "测评得分 ≥ 65/100 视为执行力达标"
+    },
+    {
+      "dimension_id": "C",
+      "dimension_name_zh": "学习能力",
+      "dimension_name_en": "Capability",
+      "letter": "C",
+      "description": "学生的认知加工、记忆、推理等底层学习能力",
+      "sub_dimensions": [
+        {
+          "sub_id": "C1",
+          "name": "专注力",
+          "assessment_tools": ["多元智能测评"],
+          "course_ref": "工具篇5-8节 / 认知篇64-65节"
+        },
+        {
+          "sub_id": "C2",
+          "name": "记忆力",
+          "assessment_tools": ["多元智能测评", "学习方式偏好"],
+          "course_ref": "工具篇17-18节"
+        },
+        {
+          "sub_id": "C3",
+          "name": "推理与理解",
+          "assessment_tools": ["多元智能测评"],
+          "course_ref": "认知篇64-65节"
+        },
+        {
+          "sub_id": "C4",
+          "name": "学习方式偏好",
+          "assessment_tools": ["学习方式偏好量表"],
+          "course_ref": "工具篇第18节"
+        }
+      ],
+      "slo_target": "测评得分 ≥ 60/100 视为基础学习能力达标"
+    },
+    {
+      "dimension_id": "E2",
+      "dimension_name_zh": "学习环境",
+      "dimension_name_en": "Environment",
+      "letter": "E",
+      "description": "家庭、学校、社交环境对学习的支持程度",
+      "sub_dimensions": [
+        {
+          "sub_id": "E2_1",
+          "name": "家庭支持",
+          "assessment_tools": ["家长管教风格评估"],
+          "course_ref": "工具篇15-16节"
+        },
+        {
+          "sub_id": "E2_2",
+          "name": "同伴环境",
+          "assessment_tools": ["DISC"],
+          "course_ref": "认知篇66节"
+        },
+        {
+          "sub_id": "E2_3",
+          "name": "学习空间",
+          "assessment_tools": ["MECE综合报告"],
+          "course_ref": "工具篇10节 / 认知篇67-68节"
+        }
+      ],
+      "slo_target": "测评得分 ≥ 60/100 视为环境条件达标"
+    }
+  ],
+  "assessment_tools_enum": [
+    "DISC",
+    "MECE综合报告",
+    "MBTI",
+    "霍兰德职业兴趣量表",
+    "多元智能测评",
+    "学习方式偏好量表",
+    "SCL-90心理健康量表",
+    "职业锚测评",
+    "JUMEQ升学密码测评",
+    "CAMIQ职业密码测评"
+  ],
+  "anti_drift": {
+    "MECE_correct": "M-动力/E-执行力/C-能力/E-环境",
+    "MECE_forbidden": "Mutually Exclusive and Collectively Exhaustive(咨询误用)"
+  }
+}
