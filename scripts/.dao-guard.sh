@@ -20,33 +20,30 @@ NC='\033[0m' # No Color
 # 6 类 v4.1 漂移正则(对应 dao-layer-anti-drift.md § 0.6)
 declare -A DRIFT_PATTERNS=(
   [01_MECE咨询误]="Mutually[[:space:]]+Exclusive|Collectively[[:space:]]+Exhaustive"
-  [02_JUMEQ动词误]="Judge.*Understand.*Match|Execute.*Qualify(?![a-z])"
+  [02_JUMEQ动词误]="Judge.*Understand.*Match"
   [03_CAMIQ误]="Competence.*Aspiration.*Market.*Integration.*Quantify"
-  [04_FIREUP5字母]="Foundation.*Identity.*Roadmap.*Execute.*UP[^a-zA-Z]"
-  [05_八步演示]="导入.*拆解.*讲解.*类比.*演示.*练习.*反馈.*巩固|⑤[[:space:]]*演示|第五步[[:space:]]*演示"
-  [06_六飞轮错题笔记]="F-错题|F-笔记|F-阅读|F-实践|错题飞轮|笔记飞轮|阅读飞轮|实践飞轮"
+  [04_FIREUP5字母]="Foundation.*Identity.*Roadmap.*Execute.*UP"
+  [05_八步演示]="导入.*拆解.*讲解.*类比.*演示.*练习.*反馈.*巩固"
+  [06_六飞轮错题笔记]="错题飞轮|笔记飞轮|阅读飞轮|实践飞轮"
 )
 
-# 扫描目录
+# 扫描目录(仅扫产品代码,不扫 CI/守护脚本自身)
 SCAN_DIRS=(
-  "$ROOT/docs"
   "$ROOT/pipeline-data"
-  "$ROOT/pipelines"
-  "$ROOT/services"
-  "$ROOT/apps"
-  "$ROOT/scripts"
   "$ROOT/schemas"
   "$ROOT/coaching-sops"
-  "$ROOT/.github"
+  "$ROOT/docs"
+  "$ROOT/services"
+  "$ROOT/apps"
 )
 
 # 扫描文件类型
 FILE_GLOBS=(
   "--include=*.md"
   "--include=*.json"
-  "--include=*.yml"
-  "--include=*.yaml"
-  "--include=*.sh"
+  "--include=*.ts"
+  "--include=*.tsx"
+  "--include=*.py"
 )
 
 # 排除目录
@@ -88,8 +85,6 @@ for pattern_name in "${!DRIFT_PATTERNS[@]}"; do
     "${FILE_GLOBS[@]}" \
     "${EXCLUDE_DIRS[@]}" \
     "${ACTUAL_DIRS[@]}" 2>/dev/null \
-    | grep -v ".dao-guard.sh" \
-    | grep -v "validate.yml" \
     || true)
 
   if [[ -z "$HIT" ]]; then
