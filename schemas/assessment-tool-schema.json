@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xingyaotu.cn/schemas/assessment-tool.v1.0.json",
+  "title": "学习力测评工具 Schema",
+  "description": "22 种测评工具的结构定义 — 道层零漂移 compliance v5.0",
+  "version": "1.0",
+  "compliance": "v5.0 道层零漂移",
+  "type": "object",
+  "required": ["tool_id", "tool_name_zh", "group", "stage_quadruples"],
+  "properties": {
+    "tool_id": {
+      "type": "string",
+      "pattern": "^assess_[a-z_]+$",
+      "description": "工具唯一 ID,对应 quadruple-actions.json knowledge_point_id"
+    },
+    "tool_name_zh": {
+      "type": "string",
+      "description": "工具中文名"
+    },
+    "group": {
+      "type": "string",
+      "enum": ["mece", "jumeq", "camiq", "fireup", "comprehensive"],
+      "description": "所属诊断分组"
+    },
+    "dimensions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "该工具评测的具体维度"
+    },
+    "weight_in_user_modeling": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "在用户建模中的权重(仅 fireup 组必填,总和=1.00)"
+    },
+    "stage_quadruples": {
+      "type": "array",
+      "minItems": 7,
+      "maxItems": 7,
+      "description": "七阶推荐四元组,index 0=第1阶(不会) … index 6=第7阶(创新)",
+      "items": {
+        "type": "object",
+        "required": ["stage_id", "stage_name_zh", "eight_step_id", "eight_step_name_zh", "six_flywheel_id", "six_flywheel_name_zh"],
+        "properties": {
+          "stage_id": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 7
+          },
+          "stage_name_zh": {
+            "type": "string",
+            "enum": ["不会", "模糊", "清晰", "框架", "运用", "熟练", "创新"]
+          },
+          "eight_step_id": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 8,
+            "description": "1=穿透 2=提取 3=整理 4=审题 5=流程 6=批改 7=分析 8=估分"
+          },
+          "eight_step_name_zh": {
+            "type": "string",
+            "enum": ["穿透", "提取", "整理", "审题", "流程", "批改", "分析", "估分"]
+          },
+          "six_flywheel_id": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 6,
+            "description": "1=计划 2=预习 3=复习 4=听课 5=作业 6=考试"
+          },
+          "six_flywheel_name_zh": {
+            "type": "string",
+            "enum": ["计划飞轮", "预习飞轮", "复习飞轮", "听课飞轮", "作业飞轮", "考试飞轮"]
+          }
+        }
+      }
+    },
+    "irt_config": {
+      "type": "object",
+      "description": "项目反应理论(IRT)配置",
+      "properties": {
+        "model": {
+          "type": "string",
+          "enum": ["1PL", "2PL", "3PL"],
+          "description": "IRT 模型类型"
+        },
+        "difficulty_range": {
+          "type": "array",
+          "items": { "type": "number" },
+          "minItems": 2,
+          "maxItems": 2,
+          "description": "[min, max] 难度范围 (logit)"
+        },
+        "discrimination_default": {
+          "type": "number",
+          "description": "默认区分度参数"
+        },
+        "guessing_param": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "猜测参数(3PL 用)"
+        }
+      }
+    }
+  }
+}
