@@ -132,12 +132,12 @@
     "多元智能测评",
     "学习方式偏好量表",
     "SCL-90心理健康量表",
-    "职业锚测评",
+    "职业锁测评",
     "JUMEQ升学密码测评",
     "CAMIQ职业密码测评"
   ],
   "anti_drift": {
-    "MECE_correct": "M-动力/E-执行力/C-能力/E-环境",
-    "MECE_forbidden": "Mutually Exclusive and Collectively Exhaustive(咨询误用)"
+    "MECE_correct": "M-动力/E-执行力/C-能力/E-环境(星耀途专有定义)",
+    "MECE_forbidden_note": "该首字母缩略词在管理和课程设计和和领域有完全不同的定义,星耀途的 MECE 代表“M-动力/E-执行力/C-能力/E-环境”,请勿混淤其他领域的定义。"
   }
 }
