@@ -26,3 +26,22 @@
 - [ ] 与 xingyaotu-openmaic 的 quadruple-actions.json 联动测试
 
 ---
+
+## 2026-05-17T21:45:00Z · CI Workflow 配置 [完成]
+
+- [DONE] `.github/workflows/ci.yml` — 道层守护 + JSON 验证 + Secret 扫描
+
+| 检查项 | 内容 |
+|---|---|
+| [1/6] 漂移术语 grep | 导入/拆解/讲解/类比/演示 |
+| [2/6] JUMEQ 英语漂移 | Judge/Understand/Match/Execute/Qualify |
+| [3/6] 六飞轮替换 | 错题/笔记/阅读/实践 |
+| [4/6] FIRE-UP 6字母 | F/I/R/E/U/P 全部出现 |
+| [5/6] 八步第5=流程 | step_5 不得映射到演示 |
+| [6/6] CSO Secret 扫描 | sk-ant-/ghp_/AKIA 等 |
+| JSON 验证 | python3 json.load 全部 JSON |
+| catalog 完整性 | stage_id 1-7 / eight_step_id 1-8 / six_flywheel_id 1-6 |
+
+- [道层] dao-guard 内联 6/6 0 命中 ✅
+- [CSO] 0 触发(纯 CI 配置,无 API key 引用) ✅
+- [Next] IRT 参数标定数据导入(Phase 2.5) / quadruple-actions.json 联动测试

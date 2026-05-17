@@ -1,0 +1,127 @@
+name: 道层守护 + JSON 验证
+
+on:
+  push:
+    branches: [main, 'claude/*']
+  pull_request:
+    branches: [main]
+
+jobs:
+  dao-guard:
+    name: 道层零漂移 6 项 grep 检查
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: "[1/6] 禁止漂移术语: 导入|拆解|讲解|类比|演示"
+        run: |
+          HITS=$(grep -rn "导入\|拆解\|讲解\|类比\|演示" \
+            --include="*.md" --include="*.json" --include="*.ts" --include="*.py" \
+            --exclude-dir=".git" . \
+            | grep -v "STATUS.md" | wc -l)
+          echo "Drift term hits: $HITS"
+          [ "$HITS" -eq 0 ]
+
+      - name: "[2/6] 禁止 JUMEQ 英语漂移: Judge|Understand|Match|Execute|Qualify"
+        run: |
+          HITS=$(grep -rn "\bJudge\b\|\bUnderstand\b\|\bMatch\b\|\bExecute\b\|\bQualify\b" \
+            --include="*.md" --include="*.json" --include="*.ts" --include="*.py" \
+            --exclude-dir=".git" . \
+            | grep -v "STATUS.md" | wc -l)
+          echo "JUMEQ English drift hits: $HITS"
+          [ "$HITS" -eq 0 ]
+
+      - name: "[3/6] 禁止六飞轮替换元素: 错题|笔记|阅读|实践"
+        run: |
+          HITS=$(grep -rn "错题\|笔记\|阅读\|实践" \
+            --include="*.md" --include="*.json" \
+            --exclude-dir=".git" . \
+            | grep -v "STATUS.md" | grep -v "CLAUDE.md" | wc -l)
+          echo "Flywheel replacement hits: $HITS"
+          [ "$HITS" -eq 0 ]
+
+      - name: "[4/6] FIRE-UP 必须为 6 字母(F/I/R/E/U/P)"
+        run: |
+          # Check that any FIRE-UP mention lists all 6 elements (not 5)
+          FIVE_LETTER=$(grep -rn "FIRE-UP" \
+            --include="*.md" --include="*.json" \
+            --exclude-dir=".git" . \
+            | grep -v "F.*I.*R.*E.*U.*P" | wc -l)
+          echo "FIRE-UP with missing letters: $FIVE_LETTER"
+          [ "$FIVE_LETTER" -eq 0 ]
+
+      - name: "[5/6] 八步第5步=流程(不得是演示或其它术语)"
+        run: |
+          # step_5 or 第5步 should map to 流程
+          WRONG=$(grep -rn "step_5.*演示\|step_5.*demo\|第5步.*演示" \
+            --include="*.md" --include="*.json" \
+            --exclude-dir=".git" . | wc -l)
+          echo "Step-5 drift hits: $WRONG"
+          [ "$WRONG" -eq 0 ]
+
+      - name: "[6/6] CSO Secret 扫描: 禁止硬编码 API key"
+        run: |
+          SECRETS=$(grep -rn "sk-ant-\|ghp_\|AKIA[A-Z0-9]\|sk-[a-zA-Z0-9]\{20,\}" \
+            --include="*.md" --include="*.json" --include="*.ts" --include="*.py" \
+            --include="*.sh" --exclude-dir=".git" . | wc -l)
+          echo "Hardcoded secret hits: $SECRETS"
+          [ "$SECRETS" -eq 0 ]
+
+  json-validate:
+    name: JSON 文件完整性验证
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 验证所有 JSON 文件
+        run: |
+          python3 - <<'EOF'
+          import json, glob, sys
+          errors = []
+          for path in glob.glob('**/*.json', recursive=True):
+              if '.git' in path:
+                  continue
+              try:
+                  with open(path, encoding='utf-8') as f:
+                      json.load(f)
+              except Exception as e:
+                  errors.append(f'{path}: {e}')
+          if errors:
+              for err in errors:
+                  print(f'ERROR: {err}')
+              sys.exit(1)
+          count = len(glob.glob('**/*.json', recursive=True))
+          print(f'All {count} JSON files valid ✅')
+          EOF
+
+      - name: 验证 assessment-catalog.json 参数完整性
+        run: |
+          python3 - <<'EOF'
+          import json, sys
+          try:
+              with open('pipeline-data/assessment-catalog.json', encoding='utf-8') as f:
+                  catalog = json.load(f)
+          except FileNotFoundError:
+              print('pipeline-data/assessment-catalog.json not found, skipping')
+              sys.exit(0)
+          tools = catalog if isinstance(catalog, list) else catalog.get('tools', [])
+          errors = []
+          for tool in tools:
+              tid = tool.get('tool_id', 'unknown')
+              if 'stage_quadruples' in tool:
+                  for sq in tool['stage_quadruples']:
+                      stage = sq.get('stage_id', 0)
+                      if not (1 <= stage <= 7):
+                          errors.append(f'{tid}: stage_id={stage} out of 1-7 range')
+                      step = sq.get('eight_step_id', 0)
+                      if not (1 <= step <= 8):
+                          errors.append(f'{tid}: eight_step_id={step} out of 1-8 range')
+                      fw = sq.get('six_flywheel_id', 0)
+                      if not (1 <= fw <= 6):
+                          errors.append(f'{tid}: six_flywheel_id={fw} out of 1-6 range')
+          if errors:
+              for e in errors:
+                  print(f'ERROR: {e}')
+              sys.exit(1)
+          print(f'Catalog validation passed: {len(tools)} tools ✅')
+          EOF
