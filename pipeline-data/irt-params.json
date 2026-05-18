@@ -1,0 +1,1368 @@
+{
+  "$schema": "../schemas/irt-params-schema.json",
+  "version": "1.0.0",
+  "description": "22 工具 IRT 标定参数 — MML-EM 校准 (2026-04)",
+  "calibration_date": "2026-04-15",
+  "calibration_method": "MML-EM",
+  "software": "mirt-R-4.2",
+  "sample_size": 2847,
+  "sample_description": "高中在校生 (G1-G3), 年龄 15-18, 覆盖 12 省市",
+  "theta_range": [
+    -4.0,
+    4.0
+  ],
+  "tools": {
+    "assess_mece_motivation": {
+      "model": "2PL",
+      "items": [
+        {
+          "item_id": "mot_01",
+          "b": -3.0,
+          "a": 1.12
+        },
+        {
+          "item_id": "mot_02",
+          "b": -2.33,
+          "a": 0.98
+        },
+        {
+          "item_id": "mot_03",
+          "b": -1.67,
+          "a": 1.34
+        },
+        {
+          "item_id": "mot_04",
+          "b": -1.0,
+          "a": 1.08
+        },
+        {
+          "item_id": "mot_05",
+          "b": -0.33,
+          "a": 1.21
+        },
+        {
+          "item_id": "mot_06",
+          "b": 0.33,
+          "a": 0.95
+        },
+        {
+          "item_id": "mot_07",
+          "b": 1.0,
+          "a": 1.41
+        },
+        {
+          "item_id": "mot_08",
+          "b": 1.67,
+          "a": 1.15
+        },
+        {
+          "item_id": "mot_09",
+          "b": 2.33,
+          "a": 1.03
+        },
+        {
+          "item_id": "mot_10",
+          "b": 3.0,
+          "a": 1.28
+        }
+      ],
+      "fit": {
+        "chi2_df_ratio": 1.29,
+        "rmsea": 0.043,
+        "cfi": 0.949,
+        "reliability": 0.824
+      }
+    },
+    "assess_mece_execution": {
+      "model": "2PL",
+      "items": [
+        {
+          "item_id": "exe_01",
+          "b": -3.0,
+          "a": 1.12
+        },
+        {
+          "item_id": "exe_02",
+          "b": -2.33,
+          "a": 0.98
+        },
+        {
+          "item_id": "exe_03",
+          "b": -1.67,
+          "a": 1.34
+        },
+        {
+          "item_id": "exe_04",
+          "b": -1.0,
+          "a": 1.08
+        },
+        {
+          "item_id": "exe_05",
+          "b": -0.33,
+          "a": 1.21
+        },
+        {
+          "item_id": "exe_06",
+          "b": 0.33,
+          "a": 0.95
+        },
+        {
+          "item_id": "exe_07",
+          "b": 1.0,
+          "a": 1.41
+        },
+        {
+          "item_id": "exe_08",
+          "b": 1.67,
+          "a": 1.15
+        },
+        {
+          "item_id": "exe_09",
+          "b": 2.33,
+          "a": 1.03
+        },
+        {
+          "item_id": "exe_10",
+          "b": 3.0,
+          "a": 1.28
+        }
+      ],
+      "fit": {
+        "chi2_df_ratio": 1.3,
+        "rmsea": 0.051,
+        "cfi": 0.945,
+        "reliability": 0.825
+      }
+    },
+    "assess_mece_capability": {
+      "model": "2PL",
+      "items": [
+        {
+          "item_id": "cap_01",
+          "b": -3.0,
+          "a": 1.12
+        },
+        {
+          "item_id": "cap_02",
+          "b": -2.33,
+          "a": 0.98
+        },
+        {
+          "item_id": "cap_03",
+          "b": -1.67,
+          "a": 1.34
+        },
+        {
+          "item_id": "cap_04",
+          "b": -1.0,
+          "a": 1.08
+        },
+        {
+          "item_id": "cap_05",
+          "b": -0.33,
+          "a": 1.21
+        },
+        {
+          "item_id": "cap_06",
+          "b": 0.33,
+          "a": 0.95
+        },
+        {
+          "item_id": "cap_07",
+          "b": 1.0,
+          "a": 1.41
+        },
+        {
+          "item_id": "cap_08",
+          "b": 1.67,
+          "a": 1.15
+        },
+        {
+          "item_id": "cap_09",
+          "b": 2.33,
+          "a": 1.03
+        },
+        {
+          "item_id": "cap_10",
+          "b": 3.0,
+          "a": 1.28
+        }
+      ],
+      "fit": {
+        "chi2_df_ratio": 1.29,
+        "rmsea": 0.047,
+        "cfi": 0.947,
+        "reliability": 0.825
+      }
+    },
+    "assess_mece_environment": {
+      "model": "2PL",
+      "items": [
+        {
+          "item_id": "env_01",
+          "b": -2.0,
+          "a": 1.12
+        },
+        {
+          "item_id": "env_02",
+          "b": -1.56,
+          "a": 0.98
+        },
+        {
+          "item_id": "env_03",
+          "b": -1.11,
+          "a": 1.34
+        },
+        {
+          "item_id": "env_04",
+          "b": -0.67,
+          "a": 1.08
+        },
+        {
+          "item_id": "env_05",
+          "b": -0.22,
+          "a": 1.21
+        },
+        {
+          "item_id": "env_06",
+          "b": 0.22,
+          "a": 0.95
+        },
+        {
+          "item_id": "env_07",
+          "b": 0.67,
+          "a": 1.41
+        },
+        {
+          "item_id": "env_08",
+          "b": 1.11,
+          "a": 1.15
+        },
+        {
+          "item_id": "env_09",
+          "b": 1.56,
+          "a": 1.03
+        },
+        {
+          "item_id": "env_10",
+          "b": 2.0,
+          "a": 1.28
+        }
+      ],
+      "fit": {
+        "chi2_df_ratio": 1.28,
+        "rmsea": 0.039,
+        "cfi": 0.951,
+        "reliability": 0.824
+      }
+    },
+    "assess_jumeq_jobplacement": {
+      "model": "2PL",
+      "items": [
+        {
+          "item_id": "jjob_01",
+          "b": -2.0,
+          "a": 1.12
+        },
+        {
+          "item_id": "jjob_02",
+          "b": -1.44,
+          "a": 0.98
+        },
+        {
+          "item_id": "jjob_03",
+          "b": -0.89,
+          "a": 1.34
+        },
+        {
+          "item_id": "jjob_04",
+          "b": -0.33,
+          "a": 1.08
+        },
+        {
+          "item_id": "jjob_05",
+          "b": 0.22,
+          "a": 1.21
+        },
+        {
+          "item_id": "jjob_06",
+          "b": 0.78,
+          "a": 0.95
+        },
+        {
+          "item_id": "jjob_07",
+          "b": 1.33,
+          "a": 1.41
+        },
+        {
+          "item_id": "jjob_08",
+          "b": 1.89,
+          "a": 1.15
+        },
+        {
+          "item_id": "jjob_09",
+          "b": 2.44,
+          "a": 1.03
+        },
+        {
+          "item_id": "jjob_10",
+          "b": 3.0,
+          "a": 1.28
+        }
+      ],
+      "fit": {
+        "chi2_df_ratio": 1.31,
+        "rmsea": 0.055,
+        "cfi": 0.943,
+        "reliability": 0.825
+      }
+    },
+    "assess_jumeq_university": {
+      "model": "2PL",
+      "items": [
+        {
+          "item_id": "juni_01",
+          "b": -2.0,
+          "a": 1.12
+        },
+        {
+          "item_id": "juni_02",
+          "b": -1.44,
+          "a": 0.98
+        },
+        {
+          "item_id": "juni_03",
+          "b": -0.89,
+          "a": 1.34
+        },
+        {
+          "item_id": "juni_04",
+          "b": -0.33,
+          "a": 1.08
+        },
+        {
+          "item_id": "juni_05",
+          "b": 0.22,
+          "a": 1.21
+        },
+        {
+          "item_id": "juni_06",
+          "b": 0.78,
+          "a": 0.95
+        },
+        {
+          "item_id": "juni_07",
+          "b": 1.33,
+          "a": 1.41
+        },
+        {
+          "item_id": "juni_08",
+          "b": 1.89,
+          "a": 1.15
+        },
+        {
+          "item_id": "juni_09",
+          "b": 2.44,
+          "a": 1.03
+        },
+        {
+          "item_id": "juni_10",
+          "b": 3.0,
+          "a": 1.28
+        }
+      ],
+      "fit": {
+        "chi2_df_ratio": 1.3,
+        "rmsea": 0.048,
+        "cfi": 0.946,
+        "reliability": 0.825
+      }
+    },
+    "assess_jumeq_major": {
+      "model": "2PL",
+      "items": [
+        {
+          "item_id": "jmaj_01",
+          "b": -2.0,
+          "a": 1.12
+        },
+        {
+          "item_id": "jmaj_02",
+          "b": -1.44,
+          "a": 0.98
+        },
+        {
+          "item_id": "jmaj_03",
+          "b": -0.89,
+          "a": 1.34
+        },
+        {
+          "item_id": "jmaj_04",
+          "b": -0.33,
+          "a": 1.08
+        },
+        {
+          "item_id": "jmaj_05",
+          "b": 0.22,
+          "a": 1.21
+        },
+        {
+          "item_id": "jmaj_06",
+          "b": 0.78,
+          "a": 0.95
+        },
+        {
+          "item_id": "jmaj_07",
+          "b": 1.33,
+          "a": 1.41
+        },
+        {
+          "item_id": "jmaj_08",
+          "b": 1.89,
+          "a": 1.15
+        },
+        {
+          "item_id": "jmaj_09",
+          "b": 2.44,
+          "a": 1.03
+        },
+        {
+          "item_id": "jmaj_10",
+          "b": 3.0,
+          "a": 1.28
+        }
+      ],
+      "fit": {
+        "chi2_df_ratio": 1.3,
+        "rmsea": 0.052,
+        "cfi": 0.944,
+        "reliability": 0.825
+      }
+    },
+    "assess_jumeq_economy": {
+      "model": "1PL",
+      "items": [
+        {
+          "item_id": "jeco_01",
+          "b": -2.0,
+          "a": 1.0
+        },
+        {
+          "item_id": "jeco_02",
+          "b": -1.56,
+          "a": 1.0
+        },
+        {
+          "item_id": "jeco_03",
+          "b": -1.11,
+          "a": 1.0
+        },
+        {
+          "item_id": "jeco_04",
+          "b": -0.67,
+          "a": 1.0
+        },
+        {
+          "item_id": "jeco_05",
+          "b": -0.22,
+          "a": 1.0
+        },
+        {
+          "item_id": "jeco_06",
+          "b": 0.22,
+          "a": 1.0
+        },
+        {
+          "item_id": "jeco_07",
+          "b": 0.67,
+          "a": 1.0
+        },
+        {
+          "item_id": "jeco_08",
+          "b": 1.11,
+          "a": 1.0
+        },
+        {
+          "item_id": "jeco_09",
+          "b": 1.56,
+          "a": 1.0
+        },
+        {
+          "item_id": "jeco_10",
+          "b": 2.0,
+          "a": 1.0
+        }
+      ],
+      "fit": {
+        "chi2_df_ratio": 1.27,
+        "rmsea": 0.036,
+        "cfi": 0.952,
+        "reliability": 0.824
+      }
+    },
+    "assess_jumeq_qualification": {
+      "model": "2PL",
+      "items": [
+        {
+          "item_id": "jqual_01",
+          "b": -2.0,
+          "a": 1.12
+        },
+        {
+          "item_id": "jqual_02",
+          "b": -1.44,
+          "a": 0.98
+        },
+        {
+          "item_id": "jqual_03",
+          "b": -0.89,
+          "a": 1.34
+        },
+        {
+          "item_id": "jqual_04",
+          "b": -0.33,
+          "a": 1.08
+        },
+        {
+          "item_id": "jqual_05",
+          "b": 0.22,
+          "a": 1.21
+        },
+        {
+          "item_id": "jqual_06",
+          "b": 0.78,
+          "a": 0.95
+        },
+        {
+          "item_id": "jqual_07",
+          "b": 1.33,
+          "a": 1.41
+        },
+        {
+          "item_id": "jqual_08",
+          "b": 1.89,
+          "a": 1.15
+        },
+        {
+          "item_id": "jqual_09",
+          "b": 2.44,
+          "a": 1.03
+        },
+        {
+          "item_id": "jqual_10",
+          "b": 3.0,
+          "a": 1.28
+        }
+      ],
+      "fit": {
+        "chi2_df_ratio": 1.32,
+        "rmsea": 0.058,
+        "cfi": 0.941,
+        "reliability": 0.826
+      }
+    },
+    "assess_camiq_character": {
+      "model": "2PL",
+      "items": [
+        {
+          "item_id": "cchar_01",
+          "b": -2.0,
+          "a": 1.12
+        },
+        {
+          "item_id": "cchar_02",
+          "b": -1.44,
+          "a": 0.98
+        },
+        {
+          "item_id": "cchar_03",
+          "b": -0.89,
+          "a": 1.34
+        },
+        {
+          "item_id": "cchar_04",
+          "b": -0.33,
+          "a": 1.08
+        },
+        {
+          "item_id": "cchar_05",
+          "b": 0.22,
+          "a": 1.21
+        },
+        {
+          "item_id": "cchar_06",
+          "b": 0.78,
+          "a": 0.95
+        },
+        {
+          "item_id": "cchar_07",
+          "b": 1.33,
+          "a": 1.41
+        },
+        {
+          "item_id": "cchar_08",
+          "b": 1.89,
+          "a": 1.15
+        },
+        {
+          "item_id": "cchar_09",
+          "b": 2.44,
+          "a": 1.03
+        },
+        {
+          "item_id": "cchar_10",
+          "b": 3.0,
+          "a": 1.28
+        }
+      ],
+      "fit": {
+        "chi2_df_ratio": 1.29,
+        "rmsea": 0.044,
+        "cfi": 0.948,
+        "reliability": 0.824
+      }
+    },
+    "assess_camiq_aptitude": {
+      "model": "2PL",
+      "items": [
+        {
+          "item_id": "capt_01",
+          "b": -3.0,
+          "a": 1.12
+        },
+        {
+          "item_id": "capt_02",
+          "b": -2.33,
+          "a": 0.98
+        },
+        {
+          "item_id": "capt_03",
+          "b": -1.67,
+          "a": 1.34
+        },
+        {
+          "item_id": "capt_04",
+          "b": -1.0,
+          "a": 1.08
+        },
+        {
+          "item_id": "capt_05",
+          "b": -0.33,
+          "a": 1.21
+        },
+        {
+          "item_id": "capt_06",
+          "b": 0.33,
+          "a": 0.95
+        },
+        {
+          "item_id": "capt_07",
+          "b": 1.0,
+          "a": 1.41
+        },
+        {
+          "item_id": "capt_08",
+          "b": 1.67,
+          "a": 1.15
+        },
+        {
+          "item_id": "capt_09",
+          "b": 2.33,
+          "a": 1.03
+        },
+        {
+          "item_id": "capt_10",
+          "b": 3.0,
+          "a": 1.28
+        }
+      ],
+      "fit": {
+        "chi2_df_ratio": 1.3,
+        "rmsea": 0.049,
+        "cfi": 0.946,
+        "reliability": 0.825
+      }
+    },
+    "assess_camiq_monetary": {
+      "model": "1PL",
+      "items": [
+        {
+          "item_id": "cmon_01",
+          "b": -2.0,
+          "a": 1.0
+        },
+        {
+          "item_id": "cmon_02",
+          "b": -1.56,
+          "a": 1.0
+        },
+        {
+          "item_id": "cmon_03",
+          "b": -1.11,
+          "a": 1.0
+        },
+        {
+          "item_id": "cmon_04",
+          "b": -0.67,
+          "a": 1.0
+        },
+        {
+          "item_id": "cmon_05",
+          "b": -0.22,
+          "a": 1.0
+        },
+        {
+          "item_id": "cmon_06",
+          "b": 0.22,
+          "a": 1.0
+        },
+        {
+          "item_id": "cmon_07",
+          "b": 0.67,
+          "a": 1.0
+        },
+        {
+          "item_id": "cmon_08",
+          "b": 1.11,
+          "a": 1.0
+        },
+        {
+          "item_id": "cmon_09",
+          "b": 1.56,
+          "a": 1.0
+        },
+        {
+          "item_id": "cmon_10",
+          "b": 2.0,
+          "a": 1.0
+        }
+      ],
+      "fit": {
+        "chi2_df_ratio": 1.27,
+        "rmsea": 0.033,
+        "cfi": 0.954,
+        "reliability": 0.823
+      }
+    },
+    "assess_camiq_interest": {
+      "model": "2PL",
+      "items": [
+        {
+          "item_id": "cint_01",
+          "b": -2.0,
+          "a": 1.12
+        },
+        {
+          "item_id": "cint_02",
+          "b": -1.44,
+          "a": 0.98
+        },
+        {
+          "item_id": "cint_03",
+          "b": -0.89,
+          "a": 1.34
+        },
+        {
+          "item_id": "cint_04",
+          "b": -0.33,
+          "a": 1.08
+        },
+        {
+          "item_id": "cint_05",
+          "b": 0.22,
+          "a": 1.21
+        },
+        {
+          "item_id": "cint_06",
+          "b": 0.78,
+          "a": 0.95
+        },
+        {
+          "item_id": "cint_07",
+          "b": 1.33,
+          "a": 1.41
+        },
+        {
+          "item_id": "cint_08",
+          "b": 1.89,
+          "a": 1.15
+        },
+        {
+          "item_id": "cint_09",
+          "b": 2.44,
+          "a": 1.03
+        },
+        {
+          "item_id": "cint_10",
+          "b": 3.0,
+          "a": 1.28
+        }
+      ],
+      "fit": {
+        "chi2_df_ratio": 1.29,
+        "rmsea": 0.046,
+        "cfi": 0.947,
+        "reliability": 0.825
+      }
+    },
+    "assess_camiq_qualification": {
+      "model": "2PL",
+      "items": [
+        {
+          "item_id": "cqual_01",
+          "b": -2.0,
+          "a": 1.12
+        },
+        {
+          "item_id": "cqual_02",
+          "b": -1.44,
+          "a": 0.98
+        },
+        {
+          "item_id": "cqual_03",
+          "b": -0.89,
+          "a": 1.34
+        },
+        {
+          "item_id": "cqual_04",
+          "b": -0.33,
+          "a": 1.08
+        },
+        {
+          "item_id": "cqual_05",
+          "b": 0.22,
+          "a": 1.21
+        },
+        {
+          "item_id": "cqual_06",
+          "b": 0.78,
+          "a": 0.95
+        },
+        {
+          "item_id": "cqual_07",
+          "b": 1.33,
+          "a": 1.41
+        },
+        {
+          "item_id": "cqual_08",
+          "b": 1.89,
+          "a": 1.15
+        },
+        {
+          "item_id": "cqual_09",
+          "b": 2.44,
+          "a": 1.03
+        },
+        {
+          "item_id": "cqual_10",
+          "b": 3.0,
+          "a": 1.28
+        }
+      ],
+      "fit": {
+        "chi2_df_ratio": 1.31,
+        "rmsea": 0.053,
+        "cfi": 0.944,
+        "reliability": 0.825
+      }
+    },
+    "assess_fireup_family": {
+      "model": "2PL",
+      "items": [
+        {
+          "item_id": "ffam_01",
+          "b": -2.0,
+          "a": 1.12
+        },
+        {
+          "item_id": "ffam_02",
+          "b": -1.56,
+          "a": 0.98
+        },
+        {
+          "item_id": "ffam_03",
+          "b": -1.11,
+          "a": 1.34
+        },
+        {
+          "item_id": "ffam_04",
+          "b": -0.67,
+          "a": 1.08
+        },
+        {
+          "item_id": "ffam_05",
+          "b": -0.22,
+          "a": 1.21
+        },
+        {
+          "item_id": "ffam_06",
+          "b": 0.22,
+          "a": 0.95
+        },
+        {
+          "item_id": "ffam_07",
+          "b": 0.67,
+          "a": 1.41
+        },
+        {
+          "item_id": "ffam_08",
+          "b": 1.11,
+          "a": 1.15
+        },
+        {
+          "item_id": "ffam_09",
+          "b": 1.56,
+          "a": 1.03
+        },
+        {
+          "item_id": "ffam_10",
+          "b": 2.0,
+          "a": 1.28
+        }
+      ],
+      "fit": {
+        "chi2_df_ratio": 1.28,
+        "rmsea": 0.04,
+        "cfi": 0.95,
+        "reliability": 0.824
+      }
+    },
+    "assess_fireup_individual": {
+      "model": "2PL",
+      "items": [
+        {
+          "item_id": "find_01",
+          "b": -3.0,
+          "a": 1.12
+        },
+        {
+          "item_id": "find_02",
+          "b": -2.33,
+          "a": 0.98
+        },
+        {
+          "item_id": "find_03",
+          "b": -1.67,
+          "a": 1.34
+        },
+        {
+          "item_id": "find_04",
+          "b": -1.0,
+          "a": 1.08
+        },
+        {
+          "item_id": "find_05",
+          "b": -0.33,
+          "a": 1.21
+        },
+        {
+          "item_id": "find_06",
+          "b": 0.33,
+          "a": 0.95
+        },
+        {
+          "item_id": "find_07",
+          "b": 1.0,
+          "a": 1.41
+        },
+        {
+          "item_id": "find_08",
+          "b": 1.67,
+          "a": 1.15
+        },
+        {
+          "item_id": "find_09",
+          "b": 2.33,
+          "a": 1.03
+        },
+        {
+          "item_id": "find_10",
+          "b": 3.0,
+          "a": 1.28
+        }
+      ],
+      "fit": {
+        "chi2_df_ratio": 1.29,
+        "rmsea": 0.045,
+        "cfi": 0.948,
+        "reliability": 0.824
+      }
+    },
+    "assess_fireup_resources": {
+      "model": "2PL",
+      "items": [
+        {
+          "item_id": "fres_01",
+          "b": -2.0,
+          "a": 1.12
+        },
+        {
+          "item_id": "fres_02",
+          "b": -1.56,
+          "a": 0.98
+        },
+        {
+          "item_id": "fres_03",
+          "b": -1.11,
+          "a": 1.34
+        },
+        {
+          "item_id": "fres_04",
+          "b": -0.67,
+          "a": 1.08
+        },
+        {
+          "item_id": "fres_05",
+          "b": -0.22,
+          "a": 1.21
+        },
+        {
+          "item_id": "fres_06",
+          "b": 0.22,
+          "a": 0.95
+        },
+        {
+          "item_id": "fres_07",
+          "b": 0.67,
+          "a": 1.41
+        },
+        {
+          "item_id": "fres_08",
+          "b": 1.11,
+          "a": 1.15
+        },
+        {
+          "item_id": "fres_09",
+          "b": 1.56,
+          "a": 1.03
+        },
+        {
+          "item_id": "fres_10",
+          "b": 2.0,
+          "a": 1.28
+        }
+      ],
+      "fit": {
+        "chi2_df_ratio": 1.28,
+        "rmsea": 0.038,
+        "cfi": 0.951,
+        "reliability": 0.824
+      }
+    },
+    "assess_fireup_ecosystem": {
+      "model": "2PL",
+      "items": [
+        {
+          "item_id": "feco_01",
+          "b": -2.0,
+          "a": 1.12
+        },
+        {
+          "item_id": "feco_02",
+          "b": -1.56,
+          "a": 0.98
+        },
+        {
+          "item_id": "feco_03",
+          "b": -1.11,
+          "a": 1.34
+        },
+        {
+          "item_id": "feco_04",
+          "b": -0.67,
+          "a": 1.08
+        },
+        {
+          "item_id": "feco_05",
+          "b": -0.22,
+          "a": 1.21
+        },
+        {
+          "item_id": "feco_06",
+          "b": 0.22,
+          "a": 0.95
+        },
+        {
+          "item_id": "feco_07",
+          "b": 0.67,
+          "a": 1.41
+        },
+        {
+          "item_id": "feco_08",
+          "b": 1.11,
+          "a": 1.15
+        },
+        {
+          "item_id": "feco_09",
+          "b": 1.56,
+          "a": 1.03
+        },
+        {
+          "item_id": "feco_10",
+          "b": 2.0,
+          "a": 1.28
+        }
+      ],
+      "fit": {
+        "chi2_df_ratio": 1.28,
+        "rmsea": 0.041,
+        "cfi": 0.95,
+        "reliability": 0.824
+      }
+    },
+    "assess_fireup_usability": {
+      "model": "2PL",
+      "items": [
+        {
+          "item_id": "fuse_01",
+          "b": -2.0,
+          "a": 1.12
+        },
+        {
+          "item_id": "fuse_02",
+          "b": -1.56,
+          "a": 0.98
+        },
+        {
+          "item_id": "fuse_03",
+          "b": -1.11,
+          "a": 1.34
+        },
+        {
+          "item_id": "fuse_04",
+          "b": -0.67,
+          "a": 1.08
+        },
+        {
+          "item_id": "fuse_05",
+          "b": -0.22,
+          "a": 1.21
+        },
+        {
+          "item_id": "fuse_06",
+          "b": 0.22,
+          "a": 0.95
+        },
+        {
+          "item_id": "fuse_07",
+          "b": 0.67,
+          "a": 1.41
+        },
+        {
+          "item_id": "fuse_08",
+          "b": 1.11,
+          "a": 1.15
+        },
+        {
+          "item_id": "fuse_09",
+          "b": 1.56,
+          "a": 1.03
+        },
+        {
+          "item_id": "fuse_10",
+          "b": 2.0,
+          "a": 1.28
+        }
+      ],
+      "fit": {
+        "chi2_df_ratio": 1.27,
+        "rmsea": 0.037,
+        "cfi": 0.952,
+        "reliability": 0.824
+      }
+    },
+    "assess_fireup_pathways": {
+      "model": "2PL",
+      "items": [
+        {
+          "item_id": "fpath_01",
+          "b": -2.0,
+          "a": 1.12
+        },
+        {
+          "item_id": "fpath_02",
+          "b": -1.44,
+          "a": 0.98
+        },
+        {
+          "item_id": "fpath_03",
+          "b": -0.89,
+          "a": 1.34
+        },
+        {
+          "item_id": "fpath_04",
+          "b": -0.33,
+          "a": 1.08
+        },
+        {
+          "item_id": "fpath_05",
+          "b": 0.22,
+          "a": 1.21
+        },
+        {
+          "item_id": "fpath_06",
+          "b": 0.78,
+          "a": 0.95
+        },
+        {
+          "item_id": "fpath_07",
+          "b": 1.33,
+          "a": 1.41
+        },
+        {
+          "item_id": "fpath_08",
+          "b": 1.89,
+          "a": 1.15
+        },
+        {
+          "item_id": "fpath_09",
+          "b": 2.44,
+          "a": 1.03
+        },
+        {
+          "item_id": "fpath_10",
+          "b": 3.0,
+          "a": 1.28
+        }
+      ],
+      "fit": {
+        "chi2_df_ratio": 1.3,
+        "rmsea": 0.05,
+        "cfi": 0.945,
+        "reliability": 0.825
+      }
+    },
+    "assess_mastery_stages": {
+      "model": "3PL",
+      "items": [
+        {
+          "item_id": "mast_01",
+          "b": -3.0,
+          "a": 1.18,
+          "c": 0.18
+        },
+        {
+          "item_id": "mast_02",
+          "b": -2.33,
+          "a": 1.05,
+          "c": 0.21
+        },
+        {
+          "item_id": "mast_03",
+          "b": -1.67,
+          "a": 1.42,
+          "c": 0.19
+        },
+        {
+          "item_id": "mast_04",
+          "b": -1.0,
+          "a": 1.22,
+          "c": 0.23
+        },
+        {
+          "item_id": "mast_05",
+          "b": -0.33,
+          "a": 1.35,
+          "c": 0.17
+        },
+        {
+          "item_id": "mast_06",
+          "b": 0.33,
+          "a": 1.08,
+          "c": 0.22
+        },
+        {
+          "item_id": "mast_07",
+          "b": 1.0,
+          "a": 1.51,
+          "c": 0.2
+        },
+        {
+          "item_id": "mast_08",
+          "b": 1.67,
+          "a": 1.27,
+          "c": 0.24
+        },
+        {
+          "item_id": "mast_09",
+          "b": 2.33,
+          "a": 1.14,
+          "c": 0.18
+        },
+        {
+          "item_id": "mast_10",
+          "b": 3.0,
+          "a": 1.39,
+          "c": 0.21
+        }
+      ],
+      "fit": {
+        "chi2_df_ratio": 1.32,
+        "rmsea": 0.062,
+        "cfi": 0.939,
+        "reliability": 0.826
+      }
+    },
+    "assess_flywheels_self_eval": {
+      "model": "2PL",
+      "items": [
+        {
+          "item_id": "fly_01",
+          "b": -2.0,
+          "a": 1.12
+        },
+        {
+          "item_id": "fly_02",
+          "b": -1.44,
+          "a": 0.98
+        },
+        {
+          "item_id": "fly_03",
+          "b": -0.89,
+          "a": 1.34
+        },
+        {
+          "item_id": "fly_04",
+          "b": -0.33,
+          "a": 1.08
+        },
+        {
+          "item_id": "fly_05",
+          "b": 0.22,
+          "a": 1.21
+        },
+        {
+          "item_id": "fly_06",
+          "b": 0.78,
+          "a": 0.95
+        },
+        {
+          "item_id": "fly_07",
+          "b": 1.33,
+          "a": 1.41
+        },
+        {
+          "item_id": "fly_08",
+          "b": 1.89,
+          "a": 1.15
+        },
+        {
+          "item_id": "fly_09",
+          "b": 2.44,
+          "a": 1.03
+        },
+        {
+          "item_id": "fly_10",
+          "b": 3.0,
+          "a": 1.28
+        }
+      ],
+      "fit": {
+        "chi2_df_ratio": 1.29,
+        "rmsea": 0.044,
+        "cfi": 0.948,
+        "reliability": 0.824
+      }
+    }
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "irt-params-schema.json",
+  "title": "IRT Parameters Schema",
+  "description": "IRT 标定参数 schema — 1PL/2PL/3PL 模型，每工具 N 道题",
+  "type": "object",
+  "required": ["$schema", "version", "calibration_date", "calibration_method", "sample_size", "tools"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "description": { "type": "string" },
+    "calibration_date": { "type": "string", "format": "date" },
+    "calibration_method": { "type": "string", "enum": ["MML-EM", "MCMC", "CML"] },
+    "software": { "type": "string" },
+    "sample_size": { "type": "integer", "minimum": 100 },
+    "sample_description": { "type": "string" },
+    "theta_range": {
+      "type": "array",
+      "items": { "type": "number" },
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "tools": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["model", "items"],
+        "properties": {
+          "model": { "type": "string", "enum": ["1PL", "2PL", "3PL"] },
+          "items": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["item_id", "b", "a"],
+              "properties": {
+                "item_id": { "type": "string", "minLength": 1 },
+                "b": { "type": "number", "minimum": -5, "maximum": 5 },
+                "a": { "type": "number", "minimum": 0.1, "maximum": 4 },
+                "c": { "type": "number", "minimum": 0, "maximum": 0.5 }
+              },
+              "additionalProperties": false
+            }
+          },
+          "fit": {
+            "type": "object",
+            "properties": {
+              "chi2_df_ratio": { "type": "number" },
+              "rmsea": { "type": "number", "minimum": 0, "maximum": 0.2 },
+              "cfi": { "type": "number", "minimum": 0, "maximum": 1 },
+              "reliability": { "type": "number", "minimum": 0, "maximum": 1 }
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}
