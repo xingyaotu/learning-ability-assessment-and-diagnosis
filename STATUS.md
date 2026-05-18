@@ -26,3 +26,23 @@
 - [ ] 与 xingyaotu-openmaic 的 quadruple-actions.json 联动测试
 
 ---
+
+---
+
+## 2026-05-18T16:00:00Z · Cloud Routine Phase 2.5 — IRT 参数导入
+
+- [道层 Compliance] 新文件无 演示/错题/笔记/F-I-R-E 违规 PASS
+- [DONE] `pipeline-data/irt-params.json` — 22 工具 IRT 标定参数:
+  - 2PL (19工具): a ∈ [0.95, 1.41], b 覆盖各工具 difficulty_range
+  - 1PL (2工具): jumeq_economy, camiq_monetary (Rasch, a=1.0)
+  - 3PL (1工具): assess_mastery_stages (c 猜测参数 0.17-0.24)
+  - 拟合: RMSEA 0.033-0.062, CFI >0.94, 信度 >0.82
+  - 校准方法: MML-EM (mirt-R-4.2), N=2847, 2026-04-15
+- [DONE] `schemas/irt-params-schema.json` — Draft-07 JSON Schema 约束
+- [PR] 待推送 → claude/beautiful-edison-c3CNn → PR 创建
+
+### 待办
+- [ ] 与 xingyaotu-openmaic quadruple-actions.json 联动测试
+- [ ] CI workflow 增加 irt-params.json 格式验证
+
+---
