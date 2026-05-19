@@ -1,0 +1,53 @@
+name: CI — Learning Ability Assessment & Diagnosis
+
+on:
+  push:
+    branches: [main, "claude/**", "feat/**", "fix/**"]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: Typecheck & Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install dependencies
+        run: npm install
+      - name: TypeScript check
+        run: npm run typecheck
+      - name: Unit Tests
+        run: npm test
+
+  dao-guard:
+    name: 道层零漂移检查
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 禁词检查 — 漂移术语
+        run: |
+          if grep -rEn "导入|拆解|讲解|类比|演示" src/ tests/ 2>/dev/null; then
+            echo "❌ 道层漂移术语命中"; exit 1
+          fi
+          echo "✅ 道层术语零漂移"
+      - name: 八步第5步=流程(非演示)
+        run: |
+          if grep -rn '"演示"' src/ tests/ 2>/dev/null; then
+            echo "❌ 八步第5步漂移(演示)"; exit 1
+          fi
+          echo "✅ 八步⑤=流程"
+      - name: 六飞轮无违规元素
+        run: |
+          if grep -rEn "错题飞轮|笔记飞轮|阅读飞轮|实践飞轮" src/ tests/ 2>/dev/null; then
+            echo "❌ 六飞轮元素漂移"; exit 1
+          fi
+          echo "✅ 六飞轮合规"
+      - name: CSO 扫描
+        run: |
+          if grep -rEn 'sk-[a-zA-Z0-9]{20,}|sk-ant-[a-zA-Z0-9]|ghp_[a-zA-Z0-9]|AKIA[A-Z0-9]{16}' src/ tests/ 2>/dev/null; then
+            echo "❌ CSO: hardcoded API key detected"; exit 1
+          fi
+          echo "✅ CSO: 无硬编码 key"
