@@ -21,8 +21,26 @@
 - [道层合规] 全部 22 工具:八步第5步="流程"(绝非演示),六飞轮无错题/笔记/阅读/实践
 
 ### 待办
-- [ ] CI workflow 配置(python3 json.load 验证 + dao-guard)
+- [x] CI workflow 配置(python3 json.load 验证 + dao-guard) ← 2026-05-20 session cPApq 完成
 - [ ] IRT 参数标定数据导入(计划 Phase 2.5)
 - [ ] 与 xingyaotu-openmaic 的 quadruple-actions.json 联动测试
+
+---
+
+## 2026-05-20T23:10:00Z · session cPApq CI workflow 配置
+
+- [DONE] `.github/workflows/ci.yml` — JSON 格式验证 + 道层漂移检查 + MECE 完整性
+  - JSON 格式验证：python3 json.load 检查所有 *.json 文件
+  - 道层漂移检查：导入/拆解/讲解/类比/演示 + Judge/Understand/Match/Execute/Qualify
+  - MECE 完整性：pipeline-data/assessment-catalog.json 5 个分类全覆盖
+  - 触发：push 到 main / claude/** + PR to main
+- [PENDING] IRT 参数标定数据导入（Phase 2.5）
+- [PENDING] 与 xingyaotu-openmaic quadruple-actions.json 联动测试
+
+### 道层合规
+- MECE: M-动力/E-执行力/C-能力/E-环境 ✅
+- FIRE-UP 6 字母 F/I/R/E/U/P ✅
+- CSO: 0 触发 ✅
+- STATUS.md 只追加，绝不覆盖 ✅
 
 ---
