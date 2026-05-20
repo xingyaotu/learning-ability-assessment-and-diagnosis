@@ -43,3 +43,18 @@
 
 - [道层] 四元组全量验证通过 ✅ | CSO 0触发 ✅
 - [Next] coaching-toolkit → 同样添加 SOP 内容完整性验证脚本
+
+---
+
+## 2026-05-20T17:55:00Z · assessment — 跨库 schema 联动验证脚本
+
+### feat(scripts+ci): validate-cross-schema.py — assessment ↔ quadruple-actions 跨库验证
+
+- `scripts/validate-cross-schema.py`: 跨库联动验证
+  - assessment-catalog.json 22工具×154四元组 ↔ openmaic/quadruple-actions.json schema
+  - 5 维度验证: $schema 存在 / 工具数22 / 154四元组 / ⑤流程守护 / 六飞轮枚举守护
+  - 467/467 通过 ✅
+- `.github/workflows/validate.yml`: 升级 v5.1→v5.2, 新增 `cross-schema` CI job
+- 道层: 0漂移 ✅ | CSO 0触发 ✅
+
+- [Next] assessment: IRT 参数标定数据导入(Phase 2.5)
