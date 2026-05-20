@@ -37,7 +37,7 @@
   - 22工具×7阶×四元组 = 154条记录全量验证
   - 七阶 stage_id ∈ [1,7] + stage_name_zh 精确匹配
   - 八步 eight_step_id ∈ [1,8] + ⑤名称必须"流程"(非演示)
-  - 六飞轮 six_flywheel_id ∈ [1,6] + 禁用漂移名(错题/笔记/阅读/实践飞轮)
+  - 六飞轮 six_flywheel_id ∈ [1,6] + 禁用4类非法飞轮名称(脚本内硬编码)
 - `.github/workflows/validate.yml`: 升级 v5.0→v5.1，新增 `quadruple-linkage` CI job
 - 本地验证: python3 脚本 154/154 通过 ✅ | 0 漂移 ✅
 
