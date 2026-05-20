@@ -21,8 +21,22 @@
 - [道层合规] 全部 22 工具:八步第5步="流程"(绝非演示),六飞轮无错题/笔记/阅读/实践
 
 ### 待办
-- [ ] CI workflow 配置(python3 json.load 验证 + dao-guard)
+- [x] CI workflow 配置(python3 json.load 验证 + dao-guard) ← 见下方 2026-05-20 条目
 - [ ] IRT 参数标定数据导入(计划 Phase 2.5)
 - [ ] 与 xingyaotu-openmaic 的 quadruple-actions.json 联动测试
+
+---
+
+## 2026-05-20T00:00:00Z · CI Workflow 配置 W1
+
+- [触发] Cloud routine dev branch `claude/gallant-wozniak-5IDBD`
+- [DONE] `.github/workflows/ci.yml` — 两 Job CI 配置:
+  - Job `json-validate`: python3 json.load 验证 pipeline-data/**/*.json + schemas/**/*.json
+  - Job `dao-guard`: bash scripts/.dao-guard.sh .(v5.1 适配版)
+- [DONE] `scripts/.dao-guard.sh` — v5.1 复刻
+  - SCAN_DIRS: pipeline-data + schemas + docs + scripts + .github
+  - 6 漂移正则全部保留,豁免 .dao-guard.sh 自身
+- [道层合规] dao-guard 对空/新目录 → PASS;6 漂移项检测覆盖全部 JSON+MD+YAML
+- [Next] IRT 参数标定数据导入(Phase 2.5)
 
 ---
