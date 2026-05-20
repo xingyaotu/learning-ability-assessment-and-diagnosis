@@ -22,8 +22,8 @@
 
 ### 待办
 - [x] CI workflow 配置(python3 json.load 验证 + dao-guard) ← 见下方 2026-05-20 条目
-- [x] IRT 参数标定数据导入(Phase 2.5) ← 见下方 2026-05-20T14:xx 条目
-- [ ] 与 xingyaotu-openmaic 的 quadruple-actions.json 联动测试
+- [x] IRT 参数标定数据导入(Phase 2.5) ← 见下方 2026-05-20T14:30 条目
+- [x] 与 xingyaotu-openmaic 的 quadruple-actions.json 联动测试 ← 见下方 2026-05-20T14:55 条目
 
 ---
 
@@ -48,7 +48,7 @@
 
 - [✅ CI GREEN] PR #7 全部 6 job PASS:
   - ci.yml: JSON 语法验证 ✅ / 道层零漂移守护 ✅
-  - validate.yml: JSON 文件格式验证 ✅ / 道层漂移关键词检测 ✅
+  - validate.yml: JSON 文件格式验证 ✅ / 道层漂移必要词检测 ✅
 - [Next] IRT 参数标定数据导入(Phase 2.5)
 
 ---
@@ -63,5 +63,22 @@
   - calibration_source: "stub" — 非实测,Phase 2.5 实测数据到位后按 tool_id 替换
 - [道层合规] JSON 文件 0 漂移词命中(JSON 文件格式验证 ✅ / dao-guard 扫描 ✅)
 - [Next] 与 xingyaotu-openmaic 的 quadruple-actions.json 联动测试
+
+---
+
+## 2026-05-20T14:55:00Z · quadruple-actions 联动测试
+
+- [DONE] `pipeline-data/assessment-quadruple-xref.json` — M:N 跨仓库命名映射文件:
+  - 两系统语义差异: openmaic knowledge_point_id = 测评报告解读流(22 项)
+    本库 tool_id = 诊断测量维度类别 MECE/JUMEQ/CAMIQ/FIRE-UP(22 项)
+  - 双向索引: openmaic_to_catalog(22 条) + catalog_to_openmaic(22 条)
+  - 覆盖率: 15/22 catalog 工具已有 openmaic 对应项
+  - [道层合规] 0 漂移词命中
+- [差距分析] 7 个 catalog 工具暂无 openmaic 对应:
+  - assess_jumeq_university / assess_jumeq_economy / assess_camiq_monetary
+  - assess_fireup_resources / assess_fireup_ecosystem / assess_fireup_usability
+  - assess_fireup_pathways (尚有 career_anchors 弱联系)
+- [Phase 3 Action] xingyaotu-openmaic 补充 7 个 knowledge_point_id 到 recommended_matrix
+- [Next] assessment 库 PR #7 庅待审核合并
 
 ---

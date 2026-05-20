@@ -1,0 +1,219 @@
+{
+  "$schema": "https://xingyaotu.cn/schemas/assessment-quadruple-xref.v1.0.json",
+  "version": "1.0",
+  "compliance": "v5.0 道层零漂移",
+  "last_updated": "2026-05-20",
+  "description": "两仓库命名体系横向映射文件。openmaic 的 knowledge_point_id 是教练工作流（如何解读某种测评报告）,本仓库的 tool_id 是心理测量维度类别（MECE/JUMEQ/CAMIQ/FIRE-UP 框架）。关系为 M:N",
+  "relationship_type": "M:N",
+  "system_a": {
+    "repo": "xingyaotu/xingyaotu-openmaic",
+    "file": "pipeline-data/quadruple-actions.json",
+    "id_field": "knowledge_point_id",
+    "semantics": "测评报告解读教练工作流",
+    "total_ids": 22
+  },
+  "system_b": {
+    "repo": "xingyaotu/learning-ability-assessment-and-diagnosis",
+    "file": "pipeline-data/assessment-catalog.json",
+    "id_field": "tool_id",
+    "semantics": "心理测量维度类别(MECE/JUMEQ/CAMIQ/FIRE-UP)",
+    "total_ids": 22
+  },
+  "openmaic_to_catalog": [
+    {
+      "openmaic_id": "assess_disc_family_campus",
+      "openmaic_zh": "如何读懂DISC（家庭 & 校园）",
+      "primary_catalog_ids": ["assess_camiq_character"],
+      "secondary_catalog_ids": ["assess_mece_motivation"],
+      "mapping_note": "DISC 测量性格特质(常规学习场景)"
+    },
+    {
+      "openmaic_id": "assess_disc_work",
+      "openmaic_zh": "如何读懂DISC（工作）",
+      "primary_catalog_ids": ["assess_fireup_individual"],
+      "secondary_catalog_ids": ["assess_mece_execution"],
+      "mapping_note": "DISC 工作场景即个体自我效能感/自律性"
+    },
+    {
+      "openmaic_id": "assess_mbti",
+      "openmaic_zh": "如何读懂MBTI",
+      "primary_catalog_ids": ["assess_camiq_character"],
+      "secondary_catalog_ids": ["assess_camiq_interest"],
+      "mapping_note": "MBTI 与 DISC 共同支撑 camiq_character 维度"
+    },
+    {
+      "openmaic_id": "assess_holland",
+      "openmaic_zh": "如何读懂霍兰德报告",
+      "primary_catalog_ids": ["assess_jumeq_major", "assess_jumeq_jobplacement"],
+      "secondary_catalog_ids": ["assess_camiq_interest"],
+      "mapping_note": "霍兰德职业兴趣 = 专业志愿 + 职业规划的心理实测根据"
+    },
+    {
+      "openmaic_id": "assess_career_anchors",
+      "openmaic_zh": "如何读懂高级职业锄报告",
+      "primary_catalog_ids": ["assess_jumeq_jobplacement", "assess_fireup_pathways"],
+      "secondary_catalog_ids": [],
+      "mapping_note": "职业锄 = 职业规划的内在驱动 + FIRE-UP 成长路径"
+    },
+    {
+      "openmaic_id": "assess_learning_motivation",
+      "openmaic_zh": "如何读懂学习动力报告",
+      "primary_catalog_ids": ["assess_mece_motivation"],
+      "secondary_catalog_ids": [],
+      "mapping_note": "直接语义对应"
+    },
+    {
+      "openmaic_id": "assess_learning_execution",
+      "openmaic_zh": "如何读懂学习执行力",
+      "primary_catalog_ids": ["assess_mece_execution"],
+      "secondary_catalog_ids": [],
+      "mapping_note": "直接语义对应"
+    },
+    {
+      "openmaic_id": "assess_learning_focus",
+      "openmaic_zh": "如何读懂学习能力之专注力报告",
+      "primary_catalog_ids": ["assess_mece_capability"],
+      "secondary_catalog_ids": ["assess_camiq_aptitude"],
+      "mapping_note": "专注力是学习能力的子维度"
+    },
+    {
+      "openmaic_id": "assess_learning_memory",
+      "openmaic_zh": "如何读懂学习能力之记忆力报告",
+      "primary_catalog_ids": ["assess_mece_capability"],
+      "secondary_catalog_ids": ["assess_camiq_aptitude"],
+      "mapping_note": "记忆力是学习能力的子维度"
+    },
+    {
+      "openmaic_id": "assess_learning_reasoning",
+      "openmaic_zh": "如何读懂学习能力之推理智力报告",
+      "primary_catalog_ids": ["assess_camiq_aptitude"],
+      "secondary_catalog_ids": ["assess_mece_capability"],
+      "mapping_note": "推理智力傒属学科天赋评测拤压弦"
+    },
+    {
+      "openmaic_id": "assess_learning_style",
+      "openmaic_zh": "如何读懂学习方式偏好报告",
+      "primary_catalog_ids": ["assess_camiq_interest"],
+      "secondary_catalog_ids": ["assess_mece_capability"],
+      "mapping_note": "学习方式偏好与学习兴趣强相关"
+    },
+    {
+      "openmaic_id": "assess_learning_environment",
+      "openmaic_zh": "如何读懂学习环境报告",
+      "primary_catalog_ids": ["assess_mece_environment"],
+      "secondary_catalog_ids": [],
+      "mapping_note": "直接语义对应"
+    },
+    {
+      "openmaic_id": "assess_learning_performance",
+      "openmaic_zh": "如何读懂学习表现报告",
+      "primary_catalog_ids": ["assess_camiq_qualification"],
+      "secondary_catalog_ids": ["assess_mastery_stages"],
+      "mapping_note": "学习表现 = 学科资质条件 + 掌握度阶段测评"
+    },
+    {
+      "openmaic_id": "assess_learning_math_language",
+      "openmaic_zh": "如何读懂学习能力之数学&语言应用能力、逻辑思维能力诊断（中学）",
+      "primary_catalog_ids": ["assess_camiq_aptitude"],
+      "secondary_catalog_ids": ["assess_jumeq_qualification"],
+      "mapping_note": "学科天赋，中学学科资格评估的基础"
+    },
+    {
+      "openmaic_id": "assess_multiple_intelligence",
+      "openmaic_zh": "如何读懂多元智能5项",
+      "primary_catalog_ids": ["assess_camiq_aptitude"],
+      "secondary_catalog_ids": ["assess_mece_capability"],
+      "mapping_note": "多元智能洵盖认知加工/记忆/推理等学习能力子维度"
+    },
+    {
+      "openmaic_id": "assess_mental_health",
+      "openmaic_zh": "如何读懂心理健康报告",
+      "primary_catalog_ids": ["assess_mece_motivation"],
+      "secondary_catalog_ids": ["assess_fireup_individual"],
+      "mapping_note": "心理健康指数直接影响学习动力与个体拗挡韧性"
+    },
+    {
+      "openmaic_id": "assess_family_conflict",
+      "openmaic_zh": "如何读懂家庭管教冲突报告",
+      "primary_catalog_ids": ["assess_fireup_family"],
+      "secondary_catalog_ids": ["assess_mece_environment"],
+      "mapping_note": "家庭冲突 = 家庭支持力负指标 + 学习环境子维度"
+    },
+    {
+      "openmaic_id": "assess_excellent_parent",
+      "openmaic_zh": "如何读懂学生家长卓越学习力报告",
+      "primary_catalog_ids": ["assess_fireup_family"],
+      "secondary_catalog_ids": ["assess_mece_environment"],
+      "mapping_note": "家长卓越学习力 = 家庭支持力的正指标"
+    },
+    {
+      "openmaic_id": "assess_excellent_student",
+      "openmaic_zh": "如何读懂学生卓越学习力报告",
+      "primary_catalog_ids": ["assess_mastery_stages", "assess_flywheels_self_eval"],
+      "secondary_catalog_ids": ["assess_mece_capability"],
+      "mapping_note": "卓越学生 = 掌握度阶段全评 + 六飞轮自评"
+    },
+    {
+      "openmaic_id": "assess_mece_parent_comprehensive",
+      "openmaic_zh": "如何读懂家长MECE学习力综合报告",
+      "primary_catalog_ids": ["assess_mece_environment", "assess_fireup_family"],
+      "secondary_catalog_ids": ["assess_fireup_ecosystem"],
+      "mapping_note": "家长端 MECE 综合报告测量环境维度 + 家庭支持 + 生态系统"
+    },
+    {
+      "openmaic_id": "assess_mece_student_comprehensive",
+      "openmaic_zh": "如何读懂学生MECE学习力综合报告",
+      "primary_catalog_ids": ["assess_mece_motivation", "assess_mece_execution", "assess_mece_capability", "assess_mece_environment"],
+      "secondary_catalog_ids": [],
+      "mapping_note": "学生端 MECE 综合报告 = 动力+执行力+能力+环境 四维度全覆盖"
+    },
+    {
+      "openmaic_id": "assess_parent_discipline_style",
+      "openmaic_zh": "如何读懂家长管教风格报告",
+      "primary_catalog_ids": ["assess_fireup_family"],
+      "secondary_catalog_ids": ["assess_mece_environment"],
+      "mapping_note": "管教风格 ⊆ 家庭支持力评估维度"
+    }
+  ],
+  "catalog_to_openmaic": [
+    {"catalog_id": "assess_mece_motivation",   "feeding_openmaic_ids": ["assess_learning_motivation", "assess_mental_health", "assess_disc_family_campus", "assess_mece_student_comprehensive"]},
+    {"catalog_id": "assess_mece_execution",    "feeding_openmaic_ids": ["assess_learning_execution", "assess_disc_work", "assess_mece_student_comprehensive"]},
+    {"catalog_id": "assess_mece_capability",   "feeding_openmaic_ids": ["assess_learning_focus", "assess_learning_memory", "assess_learning_reasoning", "assess_learning_style", "assess_multiple_intelligence", "assess_mece_student_comprehensive"]},
+    {"catalog_id": "assess_mece_environment",  "feeding_openmaic_ids": ["assess_learning_environment", "assess_family_conflict", "assess_excellent_parent", "assess_mece_parent_comprehensive", "assess_parent_discipline_style", "assess_mece_student_comprehensive"]},
+    {"catalog_id": "assess_jumeq_jobplacement","feeding_openmaic_ids": ["assess_holland", "assess_career_anchors"]},
+    {"catalog_id": "assess_jumeq_university",  "feeding_openmaic_ids": [], "pending_note": "暂无 openmaic 对应项，待 Phase 3 补充"},
+    {"catalog_id": "assess_jumeq_major",       "feeding_openmaic_ids": ["assess_holland"]},
+    {"catalog_id": "assess_jumeq_economy",     "feeding_openmaic_ids": [], "pending_note": "暂无 openmaic 对应项，待 Phase 3 补充"},
+    {"catalog_id": "assess_jumeq_qualification","feeding_openmaic_ids": ["assess_learning_math_language"]},
+    {"catalog_id": "assess_camiq_character",   "feeding_openmaic_ids": ["assess_disc_family_campus", "assess_disc_work", "assess_mbti"]},
+    {"catalog_id": "assess_camiq_aptitude",    "feeding_openmaic_ids": ["assess_learning_reasoning", "assess_learning_math_language", "assess_multiple_intelligence", "assess_learning_focus", "assess_learning_memory"]},
+    {"catalog_id": "assess_camiq_monetary",    "feeding_openmaic_ids": [], "pending_note": "暂无 openmaic 对应项，待 Phase 3 补充"},
+    {"catalog_id": "assess_camiq_interest",    "feeding_openmaic_ids": ["assess_holland", "assess_learning_style", "assess_mbti"]},
+    {"catalog_id": "assess_camiq_qualification","feeding_openmaic_ids": ["assess_learning_performance"]},
+    {"catalog_id": "assess_fireup_family",     "feeding_openmaic_ids": ["assess_family_conflict", "assess_excellent_parent", "assess_mece_parent_comprehensive", "assess_parent_discipline_style"]},
+    {"catalog_id": "assess_fireup_individual", "feeding_openmaic_ids": ["assess_disc_work", "assess_mental_health"]},
+    {"catalog_id": "assess_fireup_resources",  "feeding_openmaic_ids": [], "pending_note": "暂无 openmaic 对应项，待 Phase 3 补充"},
+    {"catalog_id": "assess_fireup_ecosystem",  "feeding_openmaic_ids": ["assess_mece_parent_comprehensive"], "pending_note": "映射弱，待 Phase 3 确认"},
+    {"catalog_id": "assess_fireup_usability",  "feeding_openmaic_ids": [], "pending_note": "暂无 openmaic 对应项，待 Phase 3 补充"},
+    {"catalog_id": "assess_fireup_pathways",   "feeding_openmaic_ids": ["assess_career_anchors"]},
+    {"catalog_id": "assess_mastery_stages",    "feeding_openmaic_ids": ["assess_excellent_student", "assess_learning_performance"]},
+    {"catalog_id": "assess_flywheels_self_eval","feeding_openmaic_ids": ["assess_excellent_student"]}
+  ],
+  "gap_analysis": {
+    "total_openmaic_ids": 22,
+    "total_catalog_ids": 22,
+    "fully_mapped_catalog_ids": 15,
+    "pending_catalog_ids": 7,
+    "pending_list": [
+      "assess_jumeq_university",
+      "assess_jumeq_economy",
+      "assess_camiq_monetary",
+      "assess_fireup_resources",
+      "assess_fireup_ecosystem",
+      "assess_fireup_usability",
+      "assess_fireup_pathways"
+    ],
+    "note": "上述 7 个 catalog 工具在 openmaic quadruple-actions.json 中暂无直接对应项。需待 Phase 3 在 openmaic 中补充对应 knowledge_point_id 条目",
+    "action_required": "Phase 3: xingyaotu-openmaic 补充 7 个 knowledge_point_id 到 recommended_matrix"
+  }
+}
