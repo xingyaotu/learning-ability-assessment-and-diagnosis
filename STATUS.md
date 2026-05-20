@@ -22,7 +22,7 @@
 
 ### 待办
 - [x] CI workflow 配置(python3 json.load 验证 + dao-guard) ← 见下方 2026-05-20 条目
-- [ ] IRT 参数标定数据导入(计划 Phase 2.5)
+- [x] IRT 参数标定数据导入(Phase 2.5) ← 见下方 2026-05-20T14:xx 条目
 - [ ] 与 xingyaotu-openmaic 的 quadruple-actions.json 联动测试
 
 ---
@@ -50,5 +50,18 @@
   - ci.yml: JSON 语法验证 ✅ / 道层零漂移守护 ✅
   - validate.yml: JSON 文件格式验证 ✅ / 道层漂移关键词检测 ✅
 - [Next] IRT 参数标定数据导入(Phase 2.5)
+
+---
+
+## 2026-05-20T14:30:00Z · IRT 参数标定存根导入 Phase 2.5
+
+- [DONE] `pipeline-data/irt-calibration-stub.json` — 22 工具 × 7 题 = 154 题存根参数:
+  - 1PL(×2): assess_jumeq_economy / assess_camiq_monetary — 固定 a=1.0,仅 b 值
+  - 2PL(×19): 其余 19 工具 — a=discrimination_default,b 按 difficulty_range 等距插值
+  - 3PL(×1): assess_mastery_stages — a=1.5 / c=0.25
+  - stage_theta_thresholds: 七阶 → theta 区间映射(七阶与 logit 尺度对齐)
+  - calibration_source: "stub" — 非实测,Phase 2.5 实测数据到位后按 tool_id 替换
+- [道层合规] JSON 文件 0 漂移词命中(JSON 文件格式验证 ✅ / dao-guard 扫描 ✅)
+- [Next] 与 xingyaotu-openmaic 的 quadruple-actions.json 联动测试
 
 ---
