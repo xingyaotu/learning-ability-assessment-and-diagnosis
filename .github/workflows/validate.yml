@@ -1,5 +1,5 @@
 name: Validate
-# 道层 Compliance: v5.0 | JSON 验证 + 内容检查
+# 道层 Compliance: v5.1 | JSON 验证 + 内容检查 + 四元组联动验证
 on:
   pull_request:
     types: [opened, synchronize, reopened]
@@ -44,3 +44,11 @@ jobs:
           else echo "✅ FIRE-UP 6字母合规"; fi
 
           exit $FAIL
+
+  quadruple-linkage:
+    name: 四元组联动验证(七阶/八步/六飞轮)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 运行四元组联动验证脚本
+        run: python3 scripts/validate-quadruple-linkage.py

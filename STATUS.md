@@ -26,3 +26,20 @@
 - [ ] 与 xingyaotu-openmaic 的 quadruple-actions.json 联动测试
 
 ---
+
+---
+
+## 2026-05-20T17:18:00Z · assessment repo — 四元组联动验证脚本
+
+### feat(scripts): validate-quadruple-linkage.py — 22工具×154四元组道层验证
+
+- `scripts/validate-quadruple-linkage.py`: 验证 pipeline-data/assessment-catalog.json
+  - 22工具×7阶×四元组 = 154条记录全量验证
+  - 七阶 stage_id ∈ [1,7] + stage_name_zh 精确匹配
+  - 八步 eight_step_id ∈ [1,8] + ⑤名称必须"流程"(非演示)
+  - 六飞轮 six_flywheel_id ∈ [1,6] + 禁用漂移名(错题/笔记/阅读/实践飞轮)
+- `.github/workflows/validate.yml`: 升级 v5.0→v5.1，新增 `quadruple-linkage` CI job
+- 本地验证: python3 脚本 154/154 通过 ✅ | 0 漂移 ✅
+
+- [道层] 四元组全量验证通过 ✅ | CSO 0触发 ✅
+- [Next] coaching-toolkit → 同样添加 SOP 内容完整性验证脚本
