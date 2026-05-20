@@ -16,13 +16,13 @@
           "sub_id": "M1",
           "name": "内驱力",
           "assessment_tools": ["DISC", "MECE综合报告"],
-          "course_ref": "工具篇第9节 / 认知篇55-61节"
+          "course_ref": "工具篇9节 / 认知55-61节"
         },
         {
           "sub_id": "M2",
           "name": "目标感",
           "assessment_tools": ["JUMEQ", "CAMIQ"],
-          "course_ref": "认知篇32-48节(JUMEQ)"
+          "course_ref": "认知32-48节(JUMEQ)"
         },
         {
           "sub_id": "M3",
@@ -44,7 +44,7 @@
           "sub_id": "E1_1",
           "name": "时间管理",
           "assessment_tools": ["MECE综合报告"],
-          "course_ref": "工具篇第4节 / 认知篇62-63节"
+          "course_ref": "工具篇4节 / 认知62-63节"
         },
         {
           "sub_id": "E1_2",
@@ -56,7 +56,7 @@
           "sub_id": "E1_3",
           "name": "自我监控",
           "assessment_tools": ["DISC", "MECE综合报告"],
-          "course_ref": "认知篇62节"
+          "course_ref": "认知62节"
         }
       ],
       "slo_target": "测评得分 ≥ 65/100 视为执行力达标"
@@ -72,7 +72,7 @@
           "sub_id": "C1",
           "name": "专注力",
           "assessment_tools": ["多元智能测评"],
-          "course_ref": "工具篇5-8节 / 认知篇64-65节"
+          "course_ref": "工具篇5-8节 / 认知64-65节"
         },
         {
           "sub_id": "C2",
@@ -84,7 +84,7 @@
           "sub_id": "C3",
           "name": "推理与理解",
           "assessment_tools": ["多元智能测评"],
-          "course_ref": "认知篇64-65节"
+          "course_ref": "认知64-65节"
         },
         {
           "sub_id": "C4",
@@ -112,13 +112,13 @@
           "sub_id": "E2_2",
           "name": "同伴环境",
           "assessment_tools": ["DISC"],
-          "course_ref": "认知篇66节"
+          "course_ref": "认知66节"
         },
         {
           "sub_id": "E2_3",
           "name": "学习空间",
           "assessment_tools": ["MECE综合报告"],
-          "course_ref": "工具篇10节 / 认知篇67-68节"
+          "course_ref": "工具篇10节 / 认知67-68节"
         }
       ],
       "slo_target": "测评得分 ≥ 60/100 视为环境条件达标"
@@ -132,12 +132,12 @@
     "多元智能测评",
     "学习方式偏好量表",
     "SCL-90心理健康量表",
-    "职业锚测评",
+    "职业锰测评",
     "JUMEQ升学密码测评",
     "CAMIQ职业密码测评"
   ],
   "anti_drift": {
     "MECE_correct": "M-动力/E-执行力/C-能力/E-环境",
-    "MECE_forbidden": "Mutually Exclusive and Collectively Exhaustive(咨询误用)"
+    "MECE_forbidden_note": "英文咨询四格词(见 dao-guard pattern 01),本系统不使用"
   }
 }
