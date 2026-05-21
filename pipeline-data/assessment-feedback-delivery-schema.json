@@ -1,0 +1,174 @@
+{
+  "$schema": "https://xingyaotu.cn/schemas/assessment-feedback-delivery.v1.0.json",
+  "version": "1.0",
+  "compliance": "v5.28 道层零漂移",
+  "last_updated": "2026-05-21",
+  "_meta": {
+    "description": "测评反馈交付 schema — 定义测评结果反馈的交付方式/内容框架/访问控制, 含四门户(学生/家长/教练/运营)权限矩阵",
+    "pipl_note": "PIPL 合规: 反馈报告中所有 student_id 为平台匿名 ID; θ值不直接呈现给学生/家长; 家长访问遵循 PIPL 第14条",
+    "usage": "测评完成 → 生成反馈报告 → 按四门户权限分发 → 推送通知 → 教练复核 → 存档"
+  },
+  "feedback_delivery_schema": {
+    "description": "反馈交付记录结构",
+    "fields": {
+      "delivery_id": {
+        "type": "string",
+        "pattern": "^FBDL-[0-9]{8}-[A-Z0-9]{6}$",
+        "required": true
+      },
+      "assessment_session_id": {
+        "type": "string",
+        "required": true
+      },
+      "student_id": {
+        "type": "string",
+        "description": "平台匿名 student_id",
+        "required": true
+      },
+      "delivery_date": {
+        "type": "string",
+        "format": "date",
+        "required": true
+      },
+      "delivery_status": {
+        "type": "string",
+        "enum": ["pending", "delivered", "acknowledged", "failed"],
+        "required": true
+      },
+      "stage_result": {
+        "type": "string",
+        "enum": ["不会", "模糊", "清晰", "框架", "运用", "熟练", "创新"],
+        "description": "本次测评七阶结果",
+        "required": true,
+        "_dao_guard": "测评七阶结果 — 七阶: 不会/模糊/清晰/框架/运用/熟练/创新 反馈交付守护"
+      },
+      "primary_bottleneck": {
+        "type": "string",
+        "enum": ["M", "E_exec", "C", "E_env"],
+        "description": "MECE 主瓶颈维度",
+        "_dao_guard": "MECE 主瓶颈反馈 — M/E_exec/C/E_env 四维度反馈守护"
+      },
+      "theta_excluded_from_report": {
+        "type": "boolean",
+        "description": "θ 值是否从报告中排除 (向学生/家长展示时必须排除)",
+        "required": true,
+        "_dao_guard": "θ 值排除 — θ 值不得直接呈现给学生/家长门户; 仅教练/运营可见"
+      }
+    }
+  },
+  "portal_access_control": {
+    "description": "四门户访问权限矩阵",
+    "portals": {
+      "student_portal": {
+        "portal_id": "prt-student",
+        "allowed_fields": ["stage_result", "flywheel_mastery_summary", "next_steps", "stage_label_description"],
+        "forbidden_fields": ["theta_values", "irt_parameters", "raw_response_matrix"],
+        "_dao_guard": "学生门户 — 七阶阶位/六飞轮掌握度/下一步可见; θ值/IRT参数不可见"
+      },
+      "parent_portal": {
+        "portal_id": "prt-parent",
+        "allowed_fields": ["stage_result", "stage_label_description", "overall_progress_summary"],
+        "forbidden_fields": ["theta_values", "irt_parameters", "raw_response_matrix", "mece_detailed_scores"],
+        "pipl_14_compliance": true,
+        "_dao_guard": "家长门户 — 遵循 PIPL 第14条; 七阶标签/整体进展可见; θ值/MECE详细分数不可见",
+        "_halt_if_minor": "[HALT-CSO] 未成年人 < 14岁家长查看详细测评数据需书面同意确认"
+      },
+      "coach_portal": {
+        "portal_id": "prt-coach",
+        "allowed_fields": ["stage_result", "mece_dimension_scores", "flywheel_profile", "theta_band", "bottleneck_analysis", "coaching_recommendations"],
+        "forbidden_fields": ["raw_response_matrix", "item_exposure_log"],
+        "_dao_guard": "教练门户 — 七阶/MECE/六飞轮/θ区间/瓶颈分析可见; 原始响应矩阵不可见"
+      },
+      "operations_portal": {
+        "portal_id": "prt-ops",
+        "allowed_fields": ["aggregated_stage_distribution", "aggregated_mece_means", "platform_analytics"],
+        "forbidden_fields": ["individual_student_data", "theta_values", "student_id_plain"],
+        "_dao_guard": "运营门户 — 仅聚合匿名数据可见; 个体学生数据/θ值/明文student_id不可见"
+      }
+    },
+    "_dao_guard": "四门户访问控制 — 学生/家长/教练/运营 差异化权限; θ值排除守护; PIPL 第14条未成年人守护"
+  },
+  "feedback_content_schema": {
+    "description": "反馈内容框架",
+    "fields": {
+      "stage_narrative": {
+        "type": "object",
+        "description": "七阶阶位描述性反馈",
+        "properties": {
+          "stage": {
+            "type": "string",
+            "enum": ["不会", "模糊", "清晰", "框架", "运用", "熟练", "创新"]
+          },
+          "label_description": {"type": "string"},
+          "strength_summary": {"type": "string"},
+          "growth_area": {"type": "string"},
+          "next_stage_hint": {"type": "string"}
+        },
+        "_dao_guard": "七阶反馈叙述 — 七阶: 不会/模糊/清晰/框架/运用/熟练/创新 阶位描述守护"
+      },
+      "flywheel_feedback": {
+        "type": "object",
+        "description": "六飞轮反馈摘要",
+        "properties": {
+          "计划": {"type": "string", "description": "计划飞轮反馈"},
+          "预习": {"type": "string", "description": "预习飞轮反馈"},
+          "复习": {"type": "string", "description": "复习飞轮反馈"},
+          "听课": {"type": "string", "description": "听课飞轮反馈"},
+          "作业": {"type": "string", "description": "作业飞轮反馈"},
+          "考试": {"type": "string", "description": "考试飞轮反馈"}
+        },
+        "_dao_guard": "六飞轮反馈 — 六飞轮: 计划/预习/复习/听课/作业/考试 反馈内容守护"
+      },
+      "mece_feedback": {
+        "type": "object",
+        "description": "MECE 四维度反馈 (教练门户可见)",
+        "properties": {
+          "M_summary": {"type": "string"},
+          "E_exec_summary": {"type": "string"},
+          "C_summary": {"type": "string"},
+          "E_env_summary": {"type": "string"}
+        },
+        "_dao_guard": "MECE 四维度反馈 — M/E_exec/C/E_env 教练门户诊断守护"
+      },
+      "sop05_recommendation": {
+        "type": "object",
+        "description": "⑤第5步=流程 相关建议",
+        "properties": {
+          "sop05_focus_needed": {"type": "boolean"},
+          "recommendation_text": {"type": "string"}
+        },
+        "_dao_guard": "反馈 ⑤sop05 建议 — 流程执行改进建议守护"
+      }
+    }
+  },
+  "delivery_notification_schema": {
+    "description": "交付通知结构",
+    "fields": {
+      "notification_channel": {
+        "type": "string",
+        "enum": ["in-app", "email", "sms"],
+        "description": "通知渠道"
+      },
+      "recipient_portal": {
+        "type": "string",
+        "enum": ["prt-student", "prt-parent", "prt-coach", "prt-ops"],
+        "description": "通知接收门户",
+        "_dao_guard": "通知接收门户 — 四门户: prt-student/prt-parent/prt-coach/prt-ops 严格枚举"
+      },
+      "notification_sent_at": {
+        "type": "string",
+        "format": "date-time"
+      }
+    }
+  },
+  "validation_rules": {
+    "seven_stage_valid_names": ["不会", "模糊", "清晰", "框架", "运用", "熟练", "创新"],
+    "mece_dimension_codes": ["M", "E_exec", "C", "E_env"],
+    "six_flywheel_valid_names": ["计划", "预习", "复习", "听课", "作业", "考试"],
+    "portal_ids": ["prt-student", "prt-parent", "prt-coach", "prt-ops"],
+    "theta_exclusion_rule": "θ 值不得出现在学生/家长门户反馈中; 仅在教练/运营聚合报告中以区间形式呈现",
+    "sop05_guard": "feedback_content.sop05_recommendation 必须在适当情况下追踪 — ⑤第5步=流程 反馈守护",
+    "pipl_article14_guard": "family 门户访问 < 14岁学生数据必须满足 PIPL 第14条书面同意; [HALT-CSO] 触发条件",
+    "pipl_constraints": "PIPL 合规: 反馈报告中所有 student_id 为平台匿名 ID; θ值不直接呈现给学生/家长; 家长访问遵循 PIPL 第14条"
+  }
+}
