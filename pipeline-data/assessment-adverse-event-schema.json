@@ -1,0 +1,191 @@
+{
+  "$schema": "https://xingyaotu.cn/schemas/assessment-adverse-event.v1.0.json",
+  "version": "1.0",
+  "compliance": "v5.16 道层零漂移",
+  "last_updated": "2026-05-21",
+  "_meta": {
+    "description": "测评异常事件处置 schema — 定义测评过程中数据异常、技术故障与质量问题的分级响应",
+    "pipl_note": "PIPL 合规: 异常事件记录中 student_id 与 session_id 均为平台匿名 ID; 不含真实个人信息",
+    "usage": "测评会话中或结束后检测到异常 → 按本 schema 分类 → 触发对应处置流程 → 记录事件"
+  },
+  "event_categories": [
+    {
+      "category_id": "aec-data",
+      "category_name": "数据质量异常",
+      "description": "测评数据不符合预期质量标准",
+      "event_types": [
+        {
+          "event_type_id": "aet-data-01",
+          "event_name": "θ 估计失败",
+          "trigger": "CAT 会话结束后 θ 无法收敛 (SE > 0.50)",
+          "severity": "high",
+          "auto_detectable": true,
+          "action": "触发补测流程; 本次 session_id 标记 status='invalid'"
+        },
+        {
+          "event_type_id": "aet-data-02",
+          "event_name": "作答异常 (直线作答)",
+          "trigger": "连续 10 题以上选择同一选项 (pattern_detector)",
+          "severity": "medium",
+          "auto_detectable": true,
+          "action": "标记 response_quality='suspect'; 提示学生重新作答部分题目"
+        },
+        {
+          "event_type_id": "aet-data-03",
+          "event_name": "MECE 维度缺失",
+          "trigger": "mece_profile 中 M_theta / E_exec_theta / C_theta / E_env_theta 任一缺失",
+          "severity": "high",
+          "auto_detectable": true,
+          "action": "补测对应 MECE 维度工具; 不得进入教练阶段直至四维度齐全",
+          "_dao_guard": "MECE 四维度 M/E_exec/C/E_env 必须全部完成 — 道层守护"
+        },
+        {
+          "event_type_id": "aet-data-04",
+          "event_name": "飞轮 θ 越界",
+          "trigger": "六飞轮任一维度 θ ∉ [-4.0, 4.0] (IRT 合理范围)",
+          "severity": "medium",
+          "auto_detectable": true,
+          "action": "截断至边界值并记录越界日志; 重新估计该飞轮维度",
+          "_dao_guard": "六飞轮: 计划/预习/复习/听课/作业/考试 θ 范围守护"
+        }
+      ]
+    },
+    {
+      "category_id": "aec-technical",
+      "category_name": "技术故障",
+      "description": "测评平台或系统层面的技术问题",
+      "event_types": [
+        {
+          "event_type_id": "aet-tech-01",
+          "event_name": "会话中断",
+          "trigger": "学生作答过程中网络断开或页面崩溃",
+          "severity": "medium",
+          "auto_detectable": true,
+          "action": "自动保存断点; 允许在 24 小时内续测; 已作答题目 θ 估计保留"
+        },
+        {
+          "event_type_id": "aet-tech-02",
+          "event_name": "题库曝光率超限",
+          "trigger": "某题 exposure_rate > 0.40 (cat-config.exposure_control.max_item_exposure_rate)",
+          "severity": "low",
+          "auto_detectable": true,
+          "action": "立即从当前 CAT 题池移除该题; 触发补充标定流程"
+        },
+        {
+          "event_type_id": "aet-tech-03",
+          "event_name": "IRT 模型参数加载失败",
+          "trigger": "irt-calibration-seed.json 校验和不匹配或文件损坏",
+          "severity": "critical",
+          "auto_detectable": true,
+          "action": "立即暂停所有测评会话; 恢复上一版本标定种子; 通知平台运维"
+        }
+      ]
+    },
+    {
+      "category_id": "aec-quality",
+      "category_name": "测评质量问题",
+      "description": "测评结果可靠性或有效性存疑",
+      "event_types": [
+        {
+          "event_type_id": "aet-qual-01",
+          "event_name": "信度低于阈值",
+          "trigger": "某工具实时 Cronbach α < min_alpha (assessment-reliability-config.json)",
+          "severity": "medium",
+          "auto_detectable": false,
+          "action": "标记该工具结果为 reliability_flag=true; 触发重新标定工作流"
+        },
+        {
+          "event_type_id": "aet-qual-02",
+          "event_name": "七阶分配异常",
+          "trigger": "stage_estimate 为 null 或不在七阶枚举中",
+          "severity": "high",
+          "auto_detectable": true,
+          "action": "回退至 θ→stage mapping 重新计算; 若仍失败标记 session status='stage_unresolved'",
+          "_dao_guard": "七阶 enum 守护: 不会/模糊/清晰/框架/运用/熟练/创新 不得为 null"
+        },
+        {
+          "event_type_id": "aet-qual-03",
+          "event_name": "道层漂移检测",
+          "trigger": "测评结果 JSON 中出现非法飞轮名或七阶外枚举值",
+          "severity": "critical",
+          "auto_detectable": true,
+          "action": "立即拒绝写入数据库; 触发道层漂移告警; 回滚至上一次合规提交",
+          "_dao_guard": "道层零漂移守护 — 非法飞轮名/七阶外枚举 = critical 事件"
+        }
+      ]
+    },
+    {
+      "category_id": "aec-pipl",
+      "category_name": "PIPL 合规事件",
+      "description": "数据处理违反 PIPL 隐私保护要求",
+      "event_types": [
+        {
+          "event_type_id": "aet-pipl-01",
+          "event_name": "真实 PII 检测",
+          "trigger": "测评记录字段中检测到真实姓名/学校全名/手机号等 PII 特征",
+          "severity": "critical",
+          "auto_detectable": true,
+          "action": "立即停止数据写入; 隔离当前记录; 通知平台合规官; 按 PIPL 规定报告"
+        },
+        {
+          "event_type_id": "aet-pipl-02",
+          "event_name": "未成年学生数据异常",
+          "trigger": "student_age_group 标记 <14 岁且未获监护人书面同意",
+          "severity": "critical",
+          "auto_detectable": false,
+          "action": "[HALT-CSO] 立即暂停服务; 上报 CSO; 不得继续处理该学生数据"
+        }
+      ]
+    }
+  ],
+  "adverse_event_record_schema": {
+    "description": "异常事件记录结构",
+    "fields": {
+      "event_id": {"type": "string", "pattern": "^AEV-[0-9]{8}-[A-Z0-9]{6}$", "required": true},
+      "session_id": {"type": "string", "description": "关联的匿名测评会话 ID", "required": true},
+      "student_id": {"type": "string", "description": "平台匿名 student_id", "required": true},
+      "event_type_id": {"type": "string", "required": true},
+      "category_id": {
+        "type": "string",
+        "enum": ["aec-data", "aec-technical", "aec-quality", "aec-pipl"],
+        "required": true
+      },
+      "severity": {
+        "type": "string",
+        "enum": ["low", "medium", "high", "critical"],
+        "required": true
+      },
+      "detected_at": {"type": "string", "format": "date-time", "required": true},
+      "resolved_at": {"type": "string", "format": "date-time", "nullable": true},
+      "status": {
+        "type": "string",
+        "enum": ["detected", "in_progress", "resolved", "escalated", "cso_halt"],
+        "required": true
+      },
+      "auto_detected": {"type": "boolean"},
+      "action_taken": {"type": "string", "description": "实际采取的处置措施描述"},
+      "resolution_notes": {"type": "string", "description": "处置结果说明 (不含 PII)"},
+      "dao_layer_impact": {
+        "type": "boolean",
+        "description": "事件是否影响道层合规 (飞轮/七阶/⑤守护)"
+      }
+    }
+  },
+  "severity_response_times": {
+    "low": {"max_response_hours": 72, "notification": "weekly_digest"},
+    "medium": {"max_response_hours": 24, "notification": "coach_alert"},
+    "high": {"max_response_hours": 4, "notification": "supervisor_alert"},
+    "critical": {"max_response_hours": 1, "notification": "immediate_escalation"}
+  },
+  "validation_rules": {
+    "event_categories_count": 4,
+    "severity_levels": ["low", "medium", "high", "critical"],
+    "mece_dimension_codes": ["M", "E_exec", "C", "E_env"],
+    "six_flywheel_valid_names": ["计划", "预习", "复习", "听课", "作业", "考试"],
+    "seven_stage_valid_names": ["不会", "模糊", "清晰", "框架", "运用", "熟练", "创新"],
+    "dao_layer_events": ["aet-data-03", "aet-data-04", "aet-qual-02", "aet-qual-03"],
+    "pipl_halt_event": "aet-pipl-02",
+    "pipl_constraints": "PIPL 合规: adverse_event 记录中 student_id 与 session_id 均为平台匿名 ID; 不含真实个人识别信息",
+    "critical_auto_response": "critical severity 事件必须在 1 小时内响应并记录处置措施"
+  }
+}
