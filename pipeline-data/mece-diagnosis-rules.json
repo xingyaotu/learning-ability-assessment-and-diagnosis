@@ -1,0 +1,338 @@
+{
+  "$schema": "https://xingyaotu.cn/schemas/mece-diagnosis-rules.v1.0.json",
+  "version": "1.0",
+  "compliance": "v5.10 道层零漂移",
+  "last_updated": "2026-05-21",
+  "_meta": {
+    "description": "MECE 诊断规则 — 将测评阶位与 MECE 维度分数映射为教练干预策略",
+    "input": "assessment_report(overall_stage, mece_profile) + mece-subject-profiles",
+    "output": "coaching_entry_point(primary_sop, flywheel_priority, intervention_strategy)",
+    "usage": "report-output-schema 生成 → 本规则 → coaching-session-templates 路由 → 教练执行"
+  },
+  "stage_mece_routing": [
+    {
+      "stage_id": 1,
+      "stage_name": "不会",
+      "mece_dispatch": [
+        {
+          "bottleneck": "C",
+          "condition": "C_theta < -1.5",
+          "primary_sop": "sop-01",
+          "flywheel_priority": ["复习", "预习"],
+          "intervention": "基础概念穿透 — 从最小知识单元重建认知",
+          "coaching_entry": "eight_step_1"
+        },
+        {
+          "bottleneck": "M",
+          "condition": "M_score < 3",
+          "primary_sop": "sop-fw1",
+          "flywheel_priority": ["计划", "作业"],
+          "intervention": "动力激活 — 建立小成功体验，重建学习信心",
+          "coaching_entry": "flywheel_1"
+        },
+        {
+          "bottleneck": "E_exec",
+          "condition": "E_exec_score < 3",
+          "primary_sop": "sop-fw5",
+          "flywheel_priority": ["作业", "计划"],
+          "intervention": "执行力启动 — 最小化任务设计，降低行为门槛",
+          "coaching_entry": "flywheel_5"
+        },
+        {
+          "bottleneck": "E_env",
+          "condition": "E_env_score < 3",
+          "primary_sop": "sop-fw1",
+          "flywheel_priority": ["计划"],
+          "intervention": "环境改善 — 清除学习障碍，优化物理/时间环境",
+          "coaching_entry": "flywheel_1"
+        }
+      ]
+    },
+    {
+      "stage_id": 2,
+      "stage_name": "模糊",
+      "mece_dispatch": [
+        {
+          "bottleneck": "C",
+          "condition": "C_theta ∈ [-1.5, -0.75)",
+          "primary_sop": "sop-02",
+          "flywheel_priority": ["预习", "复习"],
+          "intervention": "知识提取强化 — 暴露模糊边界，结构化知识网络",
+          "coaching_entry": "eight_step_2"
+        },
+        {
+          "bottleneck": "M",
+          "condition": "M_score ∈ [3, 5)",
+          "primary_sop": "sop-fw2",
+          "flywheel_priority": ["预习", "听课"],
+          "intervention": "好奇心驱动 — 建立学习目标感，预习产生内驱问题",
+          "coaching_entry": "flywheel_2"
+        },
+        {
+          "bottleneck": "E_exec",
+          "condition": "E_exec_score ∈ [3, 5)",
+          "primary_sop": "sop-fw5",
+          "flywheel_priority": ["作业", "复习"],
+          "intervention": "习惯建立 — 固化复习时间点，建立正反馈循环",
+          "coaching_entry": "flywheel_5"
+        },
+        {
+          "bottleneck": "E_env",
+          "condition": "E_env_score ∈ [3, 5)",
+          "primary_sop": "sop-fw4",
+          "flywheel_priority": ["听课", "预习"],
+          "intervention": "资源盘点 — 识别可用学习资源并系统化利用",
+          "coaching_entry": "flywheel_4"
+        }
+      ]
+    },
+    {
+      "stage_id": 3,
+      "stage_name": "清晰",
+      "mece_dispatch": [
+        {
+          "bottleneck": "C",
+          "condition": "C_theta ∈ [-0.75, -0.1)",
+          "primary_sop": "sop-03",
+          "flywheel_priority": ["复习", "听课"],
+          "intervention": "知识整理 — 构建知识框架，打通横向联系",
+          "coaching_entry": "eight_step_3"
+        },
+        {
+          "bottleneck": "M",
+          "condition": "M_score ∈ [5, 7)",
+          "primary_sop": "sop-fw3",
+          "flywheel_priority": ["复习", "作业"],
+          "intervention": "成就感强化 — 通过可见进步提升内驱力",
+          "coaching_entry": "flywheel_3"
+        },
+        {
+          "bottleneck": "E_exec",
+          "condition": "E_exec_score ∈ [5, 7)",
+          "primary_sop": "sop-fw3",
+          "flywheel_priority": ["复习", "作业"],
+          "intervention": "复习纪律 — 间隔复习执行率提升",
+          "coaching_entry": "flywheel_3"
+        },
+        {
+          "bottleneck": "E_env",
+          "condition": "E_env_score ∈ [5, 7)",
+          "primary_sop": "sop-fw2",
+          "flywheel_priority": ["预习", "听课"],
+          "intervention": "环境优化 — 提升课堂参与度，拓展学习输入渠道",
+          "coaching_entry": "flywheel_2"
+        }
+      ]
+    },
+    {
+      "stage_id": 4,
+      "stage_name": "框架",
+      "mece_dispatch": [
+        {
+          "bottleneck": "C",
+          "condition": "C_theta ∈ [-0.1, 0.55)",
+          "primary_sop": "sop-04",
+          "flywheel_priority": ["作业", "考试"],
+          "intervention": "审题能力 — 从框架到审题精准，建立解题流程",
+          "coaching_entry": "eight_step_4"
+        },
+        {
+          "bottleneck": "M",
+          "condition": "M_score ∈ [7, 9)",
+          "primary_sop": "sop-fw6",
+          "flywheel_priority": ["考试", "作业"],
+          "intervention": "目标导向 — 以成绩目标强化框架阶位的持续动力",
+          "coaching_entry": "flywheel_6"
+        },
+        {
+          "bottleneck": "E_exec",
+          "condition": "E_exec_score ∈ [7, 9)",
+          "primary_sop": "sop-fw5",
+          "flywheel_priority": ["作业", "考试"],
+          "intervention": "解题流程标准化 — 固化答题步骤，减少非知识失分",
+          "coaching_entry": "flywheel_5"
+        },
+        {
+          "bottleneck": "E_env",
+          "condition": "E_env_score ∈ [7, 9)",
+          "primary_sop": "sop-fw6",
+          "flywheel_priority": ["考试"],
+          "intervention": "模拟环境训练 — 还原考试压力环境，建立心理准备",
+          "coaching_entry": "flywheel_6"
+        }
+      ]
+    },
+    {
+      "stage_id": 5,
+      "stage_name": "运用",
+      "mece_dispatch": [
+        {
+          "bottleneck": "C",
+          "condition": "C_theta ∈ [0.55, 1.25)",
+          "primary_sop": "sop-05",
+          "flywheel_priority": ["作业", "考试"],
+          "intervention": "流程标准化 — 强化解题流程的内化与速度",
+          "coaching_entry": "eight_step_5",
+          "_dao_guard": "sop-05 eight_step_name=流程 ✅ ⑤守护合规"
+        },
+        {
+          "bottleneck": "M",
+          "condition": "M_score ∈ [9, 11)",
+          "primary_sop": "sop-fw1",
+          "flywheel_priority": ["计划", "考试"],
+          "intervention": "自主规划 — 培养自主学习计划制定能力，进入主动学习状态",
+          "coaching_entry": "flywheel_1"
+        },
+        {
+          "bottleneck": "E_exec",
+          "condition": "E_exec_score ∈ [9, 11)",
+          "primary_sop": "sop-06",
+          "flywheel_priority": ["作业", "复习"],
+          "intervention": "批改与反思 — 强化错误归因，防止同类错误复现",
+          "coaching_entry": "eight_step_6"
+        },
+        {
+          "bottleneck": "E_env",
+          "condition": "E_env_score ∈ [9, 11)",
+          "primary_sop": "sop-fw6",
+          "flywheel_priority": ["考试", "复习"],
+          "intervention": "竞争环境创设 — 引入同伴对比，激活运用阶位的持续进化",
+          "coaching_entry": "flywheel_6"
+        }
+      ]
+    },
+    {
+      "stage_id": 6,
+      "stage_name": "熟练",
+      "mece_dispatch": [
+        {
+          "bottleneck": "C",
+          "condition": "C_theta ∈ [1.25, 2.0)",
+          "primary_sop": "sop-07",
+          "flywheel_priority": ["考试", "作业"],
+          "intervention": "多维度分析 — 自主发现薄弱点，提升元认知能力",
+          "coaching_entry": "eight_step_7"
+        },
+        {
+          "bottleneck": "M",
+          "condition": "M_score ≥ 11",
+          "primary_sop": "sop-fw6",
+          "flywheel_priority": ["考试"],
+          "intervention": "挑战驱动 — 设置高目标激活熟练阶位的精进意愿",
+          "coaching_entry": "flywheel_6"
+        },
+        {
+          "bottleneck": "E_exec",
+          "condition": "E_exec_score ≥ 11",
+          "primary_sop": "sop-08",
+          "flywheel_priority": ["考试", "复习"],
+          "intervention": "估分校准 — 元认知与执行精准度双提升",
+          "coaching_entry": "eight_step_8"
+        },
+        {
+          "bottleneck": "E_env",
+          "condition": "E_env_score ≥ 11",
+          "primary_sop": "sop-fw6",
+          "flywheel_priority": ["考试"],
+          "intervention": "高竞争环境 — 对标尖端群体，打破熟练阶位的舒适区",
+          "coaching_entry": "flywheel_6"
+        }
+      ]
+    },
+    {
+      "stage_id": 7,
+      "stage_name": "创新",
+      "mece_dispatch": [
+        {
+          "bottleneck": "C",
+          "condition": "C_theta >= 2.0",
+          "primary_sop": "sop-07",
+          "flywheel_priority": ["考试", "计划"],
+          "intervention": "创新维持 — 探究式深度扩展，跨科目迁移与拓展",
+          "coaching_entry": "eight_step_7"
+        },
+        {
+          "bottleneck": "M",
+          "condition": "all",
+          "primary_sop": "sop-fw1",
+          "flywheel_priority": ["计划"],
+          "intervention": "自主研究 — 制定个人探究计划，保持创新阶位的驱动力",
+          "coaching_entry": "flywheel_1"
+        },
+        {
+          "bottleneck": "E_exec",
+          "condition": "all",
+          "primary_sop": "sop-08",
+          "flywheel_priority": ["考试"],
+          "intervention": "精准估分 — 创新阶位的元认知精准度验证",
+          "coaching_entry": "eight_step_8"
+        },
+        {
+          "bottleneck": "E_env",
+          "condition": "all",
+          "primary_sop": "sop-fw6",
+          "flywheel_priority": ["考试"],
+          "intervention": "同伴引领 — 以领先者姿态输出，强化创新阶位价值",
+          "coaching_entry": "flywheel_6"
+        }
+      ]
+    }
+  ],
+  "composite_diagnosis_rules": {
+    "description": "多维度同时偏低时的复合诊断优先级规则",
+    "priority_order": ["C", "M", "E_exec", "E_env"],
+    "rationale": "能力(C)是基础瓶颈; 动力(M)是持续驱动; 执行力(E_exec)是效率放大; 环境(E_env)是外部支撑",
+    "composite_rules": [
+      {
+        "rule_id": "comp-01",
+        "condition": "C低 AND M低",
+        "primary_bottleneck": "C",
+        "secondary_bottleneck": "M",
+        "strategy": "先打通能力瓶颈，辅以动力激活。以小成功经验串联能力提升与动力恢复"
+      },
+      {
+        "rule_id": "comp-02",
+        "condition": "M低 AND E_exec低",
+        "primary_bottleneck": "M",
+        "secondary_bottleneck": "E_exec",
+        "strategy": "先恢复动力，再建立执行习惯。强制执行在动力不足时效果极差"
+      },
+      {
+        "rule_id": "comp-03",
+        "condition": "C低 AND E_exec低",
+        "primary_bottleneck": "C",
+        "secondary_bottleneck": "E_exec",
+        "strategy": "能力与执行力并行提升，以标准化流程降低认知负荷"
+      },
+      {
+        "rule_id": "comp-04",
+        "condition": "E_env低 AND (C低 OR M低)",
+        "primary_bottleneck": "E_env",
+        "secondary_bottleneck": "C_or_M",
+        "strategy": "优先改善环境障碍，环境持续恶化会抵消所有内部提升努力"
+      }
+    ]
+  },
+  "flywheel_stage_compatibility": {
+    "description": "不同阶位下各飞轮的干预有效性权重",
+    "compatibility_matrix": {
+      "计划": {"stages_high": [4, 5, 6, 7], "stages_medium": [3], "stages_low": [1, 2]},
+      "预习": {"stages_high": [2, 3, 4], "stages_medium": [1, 5], "stages_low": [6, 7]},
+      "复习": {"stages_high": [1, 2, 3], "stages_medium": [4, 5], "stages_low": [6, 7]},
+      "听课": {"stages_high": [2, 3, 4], "stages_medium": [1, 5], "stages_low": [6, 7]},
+      "作业": {"stages_high": [3, 4, 5], "stages_medium": [2, 6], "stages_low": [1, 7]},
+      "考试": {"stages_high": [5, 6, 7], "stages_medium": [4], "stages_low": [1, 2, 3]}
+    }
+  },
+  "validation_rules": {
+    "stage_coverage": "stage_mece_routing must cover stage_id 1-7",
+    "bottleneck_dim_enum": ["C", "M", "E_exec", "E_env"],
+    "sop_05_guard": "stage_id=5, bottleneck=C: primary_sop 必须为 sop-05, coaching_entry 必须为 eight_step_5",
+    "eight_step_name_constraints": {
+      "step_id_5_name": "流程",
+      "note": "sop-05 对应八步第5步=流程 — ⑤道层守护"
+    },
+    "six_flywheel_valid_names": ["计划", "预习", "复习", "听课", "作业", "考试"],
+    "seven_stage_names": ["不会", "模糊", "清晰", "框架", "运用", "熟练", "创新"]
+  }
+}
