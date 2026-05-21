@@ -1,0 +1,137 @@
+{
+  "$schema": "https://xingyaotu.cn/schemas/report-output-schema.v1.0.json",
+  "version": "1.0",
+  "compliance": "v5.7 道层零漂移",
+  "last_updated": "2026-05-21",
+  "_meta": {
+    "description": "测评报告输出 schema — 定义向学生/家长/教练输出的结构化测评报告格式",
+    "report_recipients": ["student", "parent", "coach", "hq"],
+    "privacy_note": "PIPL 合规: 报告含匿名 student_id; 对外输出时需额外授权",
+    "portal_mapping": {
+      "xyt-student": "学生门户报告(简化版)",
+      "xyt-parent": "家长门户报告(概览版)",
+      "xyt-coach": "教练门户报告(完整版)",
+      "xyt-hq": "总部门户报告(统计版)"
+    }
+  },
+  "report_schema": {
+    "assessment_report": {
+      "description": "单次测评完整报告结构",
+      "fields": {
+        "report_id": {"type": "string", "format": "uuid-v4", "required": true},
+        "student_id": {"type": "string", "required": true, "note": "平台匿名 ID"},
+        "report_generated_at": {"type": "string", "format": "ISO 8601 datetime"},
+        "assessment_ids": {"type": "array", "items": "string", "note": "本报告依据的评估 ID 列表"},
+        "report_type": {
+          "type": "string",
+          "enum": ["initial", "progress", "comprehensive"],
+          "required": true
+        },
+        "portal": {
+          "type": "string",
+          "enum": ["xyt-student", "xyt-parent", "xyt-coach", "xyt-hq"],
+          "required": true
+        },
+        "subject": {"type": "string", "required": true},
+        "overall_stage": {
+          "type": "object",
+          "fields": {
+            "stage_id": {"type": "integer", "range": [1, 7], "required": true},
+            "stage_name": {"type": "string", "required": true},
+            "composite_theta": {"type": "number"},
+            "percentile": {"type": "number", "range": [0, 100], "note": "相对同龄学生的百分位排名"},
+            "trend": {"type": "string", "enum": ["improving", "stable", "declining"]}
+          }
+        },
+        "mece_profile": {
+          "description": "MECE 四维度能力画像",
+          "fields": {
+            "M_motivation": {
+              "stage_id": {"type": "integer", "range": [1, 7]},
+              "stage_name": {"type": "string"},
+              "theta": {"type": "number"},
+              "key_strength": {"type": "string"},
+              "key_gap": {"type": "string"}
+            },
+            "E_execution": {
+              "stage_id": {"type": "integer", "range": [1, 7]},
+              "stage_name": {"type": "string"},
+              "theta": {"type": "number"},
+              "key_strength": {"type": "string"},
+              "key_gap": {"type": "string"}
+            },
+            "C_capability": {
+              "stage_id": {"type": "integer", "range": [1, 7]},
+              "stage_name": {"type": "string"},
+              "theta": {"type": "number"},
+              "key_strength": {"type": "string"},
+              "key_gap": {"type": "string"}
+            },
+            "E_environment": {
+              "stage_id": {"type": "integer", "range": [1, 7]},
+              "stage_name": {"type": "string"},
+              "theta": {"type": "number"},
+              "key_strength": {"type": "string"},
+              "key_gap": {"type": "string"}
+            },
+            "weakest_dimension": {"type": "string", "enum": ["M", "E_execution", "C", "E_environment"]},
+            "strongest_dimension": {"type": "string", "enum": ["M", "E_execution", "C", "E_environment"]}
+          }
+        },
+        "coaching_recommendations": {
+          "description": "基于阶位的教练建议",
+          "fields": {
+            "priority_stage_target": {"type": "integer", "range": [2, 7], "note": "推荐近期目标阶位"},
+            "recommended_flywheels": {
+              "type": "array",
+              "items": {
+                "flywheel_name": {"type": "string", "enum": ["计划", "预习", "复习", "听课", "作业", "考试"]},
+                "priority": {"type": "string", "enum": ["必做", "强化", "巩固", "精进"]}
+              }
+            },
+            "recommended_eight_steps": {
+              "type": "array",
+              "items": {
+                "step_id": {"type": "integer", "range": [1, 8]},
+                "step_name": {"type": "string"},
+                "priority": {"type": "string", "enum": ["必做", "强化", "巩固", "精进"]}
+              }
+            },
+            "expected_sessions_to_next_stage": {"type": "integer", "min": 1},
+            "goal_template_ref": {"type": "string", "note": "coaching-goal-schema.json goal_templates template_id"}
+          }
+        },
+        "narrative_sections": {
+          "description": "自然语言叙述部分(按门户差异化)",
+          "fields": {
+            "summary": {"type": "string", "max_length": 500, "note": "整体总结(200字以内)"},
+            "strength_narrative": {"type": "string", "max_length": 300},
+            "improvement_narrative": {"type": "string", "max_length": 300},
+            "action_plan": {"type": "string", "max_length": 500, "note": "具体行动建议(仅 coach/hq 门户)"}
+          }
+        },
+        "metadata": {
+          "assessment_tool_ids": {"type": "array", "items": "string"},
+          "irt_model_used": {"type": "string", "enum": ["1PL", "2PL", "3PL"]},
+          "reliability_alpha": {"type": "number", "range": [0, 1]},
+          "cat_items_administered": {"type": "integer", "note": "CAT 施测题目数"}
+        }
+      }
+    }
+  },
+  "report_generation_rules": {
+    "portal_field_visibility": {
+      "xyt-student": ["overall_stage", "mece_profile.summary", "coaching_recommendations.recommended_flywheels", "narrative_sections.summary", "narrative_sections.strength_narrative", "narrative_sections.improvement_narrative"],
+      "xyt-parent": ["overall_stage", "mece_profile.M_motivation.stage_id", "mece_profile.C_capability.stage_id", "coaching_recommendations.expected_sessions_to_next_stage", "narrative_sections.summary", "narrative_sections.action_plan"],
+      "xyt-coach": ["*"],
+      "xyt-hq": ["overall_stage", "mece_profile", "metadata", "coaching_recommendations.priority_stage_target"]
+    },
+    "stage_name_constraints": {
+      "valid_stage_names": ["不会", "模糊", "清晰", "框架", "运用", "熟练", "创新"],
+      "eight_step_name_for_5": "流程"
+    },
+    "flywheel_name_constraints": {
+      "valid_flywheel_names": ["计划", "预习", "复习", "听课", "作业", "考试"]
+    }
+  }
+}

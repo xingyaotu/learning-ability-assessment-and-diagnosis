@@ -140,3 +140,11 @@
 ### feat(scripts+ci): validate-cat-config.py — CAT 自适应测评配置验证 + CI v5.7
 - scripts/validate-cat-config.py: 42/42 通过 (tool_id存在/1PL固定施测/停止规则/曝光控制)
 - .github/workflows/validate.yml → v5.7: 新增 cat-config CI job (共 9 jobs)
+
+## 2026-05-21T07:30:00Z · assessment — 测评报告 schema + CI v5.8
+### feat(pipeline-data+scripts+ci): report-output-schema.json — 测评报告输出 schema + CI v5.8
+- pipeline-data/report-output-schema.json: 结构化报告 schema (student/parent/coach/hq 四门户)
+  - MECE 四维度画像; coaching_recommendations (飞轮/八步); portal 差异化字段可见性
+  - ⑤守护: eight_step_name_for_5='流程' ✅ | 七阶枚举/六飞轮枚举合规 ✅ | PIPL合规 ✅
+- scripts/validate-report-schema.py: 23/23 通过
+- .github/workflows/validate.yml → v5.8: 新增 report-schema CI job (共 10 jobs)
