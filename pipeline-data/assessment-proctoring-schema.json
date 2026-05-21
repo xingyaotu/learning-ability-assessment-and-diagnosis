@@ -1,0 +1,152 @@
+{
+  "$schema": "https://xingyaotu.cn/schemas/assessment-proctoring.v1.0.json",
+  "version": "1.0",
+  "compliance": "v5.29 道层零漂移",
+  "last_updated": "2026-05-21",
+  "_meta": {
+    "description": "测评监考 schema — 定义 CAT 测评会话的监考协议/完整性规则/会话中止条件, 含 PIPL 合规的远程监考数据处理",
+    "pipl_note": "PIPL 合规: 监考记录中所有 student_id 为平台匿名 ID; 远程监考视频/截图仅用于测评完整性核验; 不长期存储; 符合 PIPL 第17条数据留存规定",
+    "usage": "学生开始 CAT 测评前 → 选择监考模式 → 执行监考协议 → 记录完整性事件 → 会话结束后评估 → 存档"
+  },
+  "proctoring_session_schema": {
+    "description": "监考会话记录结构",
+    "fields": {
+      "proctoring_session_id": {
+        "type": "string",
+        "pattern": "^PROC-[0-9]{8}-[A-Z0-9]{6}$",
+        "required": true
+      },
+      "assessment_session_id": {
+        "type": "string",
+        "required": true
+      },
+      "student_id": {
+        "type": "string",
+        "description": "平台匿名 student_id",
+        "required": true
+      },
+      "proctoring_mode": {
+        "type": "string",
+        "enum": ["self-proctored", "remote-automated", "remote-human", "in-person"],
+        "required": true,
+        "_dao_guard": "监考模式 — self-proctored/remote-automated/remote-human/in-person 严格枚举"
+      },
+      "session_start_time": {
+        "type": "string",
+        "format": "date-time",
+        "required": true
+      },
+      "session_end_time": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "integrity_status": {
+        "type": "string",
+        "enum": ["clean", "flagged", "suspended", "invalidated"],
+        "required": true,
+        "_dao_guard": "监考完整性状态 — clean/flagged/suspended/invalidated 四等级守护"
+      },
+      "cat_items_delivered": {
+        "type": "integer",
+        "minimum": 0,
+        "description": "本次 CAT 会话已施测题数"
+      },
+      "stage_domain_being_assessed": {
+        "type": "string",
+        "enum": ["不会", "模糊", "清晰", "框架", "运用", "熟练", "创新"],
+        "description": "当前 CAT 施测的目标七阶区域",
+        "_dao_guard": "CAT 施测七阶目标区域 — 七阶: 不会/模糊/清晰/框架/运用/熟练/创新 施测区守护"
+      },
+      "flywheel_focus_of_session": {
+        "type": "string",
+        "enum": ["计划", "预习", "复习", "听课", "作业", "考试"],
+        "description": "本次 CAT 会话重点评估的飞轮",
+        "_dao_guard": "CAT 会话六飞轮焦点 — 六飞轮: 计划/预习/复习/听课/作业/考试 施测焦点守护"
+      }
+    }
+  },
+  "integrity_event_schema": {
+    "description": "完整性事件记录结构",
+    "fields": {
+      "event_id": {
+        "type": "string",
+        "pattern": "^IEVE-[0-9]{8}-[A-Z0-9]{6}$",
+        "required": true
+      },
+      "proctoring_session_id": {
+        "type": "string",
+        "required": true
+      },
+      "event_type": {
+        "type": "string",
+        "enum": ["tab-switch", "copy-paste-attempt", "multiple-faces", "no-face-detected", "unusual-timing", "answer-pattern-anomaly"],
+        "required": true
+      },
+      "event_time": {
+        "type": "string",
+        "format": "date-time",
+        "required": true
+      },
+      "item_number_at_event": {
+        "type": "integer",
+        "minimum": 1,
+        "description": "发生事件时正在作答的题目序号"
+      },
+      "severity": {
+        "type": "string",
+        "enum": ["low", "medium", "high", "critical"],
+        "required": true
+      },
+      "auto_action_taken": {
+        "type": "string",
+        "enum": ["none", "warning-issued", "session-paused", "session-invalidated"],
+        "description": "系统自动采取的行动"
+      }
+    }
+  },
+  "proctoring_rules": {
+    "description": "监考规则配置",
+    "integrity_thresholds": {
+      "max_tab_switches_before_flag": 2,
+      "max_high_severity_events_before_suspend": 3,
+      "critical_event_immediate_suspend": true
+    },
+    "cat_session_guards": {
+      "max_allowed_pause_minutes": 5,
+      "min_response_time_seconds": 3,
+      "max_response_time_seconds": 300,
+      "item_timing_anomaly_threshold_sd": 3.0,
+      "_dao_guard": "CAT 会话监考规则 — 作答时间/暂停时间/异常检测守护"
+    },
+    "halt_conditions": [
+      {
+        "condition_id": "halt-critical-integrity",
+        "description": "高严重度完整性事件触发暂停",
+        "action": "[HALT-CSO] 测评完整性严重违规 → 会话立即暂停 → CSO 介入审查 → 决定结果有效性"
+      },
+      {
+        "condition_id": "halt-minor-unproctored",
+        "description": "未成年人测评缺少监护人在场记录",
+        "action": "[HALT-CSO] 未成年人 < 14岁 self-proctored 模式 → 需确认监护人知情同意 → 暂停测评",
+        "_dao_guard": "未成年人监考 HALT — PIPL 第14条: 未成年人测评监考合规守护"
+      }
+    ]
+  },
+  "remote_proctoring_pipl_compliance": {
+    "description": "远程监考 PIPL 合规配置",
+    "video_data_retention_days": 7,
+    "screenshot_data_retention_days": 3,
+    "data_deletion_trigger": "assessment_session_validated_or_invalidated",
+    "purpose_limitation": "仅用于测评完整性核验; 不用于其他目的",
+    "consent_required": true,
+    "_dao_guard": "远程监考 PIPL 合规 — 视频/截图短期留存; 仅完整性核验用途; 遵循 PIPL 第17条数据留存"
+  },
+  "validation_rules": {
+    "seven_stage_valid_names": ["不会", "模糊", "清晰", "框架", "运用", "熟练", "创新"],
+    "mece_dimension_codes": ["M", "E_exec", "C", "E_env"],
+    "six_flywheel_valid_names": ["计划", "预习", "复习", "听课", "作业", "考试"],
+    "proctoring_modes": ["self-proctored", "remote-automated", "remote-human", "in-person"],
+    "integrity_status_values": ["clean", "flagged", "suspended", "invalidated"],
+    "pipl_constraints": "PIPL 合规: 监考记录中所有 student_id 为平台匿名 ID; 远程监考视频/截图仅用于完整性核验; 留存不超过 7天; 符合 PIPL 第17条"
+  }
+}
