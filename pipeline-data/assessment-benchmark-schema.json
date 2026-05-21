@@ -1,0 +1,191 @@
+{
+  "$schema": "https://xingyaotu.cn/schemas/assessment-benchmark.v1.0.json",
+  "version": "1.0",
+  "compliance": "v5.20 道层零漂移",
+  "last_updated": "2026-05-21",
+  "_meta": {
+    "description": "测评基准对比 schema — 定义学生测评结果与地区/学校/学情基准的对比结构",
+    "pipl_note": "PIPL 合规: 基准数据均为聚合统计; 不含个体学生识别信息; 报告中 student_id 为平台匿名 ID",
+    "usage": "学生完成测评 → 与对应基准组对比 → 生成百分位排名 → 推送至教练/报告系统"
+  },
+  "benchmark_groups": [
+    {
+      "benchmark_id": "bm-national-avg",
+      "benchmark_name": "全国平均基准",
+      "description": "基于全平台学生测评数据的全国平均水平",
+      "scope": "national",
+      "update_frequency": "quarterly",
+      "min_sample_size": 1000,
+      "mece_benchmark_stats": {
+        "M_theta_mean": -0.10,
+        "M_theta_sd": 0.90,
+        "E_exec_theta_mean": -0.05,
+        "E_exec_theta_sd": 0.88,
+        "C_theta_mean": 0.05,
+        "C_theta_sd": 0.85,
+        "E_env_theta_mean": 0.00,
+        "E_env_theta_sd": 0.92
+      },
+      "flywheel_benchmark_stats": {
+        "计划_theta_mean": -0.15,
+        "预习_theta_mean": -0.08,
+        "复习_theta_mean": 0.02,
+        "听课_theta_mean": 0.10,
+        "作业_theta_mean": -0.05,
+        "考试_theta_mean": -0.12
+      },
+      "stage_distribution": {
+        "不会": 0.10,
+        "模糊": 0.22,
+        "清晰": 0.28,
+        "框架": 0.20,
+        "运用": 0.12,
+        "熟练": 0.06,
+        "创新": 0.02
+      },
+      "_dao_guard": "全国基准 — 七阶分布之和必须 = 1.0; 六飞轮名称守护"
+    },
+    {
+      "benchmark_id": "bm-gaokao-ready",
+      "benchmark_name": "高考备考基准",
+      "description": "高三/高考复习阶段学生的基准水平",
+      "scope": "gaokao_cohort",
+      "update_frequency": "semi_annual",
+      "min_sample_size": 500,
+      "mece_benchmark_stats": {
+        "M_theta_mean": 0.20,
+        "M_theta_sd": 0.82,
+        "E_exec_theta_mean": 0.25,
+        "E_exec_theta_sd": 0.80,
+        "C_theta_mean": 0.30,
+        "C_theta_sd": 0.78,
+        "E_env_theta_mean": 0.15,
+        "E_env_theta_sd": 0.85
+      },
+      "flywheel_benchmark_stats": {
+        "计划_theta_mean": 0.18,
+        "预习_theta_mean": 0.15,
+        "复习_theta_mean": 0.30,
+        "听课_theta_mean": 0.25,
+        "作业_theta_mean": 0.20,
+        "考试_theta_mean": 0.35
+      },
+      "stage_distribution": {
+        "不会": 0.03,
+        "模糊": 0.10,
+        "清晰": 0.22,
+        "框架": 0.28,
+        "运用": 0.22,
+        "熟练": 0.12,
+        "创新": 0.03
+      },
+      "_dao_guard": "高考备考基准 — 七阶分布之和 = 1.0; 六飞轮: 计划/预习/复习/听课/作业/考试"
+    },
+    {
+      "benchmark_id": "bm-junior-high",
+      "benchmark_name": "初中学生基准",
+      "description": "初中阶段学生的学习力基准水平",
+      "scope": "junior_high",
+      "update_frequency": "annual",
+      "min_sample_size": 500,
+      "mece_benchmark_stats": {
+        "M_theta_mean": 0.05,
+        "M_theta_sd": 0.95,
+        "E_exec_theta_mean": -0.10,
+        "E_exec_theta_sd": 0.92,
+        "C_theta_mean": -0.05,
+        "C_theta_sd": 0.90,
+        "E_env_theta_mean": 0.10,
+        "E_env_theta_sd": 0.88
+      },
+      "flywheel_benchmark_stats": {
+        "计划_theta_mean": -0.20,
+        "预习_theta_mean": -0.15,
+        "复习_theta_mean": -0.05,
+        "听课_theta_mean": 0.15,
+        "作业_theta_mean": -0.10,
+        "考试_theta_mean": -0.18
+      },
+      "stage_distribution": {
+        "不会": 0.15,
+        "模糊": 0.28,
+        "清晰": 0.28,
+        "框架": 0.18,
+        "运用": 0.08,
+        "熟练": 0.03,
+        "创新": 0.00
+      },
+      "_dao_guard": "初中基准 — 七阶分布之和 = 1.0"
+    }
+  ],
+  "benchmark_comparison_schema": {
+    "description": "学生个体与基准组的对比记录结构",
+    "fields": {
+      "comparison_id": {"type": "string", "pattern": "^BCMP-[0-9]{8}-[A-Z0-9]{6}$"},
+      "student_id": {"type": "string", "description": "平台匿名 student_id"},
+      "session_id": {"type": "string"},
+      "benchmark_id": {
+        "type": "string",
+        "enum": ["bm-national-avg", "bm-gaokao-ready", "bm-junior-high"]
+      },
+      "comparison_date": {"type": "string", "format": "date"},
+      "mece_percentiles": {
+        "type": "object",
+        "properties": {
+          "M_percentile": {"type": "number", "minimum": 0, "maximum": 100},
+          "E_exec_percentile": {"type": "number", "minimum": 0, "maximum": 100},
+          "C_percentile": {"type": "number", "minimum": 0, "maximum": 100},
+          "E_env_percentile": {"type": "number", "minimum": 0, "maximum": 100},
+          "composite_percentile": {"type": "number", "minimum": 0, "maximum": 100}
+        }
+      },
+      "flywheel_percentiles": {
+        "type": "object",
+        "properties": {
+          "计划_percentile": {"type": "number", "minimum": 0, "maximum": 100},
+          "预习_percentile": {"type": "number", "minimum": 0, "maximum": 100},
+          "复习_percentile": {"type": "number", "minimum": 0, "maximum": 100},
+          "听课_percentile": {"type": "number", "minimum": 0, "maximum": 100},
+          "作业_percentile": {"type": "number", "minimum": 0, "maximum": 100},
+          "考试_percentile": {"type": "number", "minimum": 0, "maximum": 100}
+        }
+      },
+      "stage_vs_benchmark": {
+        "type": "object",
+        "properties": {
+          "student_stage": {
+            "type": "string",
+            "enum": ["不会", "模糊", "清晰", "框架", "运用", "熟练", "创新"]
+          },
+          "benchmark_modal_stage": {
+            "type": "string",
+            "enum": ["不会", "模糊", "清晰", "框架", "运用", "熟练", "创新"]
+          },
+          "stage_above_median": {"type": "boolean"}
+        }
+      }
+    }
+  },
+  "benchmark_update_protocol": {
+    "description": "基准数据更新协议",
+    "steps": [
+      "聚合最新一期匿名化测评数据",
+      "计算各基准组 MECE 四维度 θ 均值/标准差",
+      "计算六飞轮 θ 均值",
+      "更新七阶分布 (验证分布和 = 1.0)",
+      "更新 benchmark_groups 版本号与 last_updated",
+      "重新运行 validate-benchmark-schema.py 验证"
+    ],
+    "version_control": "基准数据每次更新生成新版本记录; 保留最近 3 个版本供历史对比"
+  },
+  "validation_rules": {
+    "benchmark_groups_count": 3,
+    "stage_distribution_sum_constraint": "每个基准组 stage_distribution 之和必须 = 1.0",
+    "mece_dimension_codes": ["M", "E_exec", "C", "E_env"],
+    "six_flywheel_valid_names": ["计划", "预习", "复习", "听课", "作业", "考试"],
+    "seven_stage_valid_names": ["不会", "模糊", "清晰", "框架", "运用", "熟练", "创新"],
+    "benchmark_ids": ["bm-national-avg", "bm-gaokao-ready", "bm-junior-high"],
+    "min_sample_size_constraint": "每个基准组 min_sample_size ≥ 500",
+    "pipl_constraints": "PIPL 合规: 基准数据为聚合统计; 不含个体 student_id; comparison_record 中 student_id 为平台匿名 ID"
+  }
+}
