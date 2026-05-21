@@ -1,0 +1,126 @@
+{
+  "$schema": "https://xingyaotu.cn/schemas/assessment-adaptive-routing.v1.0.json",
+  "version": "1.0",
+  "compliance": "v5.30 道层零漂移",
+  "last_updated": "2026-05-21",
+  "_meta": {
+    "description": "测评自适应路由 schema — 定义 CAT 引擎的自适应路由决策规则, 含 θ 估计→七阶映射→下一题选择→停止条件→MECE维度路由",
+    "pipl_note": "PIPL 合规: 路由规则为算法配置数据; 不含个体 student_id; 路由决策记录中 student_id 为平台匿名 ID",
+    "usage": "CAT 引擎每题作答后 → 更新 θ 估计 → 执行路由决策 → 选择下一题/停止测评 → 输出七阶判定"
+  },
+  "routing_decision_schema": {
+    "description": "路由决策记录结构",
+    "fields": {
+      "routing_decision_id": {
+        "type": "string",
+        "pattern": "^ROUT-[0-9]{8}-[A-Z0-9]{6}$",
+        "required": true
+      },
+      "assessment_session_id": {
+        "type": "string",
+        "required": true
+      },
+      "item_number": {
+        "type": "integer",
+        "minimum": 1,
+        "required": true,
+        "description": "当前题目序号"
+      },
+      "theta_estimate_current": {
+        "type": "number",
+        "description": "当前 θ 估计值"
+      },
+      "se_current": {
+        "type": "number",
+        "minimum": 0,
+        "description": "当前标准误 SE(θ)"
+      },
+      "stage_estimated": {
+        "type": "string",
+        "enum": ["不会", "模糊", "清晰", "框架", "运用", "熟练", "创新"],
+        "description": "当前 θ 对应估计七阶阶位",
+        "_dao_guard": "CAT 实时七阶估计 — 七阶: 不会/模糊/清晰/框架/运用/熟练/创新 θ→七阶路由守护"
+      },
+      "flywheel_being_assessed": {
+        "type": "string",
+        "enum": ["计划", "预习", "复习", "听课", "作业", "考试"],
+        "description": "当前正在评估的飞轮维度",
+        "_dao_guard": "CAT 飞轮评估维度 — 六飞轮: 计划/预习/复习/听课/作业/考试 当前施测守护"
+      },
+      "mece_dimension_being_assessed": {
+        "type": "string",
+        "enum": ["M", "E_exec", "C", "E_env"],
+        "description": "当前正在评估的 MECE 维度",
+        "_dao_guard": "CAT MECE 维度路由 — M/E_exec/C/E_env 四维度评估守护"
+      },
+      "routing_action": {
+        "type": "string",
+        "enum": ["continue-same-flywheel", "switch-flywheel", "switch-mece-dimension", "terminate-se-met", "terminate-max-items", "terminate-time-limit"],
+        "required": true,
+        "_dao_guard": "路由动作 — 继续/切换飞轮/切换MECE维度/SE达标终止/最大题数终止/时间终止 六动作守护"
+      }
+    }
+  },
+  "theta_to_stage_routing_rules": {
+    "description": "θ 估计→七阶路由规则配置",
+    "thresholds": {
+      "不会_upper_theta": -2.0,
+      "模糊_upper_theta": -1.0,
+      "清晰_upper_theta": 0.0,
+      "框架_upper_theta": 1.0,
+      "运用_upper_theta": 2.0,
+      "熟练_upper_theta": 3.0
+    },
+    "stage_sequence": ["不会", "模糊", "清晰", "框架", "运用", "熟练", "创新"],
+    "_dao_guard": "θ→七阶路由规则 — 七阶: 不会/模糊/清晰/框架/运用/熟练/创新 七条θ切分阈值守护"
+  },
+  "flywheel_routing_matrix": {
+    "description": "六飞轮 CAT 施测路由矩阵",
+    "flywheel_sequence": ["计划", "预习", "复习", "听课", "作业", "考试"],
+    "min_items_per_flywheel": 3,
+    "max_items_per_flywheel": 8,
+    "se_threshold_per_flywheel": 0.30,
+    "flywheel_switch_trigger": "se_below_threshold_or_max_items_reached",
+    "_dao_guard": "六飞轮路由矩阵 — 六飞轮: 计划/预习/复习/听课/作业/考试 CAT 施测顺序与切换守护"
+  },
+  "mece_dimension_routing": {
+    "description": "MECE 四维度路由配置",
+    "dimension_sequence_default": ["M", "E_exec", "C", "E_env"],
+    "bottleneck_detection_trigger": "dimension_theta_below_mean_minus_1sd",
+    "primary_bottleneck_selection_rule": "lowest_theta_dimension",
+    "_dao_guard": "MECE 四维度路由 — M/E_exec/C/E_env 施测顺序与主瓶颈识别守护"
+  },
+  "stopping_rules": {
+    "description": "CAT 停止规则",
+    "se_threshold_default": 0.30,
+    "se_threshold_by_stage": {
+      "不会": 0.35,
+      "模糊": 0.30,
+      "清晰": 0.30,
+      "框架": 0.28,
+      "运用": 0.28,
+      "熟练": 0.25,
+      "创新": 0.25
+    },
+    "max_items_total": 50,
+    "min_items_total": 15,
+    "time_limit_minutes": 45,
+    "_dao_guard": "CAT 停止规则 — 七阶: 不会/模糊/清晰/框架/运用/熟练/创新 各阶 SE 阈值守护"
+  },
+  "exposure_control_config": {
+    "description": "Sympson-Hetter 曝光控制配置",
+    "max_exposure_rate": 0.20,
+    "exposure_control_method": "sympson-hetter",
+    "exposure_monitoring_window_sessions": 100,
+    "_dao_guard": "Sympson-Hetter 曝光控制 — 最大曝光率 0.20 道层守护"
+  },
+  "validation_rules": {
+    "seven_stage_valid_names": ["不会", "模糊", "清晰", "框架", "运用", "熟练", "创新"],
+    "mece_dimension_codes": ["M", "E_exec", "C", "E_env"],
+    "six_flywheel_valid_names": ["计划", "预习", "复习", "听课", "作业", "考试"],
+    "routing_action_codes": ["continue-same-flywheel", "switch-flywheel", "switch-mece-dimension", "terminate-se-met", "terminate-max-items", "terminate-time-limit"],
+    "stage_sequence_constraint": "七阶 stage_sequence 必须严格按顺序: 不会→模糊→清晰→框架→运用→熟练→创新",
+    "flywheel_sequence_constraint": "六飞轮路由顺序: 计划→预习→复习→听课→作业→考试 (可根据 θ 调整优先级)",
+    "pipl_constraints": "PIPL 合规: 路由规则为算法配置数据; 路由决策记录中 student_id 为平台匿名 ID; 不含真实个人信息"
+  }
+}
