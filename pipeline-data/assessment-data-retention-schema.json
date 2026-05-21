@@ -1,0 +1,128 @@
+{
+  "$schema": "https://xingyaotu.cn/schemas/assessment-data-retention.v1.0.json",
+  "version": "1.0",
+  "compliance": "v5.18 道层零漂移",
+  "last_updated": "2026-05-21",
+  "_meta": {
+    "description": "测评数据留存与删除 schema — 定义各类测评数据的保留周期、删除规则与 PIPL 合规处置",
+    "pipl_note": "PIPL 合规: 本 schema 依据 PIPL 第17条 '最短必要原则' 定义数据留存期; 超期数据触发匿名化或删除",
+    "usage": "数据写入 → 留存周期标记 → 定期审查 → 超期触发删除或匿名化 → 合规存档"
+  },
+  "data_categories": [
+    {
+      "category_id": "dc-session",
+      "category_name": "CAT 测评会话原始数据",
+      "description": "包含 item_responses/θ 估计/session_summary 的完整 CAT 会话记录",
+      "retention_policy": {
+        "standard_retention_months": 36,
+        "extended_retention_months": 60,
+        "extension_trigger": "学生持续在平台注册",
+        "anonymization_at_expiry": true,
+        "deletion_at_extended_expiry": true
+      },
+      "data_fields_included": ["session_id", "item_responses", "theta_trajectory", "mece_profile", "stage_estimate"],
+      "pipl_basis": "PIPL 第13条/第17条: 服务履约期间留存; 合理必要原则",
+      "_dao_guard": "session 数据含 stage_estimate — 七阶枚举守护; mece_profile — MECE 四维度守护"
+    },
+    {
+      "category_id": "dc-longitudinal",
+      "category_name": "学生纵向成长追踪数据",
+      "description": "跨多次测评的 θ 轨迹/七阶历史/飞轮轨迹",
+      "retention_policy": {
+        "standard_retention_months": 60,
+        "extended_retention_months": 84,
+        "extension_trigger": "学生同意延长留存",
+        "anonymization_at_expiry": true,
+        "deletion_at_extended_expiry": true
+      },
+      "data_fields_included": ["longitudinal_id", "mece_trajectory", "flywheel_trajectory", "stage_history"],
+      "pipl_basis": "PIPL 第13条: 学生同意留存用于学习力持续追踪",
+      "_dao_guard": "纵向数据含 flywheel_trajectory — 六飞轮守护; stage_history — 七阶守护"
+    },
+    {
+      "category_id": "dc-consent",
+      "category_name": "知情同意记录",
+      "description": "学生/监护人同意记录及哈希凭证",
+      "retention_policy": {
+        "standard_retention_months": 84,
+        "extended_retention_months": 120,
+        "extension_trigger": "法律要求",
+        "anonymization_at_expiry": false,
+        "deletion_at_extended_expiry": true
+      },
+      "data_fields_included": ["consent_id", "consent_category_id", "consent_granted_at", "guardian_id_hash"],
+      "pipl_basis": "PIPL 第14条/第30条: 同意记录需留存以备监管审查",
+      "special_rule": "< 14岁学生同意记录延长至学生成年后 2 年"
+    },
+    {
+      "category_id": "dc-adverse-event",
+      "category_name": "异常事件记录",
+      "description": "测评异常/道层漂移/PIPL 违规事件记录",
+      "retention_policy": {
+        "standard_retention_months": 60,
+        "extended_retention_months": 84,
+        "extension_trigger": "事件未完全关闭",
+        "anonymization_at_expiry": true,
+        "deletion_at_extended_expiry": true
+      },
+      "data_fields_included": ["event_id", "session_id", "event_type_id", "severity", "action_taken"],
+      "pipl_basis": "PIPL 第55条: 重大数据安全事件记录留存义务",
+      "critical_event_rule": "severity=critical 事件记录额外延长 24 个月"
+    },
+    {
+      "category_id": "dc-calibration",
+      "category_name": "IRT 标定与统计数据",
+      "description": "工具级 IRT 参数/Cronbach α/常模统计 (无个体识别信息)",
+      "retention_policy": {
+        "standard_retention_months": 120,
+        "extended_retention_months": 180,
+        "extension_trigger": "工具仍在使用",
+        "anonymization_at_expiry": false,
+        "deletion_at_extended_expiry": false,
+        "archival_at_expiry": true
+      },
+      "data_fields_included": ["tool_id", "irt_parameters", "norm_statistics", "calibration_date"],
+      "pipl_basis": "统计数据不含个体识别信息; PIPL 第4条 匿名化数据豁免",
+      "_dao_guard": "标定数据为工具级统计 — 不含 student_id; PIPL 匿名化豁免"
+    }
+  ],
+  "deletion_workflow": {
+    "description": "数据删除/匿名化工作流",
+    "steps": [
+      "定期扫描 (每月一次) 检查各数据类别是否达到留存期",
+      "达到 standard_retention_months → 触发匿名化流程 (student_id 替换为 anon_hash)",
+      "达到 extended_retention_months → 触发永久删除流程",
+      "删除前生成合规存档记录 (仅含元数据, 无 PII)",
+      "deletion_log 写入 audit_trail (含 affected_count, data_category, deletion_date)"
+    ],
+    "deletion_record_schema": {
+      "deletion_log_id": {"type": "string", "pattern": "^DEL-[0-9]{8}-[A-Z0-9]{6}$"},
+      "data_category_id": {"type": "string"},
+      "records_affected_count": {"type": "integer", "minimum": 0},
+      "deletion_type": {"type": "string", "enum": ["anonymization", "permanent_deletion", "archival"]},
+      "deletion_date": {"type": "string", "format": "date"},
+      "authorized_by": {"type": "string", "description": "平台匿名运营 ID"},
+      "pipl_compliance_confirmed": {"type": "boolean"}
+    }
+  },
+  "minor_data_special_rules": {
+    "description": "< 14岁未成年学生数据特殊留存规则 (PIPL 第14条)",
+    "rules": [
+      "session 原始数据: 留存期缩短至 24 个月 (标准 standard_retention_months 的 2/3)",
+      "服务终止后 3 个月内完成匿名化",
+      "consent 记录延长至该学生年满 20 岁",
+      "任何情形下不得对 < 14岁数据进行商业化分析"
+    ],
+    "_dao_guard": "< 14岁数据特殊规则 — PIPL 第14条强制守护; 违反触发 [HALT-CSO]"
+  },
+  "validation_rules": {
+    "data_categories_count": 5,
+    "required_retention_fields": ["standard_retention_months", "anonymization_at_expiry", "deletion_at_extended_expiry"],
+    "minor_special_rules_required": true,
+    "pipl_article17_compliance": "各数据类别均遵循 PIPL 第17条最短必要原则定义留存期",
+    "anonymization_before_deletion": true,
+    "pipl_constraints": "PIPL 合规: 所有留存记录中 student_id 均为平台匿名 ID; 超期数据按 PIPL 第17条处置",
+    "six_flywheel_valid_names": ["计划", "预习", "复习", "听课", "作业", "考试"],
+    "seven_stage_valid_names": ["不会", "模糊", "清晰", "框架", "运用", "熟练", "创新"]
+  }
+}
