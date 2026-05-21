@@ -1,0 +1,109 @@
+{
+  "$schema": "https://xingyaotu.cn/schemas/irt-scoring-thresholds.v1.0.json",
+  "version": "1.0",
+  "compliance": "v5.4 道层零漂移",
+  "last_updated": "2026-05-21",
+  "_meta": {
+    "description": "IRT 能力估计值(θ) → 七阶掌握度 切分阈值配置",
+    "theta_scale": "标准化能力量表: θ ∈ [-4, 4], 均值=0, 标准差=1",
+    "stage_system": "七阶: 1不会/2模糊/3清晰/4框架/5运用/6熟练/7创新",
+    "aggregation_method": "multi_dimension_tools: 各维度θ加权平均 → 综合阶位",
+    "usage": "IRT 能力估计完成后 → 本配置 → 七阶分类 → coaching-toolkit stage-to-sop-routing"
+  },
+  "global_thresholds": {
+    "description": "全局通用阈值 — 适用于未配置专项阈值的工具",
+    "stage_boundaries": [
+      {"stage_id": 1, "stage_name": "不会",  "theta_min": null,  "theta_max": -1.50},
+      {"stage_id": 2, "stage_name": "模糊",  "theta_min": -1.50, "theta_max": -0.75},
+      {"stage_id": 3, "stage_name": "清晰",  "theta_min": -0.75, "theta_max": -0.10},
+      {"stage_id": 4, "stage_name": "框架",  "theta_min": -0.10, "theta_max":  0.55},
+      {"stage_id": 5, "stage_name": "运用",  "theta_min":  0.55, "theta_max":  1.25},
+      {"stage_id": 6, "stage_name": "熟练",  "theta_min":  1.25, "theta_max":  2.00},
+      {"stage_id": 7, "stage_name": "创新",  "theta_min":  2.00, "theta_max": null}
+    ],
+    "boundary_rule": "theta_min <= θ < theta_max (null min = -∞; null max = +∞)"
+  },
+  "tool_specific_thresholds": [
+    {
+      "tool_id": "assess_mastery_stages",
+      "tool_name_zh": "七阶掌握度综合测评",
+      "note": "3PL 模型; 综合阶位测评专用更宽松阈值分布",
+      "stage_boundaries": [
+        {"stage_id": 1, "stage_name": "不会",  "theta_min": null,  "theta_max": -2.00},
+        {"stage_id": 2, "stage_name": "模糊",  "theta_min": -2.00, "theta_max": -1.00},
+        {"stage_id": 3, "stage_name": "清晰",  "theta_min": -1.00, "theta_max": -0.20},
+        {"stage_id": 4, "stage_name": "框架",  "theta_min": -0.20, "theta_max":  0.60},
+        {"stage_id": 5, "stage_name": "运用",  "theta_min":  0.60, "theta_max":  1.40},
+        {"stage_id": 6, "stage_name": "熟练",  "theta_min":  1.40, "theta_max":  2.20},
+        {"stage_id": 7, "stage_name": "创新",  "theta_min":  2.20, "theta_max": null}
+      ]
+    },
+    {
+      "tool_id": "assess_camiq_aptitude",
+      "tool_name_zh": "职业密码-能力倾向测评",
+      "note": "认知能力测评; 高区分度 — 阈值上移以匹配更高难度分布",
+      "stage_boundaries": [
+        {"stage_id": 1, "stage_name": "不会",  "theta_min": null,  "theta_max": -1.80},
+        {"stage_id": 2, "stage_name": "模糊",  "theta_min": -1.80, "theta_max": -1.00},
+        {"stage_id": 3, "stage_name": "清晰",  "theta_min": -1.00, "theta_max": -0.30},
+        {"stage_id": 4, "stage_name": "框架",  "theta_min": -0.30, "theta_max":  0.40},
+        {"stage_id": 5, "stage_name": "运用",  "theta_min":  0.40, "theta_max":  1.20},
+        {"stage_id": 6, "stage_name": "熟练",  "theta_min":  1.20, "theta_max":  2.10},
+        {"stage_id": 7, "stage_name": "创新",  "theta_min":  2.10, "theta_max": null}
+      ]
+    }
+  ],
+  "aggregation_rules": {
+    "multi_dimension_scoring": {
+      "method": "weighted_average",
+      "default_weights": "equal",
+      "dimension_weight_overrides": {
+        "assess_mece_capability": {
+          "理解力": 0.35,
+          "记忆力": 0.20,
+          "迁移力": 0.25,
+          "思维力": 0.20
+        },
+        "assess_mece_motivation": {
+          "内驱力": 0.30,
+          "目标感": 0.30,
+          "兴趣度": 0.20,
+          "成就需求": 0.20
+        },
+        "assess_camiq_aptitude": {
+          "逻辑推理": 0.25,
+          "语言理解": 0.20,
+          "空间想象": 0.20,
+          "数学运算": 0.25,
+          "记忆广度": 0.10
+        },
+        "assess_flywheels_self_eval": {
+          "计划飞轮执行度": 0.15,
+          "预习飞轮执行度": 0.18,
+          "复习飞轮执行度": 0.20,
+          "听课飞轮执行度": 0.17,
+          "作业飞轮执行度": 0.18,
+          "考试飞轮执行度": 0.12
+        }
+      }
+    },
+    "mece_composite": {
+      "description": "MECE 四维度综合阶位计算规则",
+      "formula": "composite_theta = 0.30*M + 0.25*E_exec + 0.30*C + 0.15*E_env",
+      "components": {
+        "M": "assess_mece_motivation 综合θ",
+        "E_exec": "assess_mece_execution 综合θ",
+        "C": "assess_mece_capability 综合θ",
+        "E_env": "assess_mece_environment 综合θ"
+      }
+    }
+  },
+  "scoring_pipeline": {
+    "steps": [
+      {"step": 1, "name": "IRT 估算", "description": "EAP/MAP 法估算各维度θ"},
+      {"step": 2, "name": "维度聚合", "description": "按 aggregation_rules 加权平均得工具综合θ"},
+      {"step": 3, "name": "阶位分类", "description": "按 tool_specific_thresholds 或 global_thresholds 映射七阶"},
+      {"step": 4, "name": "路由输出", "description": "七阶结果 → coaching-toolkit stage-to-sop-routing.json → SOP 推荐"}
+    ]
+  }
+}

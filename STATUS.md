@@ -110,3 +110,9 @@
 - scripts/validate-irt-seed.py: 29项检查(工具ID集合匹配/model一致性/item参数合规/六飞轮维度名称守护)
 - .github/workflows/validate.yml → v5.4: 新增 irt-seed CI job
 - 全部 29/29 验证通过 ✅
+
+## 2026-05-21T05:45:00Z · assessment — IRT 评分阈值配置 + CI v5.5
+### feat(pipeline-data+scripts+ci): irt-scoring-thresholds.json — θ→七阶评分配置 + CI v5.5
+- pipeline-data/irt-scoring-thresholds.json: 全局+工具专项θ切分阈值; MECE复合公式; 维度权重
+- scripts/validate-irt-scoring.py: 57项验证全通过 (边界连续/权重归一/MECE公式系数)
+- .github/workflows/validate.yml → v5.5: 新增 irt-scoring CI job (总共 7 jobs)
