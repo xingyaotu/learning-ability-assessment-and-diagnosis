@@ -95,3 +95,12 @@
 
 - [道层] 0漂移 ✅ | JSON 格式: 有效 ✅ | CSO 0触发 ✅
 - [Next] 扩展至 22 工具完整标定数据(Phase 2.5 milestone)
+
+## 2026-05-21T05:00:00Z · assessment — IRT 标定种子 Phase 2.5 全量扩展
+### feat(pipeline-data): irt-calibration-seed.json v1.1 — 22工具全量覆盖
+- pipeline-data/irt-calibration-seed.json → v1.1: 5工具扩展至 22工具全量
+  - 新增 17 工具: JUMEQ×5 + CAMIQ×5 + FIRE-UP×6 + 六飞轮自评×1
+  - 1PL 工具(2个): assess_jumeq_economy, assess_camiq_monetary → a=1.0 固定
+  - 多维度工具: camiq_character/aptitude(5维) + flywheels_self_eval(6维)
+  - 总计: 22工具 92维度 368题目 (MECE/JUMEQ/CAMIQ/FIRE-UP/七阶/六飞轮)
+- 道层合规: 六飞轮维度名称合规(计划/预习/复习/听课/作业/考试) ✅

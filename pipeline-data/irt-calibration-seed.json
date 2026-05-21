@@ -1,15 +1,21 @@
 {
   "$schema": "https://xingyaotu.cn/schemas/irt-calibration-seed.v1.0.json",
-  "version": "1.0",
+  "version": "1.1",
   "compliance": "v5.3 道层零漂移",
   "last_updated": "2026-05-21",
   "_meta": {
-    "description": "Phase 2.5 IRT 参数标定种子数据 — 22 工具各 4 维度各 4 题目的代表性标定参数",
-    "model_types": ["1PL", "2PL", "3PL"],
+    "description": "Phase 2.5 IRT 参数标定种子数据 — 22 工具全量标定参数(含 MECE/JUMEQ/CAMIQ/FIRE-UP/七阶/六飞轮)",
+    "model_types": [
+      "1PL",
+      "2PL",
+      "3PL"
+    ],
     "items_per_dimension": 4,
     "total_tools": 22,
-    "total_items": 352,
-    "calibration_notes": "参数值为基于道层七阶框架设计的合理初始值; 正式标定需经题目银行 α 测试"
+    "total_dimensions": 92,
+    "total_items": 368,
+    "calibration_notes": "参数值为基于道层七阶框架设计的合理初始值; 正式标定需经题目银行 α 测试",
+    "version_notes": "v1.1: 从5工具扩展至22工具全量覆盖"
   },
   "calibration_items": [
     {
@@ -20,37 +26,117 @@
         {
           "dimension": "内驱力",
           "items": [
-            {"item_id": "mot_m1_q1", "a": 1.2, "b": -1.5, "stage_target": 1},
-            {"item_id": "mot_m1_q2", "a": 1.3, "b": -0.5, "stage_target": 2},
-            {"item_id": "mot_m1_q3", "a": 1.4, "b": 0.5, "stage_target": 4},
-            {"item_id": "mot_m1_q4", "a": 1.2, "b": 1.5, "stage_target": 6}
+            {
+              "item_id": "mot_m1_q1",
+              "a": 1.2,
+              "b": -1.5,
+              "stage_target": 1
+            },
+            {
+              "item_id": "mot_m1_q2",
+              "a": 1.3,
+              "b": -0.5,
+              "stage_target": 2
+            },
+            {
+              "item_id": "mot_m1_q3",
+              "a": 1.4,
+              "b": 0.5,
+              "stage_target": 4
+            },
+            {
+              "item_id": "mot_m1_q4",
+              "a": 1.2,
+              "b": 1.5,
+              "stage_target": 6
+            }
           ]
         },
         {
           "dimension": "目标感",
           "items": [
-            {"item_id": "mot_m2_q1", "a": 1.1, "b": -1.2, "stage_target": 1},
-            {"item_id": "mot_m2_q2", "a": 1.3, "b": -0.3, "stage_target": 2},
-            {"item_id": "mot_m2_q3", "a": 1.2, "b": 0.8, "stage_target": 4},
-            {"item_id": "mot_m2_q4", "a": 1.4, "b": 1.8, "stage_target": 6}
+            {
+              "item_id": "mot_m2_q1",
+              "a": 1.1,
+              "b": -1.2,
+              "stage_target": 1
+            },
+            {
+              "item_id": "mot_m2_q2",
+              "a": 1.3,
+              "b": -0.3,
+              "stage_target": 2
+            },
+            {
+              "item_id": "mot_m2_q3",
+              "a": 1.2,
+              "b": 0.8,
+              "stage_target": 4
+            },
+            {
+              "item_id": "mot_m2_q4",
+              "a": 1.4,
+              "b": 1.8,
+              "stage_target": 6
+            }
           ]
         },
         {
           "dimension": "兴趣度",
           "items": [
-            {"item_id": "mot_m3_q1", "a": 1.0, "b": -1.0, "stage_target": 1},
-            {"item_id": "mot_m3_q2", "a": 1.2, "b": 0.0, "stage_target": 3},
-            {"item_id": "mot_m3_q3", "a": 1.3, "b": 1.0, "stage_target": 5},
-            {"item_id": "mot_m3_q4", "a": 1.1, "b": 2.0, "stage_target": 7}
+            {
+              "item_id": "mot_m3_q1",
+              "a": 1.0,
+              "b": -1.0,
+              "stage_target": 1
+            },
+            {
+              "item_id": "mot_m3_q2",
+              "a": 1.2,
+              "b": 0.0,
+              "stage_target": 3
+            },
+            {
+              "item_id": "mot_m3_q3",
+              "a": 1.3,
+              "b": 1.0,
+              "stage_target": 5
+            },
+            {
+              "item_id": "mot_m3_q4",
+              "a": 1.1,
+              "b": 2.0,
+              "stage_target": 7
+            }
           ]
         },
         {
           "dimension": "成就需求",
           "items": [
-            {"item_id": "mot_m4_q1", "a": 1.2, "b": -1.3, "stage_target": 1},
-            {"item_id": "mot_m4_q2", "a": 1.4, "b": -0.2, "stage_target": 3},
-            {"item_id": "mot_m4_q3", "a": 1.3, "b": 0.9, "stage_target": 5},
-            {"item_id": "mot_m4_q4", "a": 1.2, "b": 1.9, "stage_target": 7}
+            {
+              "item_id": "mot_m4_q1",
+              "a": 1.2,
+              "b": -1.3,
+              "stage_target": 1
+            },
+            {
+              "item_id": "mot_m4_q2",
+              "a": 1.4,
+              "b": -0.2,
+              "stage_target": 3
+            },
+            {
+              "item_id": "mot_m4_q3",
+              "a": 1.3,
+              "b": 0.9,
+              "stage_target": 5
+            },
+            {
+              "item_id": "mot_m4_q4",
+              "a": 1.2,
+              "b": 1.9,
+              "stage_target": 7
+            }
           ]
         }
       ]
@@ -63,37 +149,117 @@
         {
           "dimension": "计划执行",
           "items": [
-            {"item_id": "exe_e1_q1", "a": 1.3, "b": -1.4, "stage_target": 1},
-            {"item_id": "exe_e1_q2", "a": 1.4, "b": -0.4, "stage_target": 2},
-            {"item_id": "exe_e1_q3", "a": 1.3, "b": 0.6, "stage_target": 4},
-            {"item_id": "exe_e1_q4", "a": 1.5, "b": 1.6, "stage_target": 6}
+            {
+              "item_id": "exe_e1_q1",
+              "a": 1.3,
+              "b": -1.4,
+              "stage_target": 1
+            },
+            {
+              "item_id": "exe_e1_q2",
+              "a": 1.4,
+              "b": -0.4,
+              "stage_target": 2
+            },
+            {
+              "item_id": "exe_e1_q3",
+              "a": 1.3,
+              "b": 0.6,
+              "stage_target": 4
+            },
+            {
+              "item_id": "exe_e1_q4",
+              "a": 1.5,
+              "b": 1.6,
+              "stage_target": 6
+            }
           ]
         },
         {
           "dimension": "专注度",
           "items": [
-            {"item_id": "exe_e2_q1", "a": 1.2, "b": -1.6, "stage_target": 1},
-            {"item_id": "exe_e2_q2", "a": 1.3, "b": -0.6, "stage_target": 2},
-            {"item_id": "exe_e2_q3", "a": 1.4, "b": 0.4, "stage_target": 4},
-            {"item_id": "exe_e2_q4", "a": 1.3, "b": 1.4, "stage_target": 6}
+            {
+              "item_id": "exe_e2_q1",
+              "a": 1.2,
+              "b": -1.6,
+              "stage_target": 1
+            },
+            {
+              "item_id": "exe_e2_q2",
+              "a": 1.3,
+              "b": -0.6,
+              "stage_target": 2
+            },
+            {
+              "item_id": "exe_e2_q3",
+              "a": 1.4,
+              "b": 0.4,
+              "stage_target": 4
+            },
+            {
+              "item_id": "exe_e2_q4",
+              "a": 1.3,
+              "b": 1.4,
+              "stage_target": 6
+            }
           ]
         },
         {
           "dimension": "时间管理",
           "items": [
-            {"item_id": "exe_e3_q1", "a": 1.1, "b": -1.2, "stage_target": 2},
-            {"item_id": "exe_e3_q2", "a": 1.3, "b": 0.0, "stage_target": 3},
-            {"item_id": "exe_e3_q3", "a": 1.4, "b": 1.0, "stage_target": 5},
-            {"item_id": "exe_e3_q4", "a": 1.2, "b": 2.0, "stage_target": 7}
+            {
+              "item_id": "exe_e3_q1",
+              "a": 1.1,
+              "b": -1.2,
+              "stage_target": 2
+            },
+            {
+              "item_id": "exe_e3_q2",
+              "a": 1.3,
+              "b": 0.0,
+              "stage_target": 3
+            },
+            {
+              "item_id": "exe_e3_q3",
+              "a": 1.4,
+              "b": 1.0,
+              "stage_target": 5
+            },
+            {
+              "item_id": "exe_e3_q4",
+              "a": 1.2,
+              "b": 2.0,
+              "stage_target": 7
+            }
           ]
         },
         {
           "dimension": "习惯养成",
           "items": [
-            {"item_id": "exe_e4_q1", "a": 1.3, "b": -1.5, "stage_target": 1},
-            {"item_id": "exe_e4_q2", "a": 1.4, "b": -0.5, "stage_target": 3},
-            {"item_id": "exe_e4_q3", "a": 1.3, "b": 0.7, "stage_target": 5},
-            {"item_id": "exe_e4_q4", "a": 1.5, "b": 1.7, "stage_target": 7}
+            {
+              "item_id": "exe_e4_q1",
+              "a": 1.3,
+              "b": -1.5,
+              "stage_target": 1
+            },
+            {
+              "item_id": "exe_e4_q2",
+              "a": 1.4,
+              "b": -0.5,
+              "stage_target": 3
+            },
+            {
+              "item_id": "exe_e4_q3",
+              "a": 1.3,
+              "b": 0.7,
+              "stage_target": 5
+            },
+            {
+              "item_id": "exe_e4_q4",
+              "a": 1.5,
+              "b": 1.7,
+              "stage_target": 7
+            }
           ]
         }
       ]
@@ -106,37 +272,117 @@
         {
           "dimension": "理解力",
           "items": [
-            {"item_id": "cap_c1_q1", "a": 1.5, "b": -1.8, "stage_target": 1},
-            {"item_id": "cap_c1_q2", "a": 1.5, "b": -0.8, "stage_target": 2},
-            {"item_id": "cap_c1_q3", "a": 1.5, "b": 0.5, "stage_target": 4},
-            {"item_id": "cap_c1_q4", "a": 1.5, "b": 1.8, "stage_target": 6}
+            {
+              "item_id": "cap_c1_q1",
+              "a": 1.5,
+              "b": -1.8,
+              "stage_target": 1
+            },
+            {
+              "item_id": "cap_c1_q2",
+              "a": 1.5,
+              "b": -0.8,
+              "stage_target": 2
+            },
+            {
+              "item_id": "cap_c1_q3",
+              "a": 1.5,
+              "b": 0.5,
+              "stage_target": 4
+            },
+            {
+              "item_id": "cap_c1_q4",
+              "a": 1.5,
+              "b": 1.8,
+              "stage_target": 6
+            }
           ]
         },
         {
           "dimension": "记忆力",
           "items": [
-            {"item_id": "cap_c2_q1", "a": 1.2, "b": -1.3, "stage_target": 1},
-            {"item_id": "cap_c2_q2", "a": 1.4, "b": -0.3, "stage_target": 3},
-            {"item_id": "cap_c2_q3", "a": 1.3, "b": 0.8, "stage_target": 4},
-            {"item_id": "cap_c2_q4", "a": 1.4, "b": 1.6, "stage_target": 6}
+            {
+              "item_id": "cap_c2_q1",
+              "a": 1.2,
+              "b": -1.3,
+              "stage_target": 1
+            },
+            {
+              "item_id": "cap_c2_q2",
+              "a": 1.4,
+              "b": -0.3,
+              "stage_target": 3
+            },
+            {
+              "item_id": "cap_c2_q3",
+              "a": 1.3,
+              "b": 0.8,
+              "stage_target": 4
+            },
+            {
+              "item_id": "cap_c2_q4",
+              "a": 1.4,
+              "b": 1.6,
+              "stage_target": 6
+            }
           ]
         },
         {
           "dimension": "迁移力",
           "items": [
-            {"item_id": "cap_c3_q1", "a": 1.4, "b": -0.5, "stage_target": 3},
-            {"item_id": "cap_c3_q2", "a": 1.5, "b": 0.3, "stage_target": 4},
-            {"item_id": "cap_c3_q3", "a": 1.5, "b": 1.2, "stage_target": 5},
-            {"item_id": "cap_c3_q4", "a": 1.4, "b": 2.2, "stage_target": 7}
+            {
+              "item_id": "cap_c3_q1",
+              "a": 1.4,
+              "b": -0.5,
+              "stage_target": 3
+            },
+            {
+              "item_id": "cap_c3_q2",
+              "a": 1.5,
+              "b": 0.3,
+              "stage_target": 4
+            },
+            {
+              "item_id": "cap_c3_q3",
+              "a": 1.5,
+              "b": 1.2,
+              "stage_target": 5
+            },
+            {
+              "item_id": "cap_c3_q4",
+              "a": 1.4,
+              "b": 2.2,
+              "stage_target": 7
+            }
           ]
         },
         {
           "dimension": "思维力",
           "items": [
-            {"item_id": "cap_c4_q1", "a": 1.3, "b": -0.8, "stage_target": 2},
-            {"item_id": "cap_c4_q2", "a": 1.5, "b": 0.2, "stage_target": 4},
-            {"item_id": "cap_c4_q3", "a": 1.5, "b": 1.2, "stage_target": 5},
-            {"item_id": "cap_c4_q4", "a": 1.4, "b": 2.5, "stage_target": 7}
+            {
+              "item_id": "cap_c4_q1",
+              "a": 1.3,
+              "b": -0.8,
+              "stage_target": 2
+            },
+            {
+              "item_id": "cap_c4_q2",
+              "a": 1.5,
+              "b": 0.2,
+              "stage_target": 4
+            },
+            {
+              "item_id": "cap_c4_q3",
+              "a": 1.5,
+              "b": 1.2,
+              "stage_target": 5
+            },
+            {
+              "item_id": "cap_c4_q4",
+              "a": 1.4,
+              "b": 2.5,
+              "stage_target": 7
+            }
           ]
         }
       ]
@@ -149,37 +395,117 @@
         {
           "dimension": "家庭支持",
           "items": [
-            {"item_id": "env_e1_q1", "a": 1.0, "b": -1.5, "stage_target": 1},
-            {"item_id": "env_e1_q2", "a": 1.0, "b": -0.5, "stage_target": 2},
-            {"item_id": "env_e1_q3", "a": 1.0, "b": 0.5, "stage_target": 4},
-            {"item_id": "env_e1_q4", "a": 1.0, "b": 1.5, "stage_target": 6}
+            {
+              "item_id": "env_e1_q1",
+              "a": 1.0,
+              "b": -1.5,
+              "stage_target": 1
+            },
+            {
+              "item_id": "env_e1_q2",
+              "a": 1.0,
+              "b": -0.5,
+              "stage_target": 2
+            },
+            {
+              "item_id": "env_e1_q3",
+              "a": 1.0,
+              "b": 0.5,
+              "stage_target": 4
+            },
+            {
+              "item_id": "env_e1_q4",
+              "a": 1.0,
+              "b": 1.5,
+              "stage_target": 6
+            }
           ]
         },
         {
           "dimension": "学校资源",
           "items": [
-            {"item_id": "env_e2_q1", "a": 1.0, "b": -1.2, "stage_target": 1},
-            {"item_id": "env_e2_q2", "a": 1.0, "b": -0.2, "stage_target": 3},
-            {"item_id": "env_e2_q3", "a": 1.0, "b": 0.8, "stage_target": 4},
-            {"item_id": "env_e2_q4", "a": 1.0, "b": 1.8, "stage_target": 6}
+            {
+              "item_id": "env_e2_q1",
+              "a": 1.0,
+              "b": -1.2,
+              "stage_target": 1
+            },
+            {
+              "item_id": "env_e2_q2",
+              "a": 1.0,
+              "b": -0.2,
+              "stage_target": 3
+            },
+            {
+              "item_id": "env_e2_q3",
+              "a": 1.0,
+              "b": 0.8,
+              "stage_target": 4
+            },
+            {
+              "item_id": "env_e2_q4",
+              "a": 1.0,
+              "b": 1.8,
+              "stage_target": 6
+            }
           ]
         },
         {
           "dimension": "同伴影响",
           "items": [
-            {"item_id": "env_e3_q1", "a": 1.0, "b": -1.0, "stage_target": 2},
-            {"item_id": "env_e3_q2", "a": 1.0, "b": 0.0, "stage_target": 3},
-            {"item_id": "env_e3_q3", "a": 1.0, "b": 1.0, "stage_target": 5},
-            {"item_id": "env_e3_q4", "a": 1.0, "b": 2.0, "stage_target": 7}
+            {
+              "item_id": "env_e3_q1",
+              "a": 1.0,
+              "b": -1.0,
+              "stage_target": 2
+            },
+            {
+              "item_id": "env_e3_q2",
+              "a": 1.0,
+              "b": 0.0,
+              "stage_target": 3
+            },
+            {
+              "item_id": "env_e3_q3",
+              "a": 1.0,
+              "b": 1.0,
+              "stage_target": 5
+            },
+            {
+              "item_id": "env_e3_q4",
+              "a": 1.0,
+              "b": 2.0,
+              "stage_target": 7
+            }
           ]
         },
         {
           "dimension": "学习工具",
           "items": [
-            {"item_id": "env_e4_q1", "a": 1.0, "b": -1.3, "stage_target": 1},
-            {"item_id": "env_e4_q2", "a": 1.0, "b": -0.3, "stage_target": 3},
-            {"item_id": "env_e4_q3", "a": 1.0, "b": 0.7, "stage_target": 5},
-            {"item_id": "env_e4_q4", "a": 1.0, "b": 1.7, "stage_target": 7}
+            {
+              "item_id": "env_e4_q1",
+              "a": 1.0,
+              "b": -1.3,
+              "stage_target": 1
+            },
+            {
+              "item_id": "env_e4_q2",
+              "a": 1.0,
+              "b": -0.3,
+              "stage_target": 3
+            },
+            {
+              "item_id": "env_e4_q3",
+              "a": 1.0,
+              "b": 0.7,
+              "stage_target": 5
+            },
+            {
+              "item_id": "env_e4_q4",
+              "a": 1.0,
+              "b": 1.7,
+              "stage_target": 7
+            }
           ]
         }
       ]
@@ -192,41 +518,2344 @@
         {
           "dimension": "阶位识别",
           "items": [
-            {"item_id": "ms_d1_q1", "a": 1.5, "b": -2.0, "c": 0.25, "stage_target": 1},
-            {"item_id": "ms_d1_q2", "a": 1.5, "b": -0.8, "c": 0.25, "stage_target": 2},
-            {"item_id": "ms_d1_q3", "a": 1.5, "b": 0.5, "c": 0.25, "stage_target": 4},
-            {"item_id": "ms_d1_q4", "a": 1.5, "b": 2.0, "c": 0.25, "stage_target": 7}
+            {
+              "item_id": "ms_d1_q1",
+              "a": 1.5,
+              "b": -2.0,
+              "c": 0.25,
+              "stage_target": 1
+            },
+            {
+              "item_id": "ms_d1_q2",
+              "a": 1.5,
+              "b": -0.8,
+              "c": 0.25,
+              "stage_target": 2
+            },
+            {
+              "item_id": "ms_d1_q3",
+              "a": 1.5,
+              "b": 0.5,
+              "c": 0.25,
+              "stage_target": 4
+            },
+            {
+              "item_id": "ms_d1_q4",
+              "a": 1.5,
+              "b": 2.0,
+              "c": 0.25,
+              "stage_target": 7
+            }
           ]
         },
         {
           "dimension": "跨阶迁移",
           "items": [
-            {"item_id": "ms_d2_q1", "a": 1.4, "b": -1.5, "c": 0.25, "stage_target": 2},
-            {"item_id": "ms_d2_q2", "a": 1.5, "b": -0.5, "c": 0.25, "stage_target": 3},
-            {"item_id": "ms_d2_q3", "a": 1.5, "b": 0.8, "c": 0.25, "stage_target": 5},
-            {"item_id": "ms_d2_q4", "a": 1.4, "b": 2.2, "c": 0.25, "stage_target": 7}
+            {
+              "item_id": "ms_d2_q1",
+              "a": 1.4,
+              "b": -1.5,
+              "c": 0.25,
+              "stage_target": 2
+            },
+            {
+              "item_id": "ms_d2_q2",
+              "a": 1.5,
+              "b": -0.5,
+              "c": 0.25,
+              "stage_target": 3
+            },
+            {
+              "item_id": "ms_d2_q3",
+              "a": 1.5,
+              "b": 0.8,
+              "c": 0.25,
+              "stage_target": 5
+            },
+            {
+              "item_id": "ms_d2_q4",
+              "a": 1.4,
+              "b": 2.2,
+              "c": 0.25,
+              "stage_target": 7
+            }
           ]
         },
         {
           "dimension": "自主评估",
           "items": [
-            {"item_id": "ms_d3_q1", "a": 1.3, "b": -1.0, "c": 0.25, "stage_target": 2},
-            {"item_id": "ms_d3_q2", "a": 1.4, "b": 0.0, "c": 0.25, "stage_target": 4},
-            {"item_id": "ms_d3_q3", "a": 1.5, "b": 1.0, "c": 0.25, "stage_target": 5},
-            {"item_id": "ms_d3_q4", "a": 1.4, "b": 2.5, "c": 0.25, "stage_target": 7}
+            {
+              "item_id": "ms_d3_q1",
+              "a": 1.3,
+              "b": -1.0,
+              "c": 0.25,
+              "stage_target": 2
+            },
+            {
+              "item_id": "ms_d3_q2",
+              "a": 1.4,
+              "b": 0.0,
+              "c": 0.25,
+              "stage_target": 4
+            },
+            {
+              "item_id": "ms_d3_q3",
+              "a": 1.5,
+              "b": 1.0,
+              "c": 0.25,
+              "stage_target": 5
+            },
+            {
+              "item_id": "ms_d3_q4",
+              "a": 1.4,
+              "b": 2.5,
+              "c": 0.25,
+              "stage_target": 7
+            }
           ]
         },
         {
           "dimension": "创新突破",
           "items": [
-            {"item_id": "ms_d4_q1", "a": 1.5, "b": 0.5, "c": 0.25, "stage_target": 5},
-            {"item_id": "ms_d4_q2", "a": 1.5, "b": 1.2, "c": 0.25, "stage_target": 6},
-            {"item_id": "ms_d4_q3", "a": 1.5, "b": 2.0, "c": 0.25, "stage_target": 7},
-            {"item_id": "ms_d4_q4", "a": 1.4, "b": 2.8, "c": 0.25, "stage_target": 7}
+            {
+              "item_id": "ms_d4_q1",
+              "a": 1.5,
+              "b": 0.5,
+              "c": 0.25,
+              "stage_target": 5
+            },
+            {
+              "item_id": "ms_d4_q2",
+              "a": 1.5,
+              "b": 1.2,
+              "c": 0.25,
+              "stage_target": 6
+            },
+            {
+              "item_id": "ms_d4_q3",
+              "a": 1.5,
+              "b": 2.0,
+              "c": 0.25,
+              "stage_target": 7
+            },
+            {
+              "item_id": "ms_d4_q4",
+              "a": 1.4,
+              "b": 2.8,
+              "c": 0.25,
+              "stage_target": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tool_id": "assess_jumeq_jobplacement",
+      "tool_name_zh": "升学就业测评-职业目标",
+      "model": "2PL",
+      "dimensions": [
+        {
+          "dimension": "职业目标",
+          "items": [
+            {
+              "item_id": "jjp1_q1",
+              "a": 1.2,
+              "b": -1.3,
+              "stage_target": 1
+            },
+            {
+              "item_id": "jjp1_q2",
+              "a": 1.3,
+              "b": -0.3,
+              "stage_target": 3
+            },
+            {
+              "item_id": "jjp1_q3",
+              "a": 1.4,
+              "b": 0.7,
+              "stage_target": 5
+            },
+            {
+              "item_id": "jjp1_q4",
+              "a": 1.3,
+              "b": 1.7,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "行业认知",
+          "items": [
+            {
+              "item_id": "jjp2_q1",
+              "a": 1.25,
+              "b": -1.1,
+              "stage_target": 1
+            },
+            {
+              "item_id": "jjp2_q2",
+              "a": 1.35,
+              "b": -0.1,
+              "stage_target": 3
+            },
+            {
+              "item_id": "jjp2_q3",
+              "a": 1.45,
+              "b": 0.9,
+              "stage_target": 5
+            },
+            {
+              "item_id": "jjp2_q4",
+              "a": 1.35,
+              "b": 1.9,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "岗位匹配",
+          "items": [
+            {
+              "item_id": "jjp3_q1",
+              "a": 1.3,
+              "b": -1.2,
+              "stage_target": 1
+            },
+            {
+              "item_id": "jjp3_q2",
+              "a": 1.4,
+              "b": -0.2,
+              "stage_target": 3
+            },
+            {
+              "item_id": "jjp3_q3",
+              "a": 1.5,
+              "b": 0.8,
+              "stage_target": 5
+            },
+            {
+              "item_id": "jjp3_q4",
+              "a": 1.4,
+              "b": 1.8,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "发展路径",
+          "items": [
+            {
+              "item_id": "jjp4_q1",
+              "a": 1.2,
+              "b": -1.0,
+              "stage_target": 1
+            },
+            {
+              "item_id": "jjp4_q2",
+              "a": 1.3,
+              "b": 0.0,
+              "stage_target": 3
+            },
+            {
+              "item_id": "jjp4_q3",
+              "a": 1.4,
+              "b": 1.0,
+              "stage_target": 5
+            },
+            {
+              "item_id": "jjp4_q4",
+              "a": 1.3,
+              "b": 2.0,
+              "stage_target": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tool_id": "assess_jumeq_university",
+      "tool_name_zh": "升学就业测评-院校选择",
+      "model": "2PL",
+      "dimensions": [
+        {
+          "dimension": "院校偏好",
+          "items": [
+            {
+              "item_id": "ju1_q1",
+              "a": 1.2,
+              "b": -1.5,
+              "stage_target": 1
+            },
+            {
+              "item_id": "ju1_q2",
+              "a": 1.3,
+              "b": -0.5,
+              "stage_target": 3
+            },
+            {
+              "item_id": "ju1_q3",
+              "a": 1.4,
+              "b": 0.5,
+              "stage_target": 5
+            },
+            {
+              "item_id": "ju1_q4",
+              "a": 1.3,
+              "b": 1.5,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "地域选择",
+          "items": [
+            {
+              "item_id": "ju2_q1",
+              "a": 1.25,
+              "b": -1.4,
+              "stage_target": 1
+            },
+            {
+              "item_id": "ju2_q2",
+              "a": 1.35,
+              "b": -0.4,
+              "stage_target": 3
+            },
+            {
+              "item_id": "ju2_q3",
+              "a": 1.45,
+              "b": 0.6,
+              "stage_target": 5
+            },
+            {
+              "item_id": "ju2_q4",
+              "a": 1.35,
+              "b": 1.6,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "层次目标",
+          "items": [
+            {
+              "item_id": "ju3_q1",
+              "a": 1.3,
+              "b": -1.1,
+              "stage_target": 1
+            },
+            {
+              "item_id": "ju3_q2",
+              "a": 1.4,
+              "b": -0.1,
+              "stage_target": 3
+            },
+            {
+              "item_id": "ju3_q3",
+              "a": 1.5,
+              "b": 0.9,
+              "stage_target": 5
+            },
+            {
+              "item_id": "ju3_q4",
+              "a": 1.4,
+              "b": 1.9,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "录取概率",
+          "items": [
+            {
+              "item_id": "ju4_q1",
+              "a": 1.2,
+              "b": -0.9,
+              "stage_target": 1
+            },
+            {
+              "item_id": "ju4_q2",
+              "a": 1.3,
+              "b": 0.1,
+              "stage_target": 3
+            },
+            {
+              "item_id": "ju4_q3",
+              "a": 1.4,
+              "b": 1.1,
+              "stage_target": 5
+            },
+            {
+              "item_id": "ju4_q4",
+              "a": 1.3,
+              "b": 2.1,
+              "stage_target": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tool_id": "assess_jumeq_major",
+      "tool_name_zh": "升学就业测评-专业选择",
+      "model": "2PL",
+      "dimensions": [
+        {
+          "dimension": "兴趣匹配",
+          "items": [
+            {
+              "item_id": "jm1_q1",
+              "a": 1.2,
+              "b": -1.4,
+              "stage_target": 1
+            },
+            {
+              "item_id": "jm1_q2",
+              "a": 1.3,
+              "b": -0.4,
+              "stage_target": 3
+            },
+            {
+              "item_id": "jm1_q3",
+              "a": 1.4,
+              "b": 0.6,
+              "stage_target": 5
+            },
+            {
+              "item_id": "jm1_q4",
+              "a": 1.3,
+              "b": 1.6,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "能力匹配",
+          "items": [
+            {
+              "item_id": "jm2_q1",
+              "a": 1.25,
+              "b": -1.2,
+              "stage_target": 1
+            },
+            {
+              "item_id": "jm2_q2",
+              "a": 1.35,
+              "b": -0.2,
+              "stage_target": 3
+            },
+            {
+              "item_id": "jm2_q3",
+              "a": 1.45,
+              "b": 0.8,
+              "stage_target": 5
+            },
+            {
+              "item_id": "jm2_q4",
+              "a": 1.35,
+              "b": 1.8,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "就业前景",
+          "items": [
+            {
+              "item_id": "jm3_q1",
+              "a": 1.3,
+              "b": -1.0,
+              "stage_target": 1
+            },
+            {
+              "item_id": "jm3_q2",
+              "a": 1.4,
+              "b": 0.0,
+              "stage_target": 3
+            },
+            {
+              "item_id": "jm3_q3",
+              "a": 1.5,
+              "b": 1.0,
+              "stage_target": 5
+            },
+            {
+              "item_id": "jm3_q4",
+              "a": 1.4,
+              "b": 2.0,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "个人价值观",
+          "items": [
+            {
+              "item_id": "jm4_q1",
+              "a": 1.2,
+              "b": -1.1,
+              "stage_target": 1
+            },
+            {
+              "item_id": "jm4_q2",
+              "a": 1.3,
+              "b": -0.1,
+              "stage_target": 3
+            },
+            {
+              "item_id": "jm4_q3",
+              "a": 1.4,
+              "b": 0.9,
+              "stage_target": 5
+            },
+            {
+              "item_id": "jm4_q4",
+              "a": 1.3,
+              "b": 1.9,
+              "stage_target": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tool_id": "assess_jumeq_economy",
+      "tool_name_zh": "升学就业测评-经济规划",
+      "model": "1PL",
+      "dimensions": [
+        {
+          "dimension": "家庭经济",
+          "items": [
+            {
+              "item_id": "je1_q1",
+              "a": 1.0,
+              "b": -1.8,
+              "stage_target": 1
+            },
+            {
+              "item_id": "je1_q2",
+              "a": 1.0,
+              "b": -0.8,
+              "stage_target": 3
+            },
+            {
+              "item_id": "je1_q3",
+              "a": 1.0,
+              "b": 0.2,
+              "stage_target": 5
+            },
+            {
+              "item_id": "je1_q4",
+              "a": 1.0,
+              "b": 1.2,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "教育投入承受力",
+          "items": [
+            {
+              "item_id": "je2_q1",
+              "a": 1.0,
+              "b": -1.5,
+              "stage_target": 1
+            },
+            {
+              "item_id": "je2_q2",
+              "a": 1.0,
+              "b": -0.5,
+              "stage_target": 3
+            },
+            {
+              "item_id": "je2_q3",
+              "a": 1.0,
+              "b": 0.5,
+              "stage_target": 5
+            },
+            {
+              "item_id": "je2_q4",
+              "a": 1.0,
+              "b": 1.5,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "助学资源认知",
+          "items": [
+            {
+              "item_id": "je3_q1",
+              "a": 1.0,
+              "b": -1.0,
+              "stage_target": 1
+            },
+            {
+              "item_id": "je3_q2",
+              "a": 1.0,
+              "b": 0.0,
+              "stage_target": 3
+            },
+            {
+              "item_id": "je3_q3",
+              "a": 1.0,
+              "b": 1.0,
+              "stage_target": 5
+            },
+            {
+              "item_id": "je3_q4",
+              "a": 1.0,
+              "b": 2.0,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "财务规划意识",
+          "items": [
+            {
+              "item_id": "je4_q1",
+              "a": 1.0,
+              "b": -0.5,
+              "stage_target": 1
+            },
+            {
+              "item_id": "je4_q2",
+              "a": 1.0,
+              "b": 0.5,
+              "stage_target": 3
+            },
+            {
+              "item_id": "je4_q3",
+              "a": 1.0,
+              "b": 1.5,
+              "stage_target": 5
+            },
+            {
+              "item_id": "je4_q4",
+              "a": 1.0,
+              "b": 2.5,
+              "stage_target": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tool_id": "assess_jumeq_qualification",
+      "tool_name_zh": "升学就业测评-资质规划",
+      "model": "2PL",
+      "dimensions": [
+        {
+          "dimension": "考证规划",
+          "items": [
+            {
+              "item_id": "jq1_q1",
+              "a": 1.2,
+              "b": -1.4,
+              "stage_target": 1
+            },
+            {
+              "item_id": "jq1_q2",
+              "a": 1.3,
+              "b": -0.4,
+              "stage_target": 3
+            },
+            {
+              "item_id": "jq1_q3",
+              "a": 1.4,
+              "b": 0.6,
+              "stage_target": 5
+            },
+            {
+              "item_id": "jq1_q4",
+              "a": 1.3,
+              "b": 1.6,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "备考能力",
+          "items": [
+            {
+              "item_id": "jq2_q1",
+              "a": 1.25,
+              "b": -1.1,
+              "stage_target": 1
+            },
+            {
+              "item_id": "jq2_q2",
+              "a": 1.35,
+              "b": -0.1,
+              "stage_target": 3
+            },
+            {
+              "item_id": "jq2_q3",
+              "a": 1.45,
+              "b": 0.9,
+              "stage_target": 5
+            },
+            {
+              "item_id": "jq2_q4",
+              "a": 1.35,
+              "b": 1.9,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "证书价值认知",
+          "items": [
+            {
+              "item_id": "jq3_q1",
+              "a": 1.3,
+              "b": -1.3,
+              "stage_target": 1
+            },
+            {
+              "item_id": "jq3_q2",
+              "a": 1.4,
+              "b": -0.3,
+              "stage_target": 3
+            },
+            {
+              "item_id": "jq3_q3",
+              "a": 1.5,
+              "b": 0.7,
+              "stage_target": 5
+            },
+            {
+              "item_id": "jq3_q4",
+              "a": 1.4,
+              "b": 1.7,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "时间安排",
+          "items": [
+            {
+              "item_id": "jq4_q1",
+              "a": 1.2,
+              "b": -1.2,
+              "stage_target": 1
+            },
+            {
+              "item_id": "jq4_q2",
+              "a": 1.3,
+              "b": -0.2,
+              "stage_target": 3
+            },
+            {
+              "item_id": "jq4_q3",
+              "a": 1.4,
+              "b": 0.8,
+              "stage_target": 5
+            },
+            {
+              "item_id": "jq4_q4",
+              "a": 1.3,
+              "b": 1.8,
+              "stage_target": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tool_id": "assess_camiq_character",
+      "tool_name_zh": "职业密码-性格测评",
+      "model": "2PL",
+      "dimensions": [
+        {
+          "dimension": "外向性",
+          "items": [
+            {
+              "item_id": "cc1_q1",
+              "a": 1.2,
+              "b": -1.6,
+              "stage_target": 1
+            },
+            {
+              "item_id": "cc1_q2",
+              "a": 1.3,
+              "b": -0.6,
+              "stage_target": 3
+            },
+            {
+              "item_id": "cc1_q3",
+              "a": 1.4,
+              "b": 0.4,
+              "stage_target": 5
+            },
+            {
+              "item_id": "cc1_q4",
+              "a": 1.3,
+              "b": 1.4,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "开放性",
+          "items": [
+            {
+              "item_id": "cc2_q1",
+              "a": 1.25,
+              "b": -1.3,
+              "stage_target": 1
+            },
+            {
+              "item_id": "cc2_q2",
+              "a": 1.35,
+              "b": -0.3,
+              "stage_target": 3
+            },
+            {
+              "item_id": "cc2_q3",
+              "a": 1.45,
+              "b": 0.7,
+              "stage_target": 5
+            },
+            {
+              "item_id": "cc2_q4",
+              "a": 1.35,
+              "b": 1.7,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "尽责性",
+          "items": [
+            {
+              "item_id": "cc3_q1",
+              "a": 1.3,
+              "b": -1.2,
+              "stage_target": 1
+            },
+            {
+              "item_id": "cc3_q2",
+              "a": 1.4,
+              "b": -0.2,
+              "stage_target": 3
+            },
+            {
+              "item_id": "cc3_q3",
+              "a": 1.5,
+              "b": 0.8,
+              "stage_target": 5
+            },
+            {
+              "item_id": "cc3_q4",
+              "a": 1.4,
+              "b": 1.8,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "宜人性",
+          "items": [
+            {
+              "item_id": "cc4_q1",
+              "a": 1.2,
+              "b": -1.5,
+              "stage_target": 1
+            },
+            {
+              "item_id": "cc4_q2",
+              "a": 1.3,
+              "b": -0.5,
+              "stage_target": 3
+            },
+            {
+              "item_id": "cc4_q3",
+              "a": 1.4,
+              "b": 0.5,
+              "stage_target": 5
+            },
+            {
+              "item_id": "cc4_q4",
+              "a": 1.3,
+              "b": 1.5,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "情绪稳定性",
+          "items": [
+            {
+              "item_id": "cc5_q1",
+              "a": 1.25,
+              "b": -1.0,
+              "stage_target": 1
+            },
+            {
+              "item_id": "cc5_q2",
+              "a": 1.35,
+              "b": 0.0,
+              "stage_target": 3
+            },
+            {
+              "item_id": "cc5_q3",
+              "a": 1.45,
+              "b": 1.0,
+              "stage_target": 5
+            },
+            {
+              "item_id": "cc5_q4",
+              "a": 1.35,
+              "b": 2.0,
+              "stage_target": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tool_id": "assess_camiq_aptitude",
+      "tool_name_zh": "职业密码-能力倾向测评",
+      "model": "2PL",
+      "dimensions": [
+        {
+          "dimension": "逻辑推理",
+          "items": [
+            {
+              "item_id": "ca1_q1",
+              "a": 1.2,
+              "b": -1.0,
+              "stage_target": 1
+            },
+            {
+              "item_id": "ca1_q2",
+              "a": 1.3,
+              "b": 0.0,
+              "stage_target": 3
+            },
+            {
+              "item_id": "ca1_q3",
+              "a": 1.4,
+              "b": 1.0,
+              "stage_target": 5
+            },
+            {
+              "item_id": "ca1_q4",
+              "a": 1.3,
+              "b": 2.0,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "语言理解",
+          "items": [
+            {
+              "item_id": "ca2_q1",
+              "a": 1.25,
+              "b": -1.3,
+              "stage_target": 1
+            },
+            {
+              "item_id": "ca2_q2",
+              "a": 1.35,
+              "b": -0.3,
+              "stage_target": 3
+            },
+            {
+              "item_id": "ca2_q3",
+              "a": 1.45,
+              "b": 0.7,
+              "stage_target": 5
+            },
+            {
+              "item_id": "ca2_q4",
+              "a": 1.35,
+              "b": 1.7,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "空间想象",
+          "items": [
+            {
+              "item_id": "ca3_q1",
+              "a": 1.3,
+              "b": -0.9,
+              "stage_target": 1
+            },
+            {
+              "item_id": "ca3_q2",
+              "a": 1.4,
+              "b": 0.1,
+              "stage_target": 3
+            },
+            {
+              "item_id": "ca3_q3",
+              "a": 1.5,
+              "b": 1.1,
+              "stage_target": 5
+            },
+            {
+              "item_id": "ca3_q4",
+              "a": 1.4,
+              "b": 2.1,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "数学运算",
+          "items": [
+            {
+              "item_id": "ca4_q1",
+              "a": 1.2,
+              "b": -0.8,
+              "stage_target": 1
+            },
+            {
+              "item_id": "ca4_q2",
+              "a": 1.3,
+              "b": 0.2,
+              "stage_target": 3
+            },
+            {
+              "item_id": "ca4_q3",
+              "a": 1.4,
+              "b": 1.2,
+              "stage_target": 5
+            },
+            {
+              "item_id": "ca4_q4",
+              "a": 1.3,
+              "b": 2.2,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "记忆广度",
+          "items": [
+            {
+              "item_id": "ca5_q1",
+              "a": 1.25,
+              "b": -1.2,
+              "stage_target": 1
+            },
+            {
+              "item_id": "ca5_q2",
+              "a": 1.35,
+              "b": -0.2,
+              "stage_target": 3
+            },
+            {
+              "item_id": "ca5_q3",
+              "a": 1.45,
+              "b": 0.8,
+              "stage_target": 5
+            },
+            {
+              "item_id": "ca5_q4",
+              "a": 1.35,
+              "b": 1.8,
+              "stage_target": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tool_id": "assess_camiq_monetary",
+      "tool_name_zh": "职业密码-经济资源测评",
+      "model": "1PL",
+      "dimensions": [
+        {
+          "dimension": "教育支出规划",
+          "items": [
+            {
+              "item_id": "cm1_q1",
+              "a": 1.0,
+              "b": -1.7,
+              "stage_target": 1
+            },
+            {
+              "item_id": "cm1_q2",
+              "a": 1.0,
+              "b": -0.7,
+              "stage_target": 3
+            },
+            {
+              "item_id": "cm1_q3",
+              "a": 1.0,
+              "b": 0.3,
+              "stage_target": 5
+            },
+            {
+              "item_id": "cm1_q4",
+              "a": 1.0,
+              "b": 1.3,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "补习投入",
+          "items": [
+            {
+              "item_id": "cm2_q1",
+              "a": 1.0,
+              "b": -1.4,
+              "stage_target": 1
+            },
+            {
+              "item_id": "cm2_q2",
+              "a": 1.0,
+              "b": -0.4,
+              "stage_target": 3
+            },
+            {
+              "item_id": "cm2_q3",
+              "a": 1.0,
+              "b": 0.6,
+              "stage_target": 5
+            },
+            {
+              "item_id": "cm2_q4",
+              "a": 1.0,
+              "b": 1.6,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "资源配置合理性",
+          "items": [
+            {
+              "item_id": "cm3_q1",
+              "a": 1.0,
+              "b": -0.9,
+              "stage_target": 1
+            },
+            {
+              "item_id": "cm3_q2",
+              "a": 1.0,
+              "b": 0.1,
+              "stage_target": 3
+            },
+            {
+              "item_id": "cm3_q3",
+              "a": 1.0,
+              "b": 1.1,
+              "stage_target": 5
+            },
+            {
+              "item_id": "cm3_q4",
+              "a": 1.0,
+              "b": 2.1,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "ROI 意识",
+          "items": [
+            {
+              "item_id": "cm4_q1",
+              "a": 1.0,
+              "b": -0.4,
+              "stage_target": 1
+            },
+            {
+              "item_id": "cm4_q2",
+              "a": 1.0,
+              "b": 0.6,
+              "stage_target": 3
+            },
+            {
+              "item_id": "cm4_q3",
+              "a": 1.0,
+              "b": 1.6,
+              "stage_target": 5
+            },
+            {
+              "item_id": "cm4_q4",
+              "a": 1.0,
+              "b": 2.6,
+              "stage_target": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tool_id": "assess_camiq_interest",
+      "tool_name_zh": "职业密码-兴趣测评",
+      "model": "2PL",
+      "dimensions": [
+        {
+          "dimension": "情境兴趣",
+          "items": [
+            {
+              "item_id": "ci1_q1",
+              "a": 1.2,
+              "b": -1.8,
+              "stage_target": 1
+            },
+            {
+              "item_id": "ci1_q2",
+              "a": 1.3,
+              "b": -0.8,
+              "stage_target": 3
+            },
+            {
+              "item_id": "ci1_q3",
+              "a": 1.4,
+              "b": 0.2,
+              "stage_target": 5
+            },
+            {
+              "item_id": "ci1_q4",
+              "a": 1.3,
+              "b": 1.2,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "个人兴趣",
+          "items": [
+            {
+              "item_id": "ci2_q1",
+              "a": 1.25,
+              "b": -1.5,
+              "stage_target": 1
+            },
+            {
+              "item_id": "ci2_q2",
+              "a": 1.35,
+              "b": -0.5,
+              "stage_target": 3
+            },
+            {
+              "item_id": "ci2_q3",
+              "a": 1.45,
+              "b": 0.5,
+              "stage_target": 5
+            },
+            {
+              "item_id": "ci2_q4",
+              "a": 1.35,
+              "b": 1.5,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "兴趣稳定性",
+          "items": [
+            {
+              "item_id": "ci3_q1",
+              "a": 1.3,
+              "b": -1.0,
+              "stage_target": 1
+            },
+            {
+              "item_id": "ci3_q2",
+              "a": 1.4,
+              "b": 0.0,
+              "stage_target": 3
+            },
+            {
+              "item_id": "ci3_q3",
+              "a": 1.5,
+              "b": 1.0,
+              "stage_target": 5
+            },
+            {
+              "item_id": "ci3_q4",
+              "a": 1.4,
+              "b": 2.0,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "兴趣广度",
+          "items": [
+            {
+              "item_id": "ci4_q1",
+              "a": 1.2,
+              "b": -1.2,
+              "stage_target": 1
+            },
+            {
+              "item_id": "ci4_q2",
+              "a": 1.3,
+              "b": -0.2,
+              "stage_target": 3
+            },
+            {
+              "item_id": "ci4_q3",
+              "a": 1.4,
+              "b": 0.8,
+              "stage_target": 5
+            },
+            {
+              "item_id": "ci4_q4",
+              "a": 1.3,
+              "b": 1.8,
+              "stage_target": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tool_id": "assess_camiq_qualification",
+      "tool_name_zh": "职业密码-资质测评",
+      "model": "2PL",
+      "dimensions": [
+        {
+          "dimension": "学历背景",
+          "items": [
+            {
+              "item_id": "cq1_q1",
+              "a": 1.2,
+              "b": -1.6,
+              "stage_target": 1
+            },
+            {
+              "item_id": "cq1_q2",
+              "a": 1.3,
+              "b": -0.6,
+              "stage_target": 3
+            },
+            {
+              "item_id": "cq1_q3",
+              "a": 1.4,
+              "b": 0.4,
+              "stage_target": 5
+            },
+            {
+              "item_id": "cq1_q4",
+              "a": 1.3,
+              "b": 1.4,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "成绩水平",
+          "items": [
+            {
+              "item_id": "cq2_q1",
+              "a": 1.25,
+              "b": -1.2,
+              "stage_target": 1
+            },
+            {
+              "item_id": "cq2_q2",
+              "a": 1.35,
+              "b": -0.2,
+              "stage_target": 3
+            },
+            {
+              "item_id": "cq2_q3",
+              "a": 1.45,
+              "b": 0.8,
+              "stage_target": 5
+            },
+            {
+              "item_id": "cq2_q4",
+              "a": 1.35,
+              "b": 1.8,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "竞赛荣誉",
+          "items": [
+            {
+              "item_id": "cq3_q1",
+              "a": 1.3,
+              "b": -0.5,
+              "stage_target": 1
+            },
+            {
+              "item_id": "cq3_q2",
+              "a": 1.4,
+              "b": 0.5,
+              "stage_target": 3
+            },
+            {
+              "item_id": "cq3_q3",
+              "a": 1.5,
+              "b": 1.5,
+              "stage_target": 5
+            },
+            {
+              "item_id": "cq3_q4",
+              "a": 1.4,
+              "b": 2.5,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "综合素质",
+          "items": [
+            {
+              "item_id": "cq4_q1",
+              "a": 1.2,
+              "b": -1.1,
+              "stage_target": 1
+            },
+            {
+              "item_id": "cq4_q2",
+              "a": 1.3,
+              "b": -0.1,
+              "stage_target": 3
+            },
+            {
+              "item_id": "cq4_q3",
+              "a": 1.4,
+              "b": 0.9,
+              "stage_target": 5
+            },
+            {
+              "item_id": "cq4_q4",
+              "a": 1.3,
+              "b": 1.9,
+              "stage_target": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tool_id": "assess_fireup_family",
+      "tool_name_zh": "生涯密码-家庭支持测评",
+      "model": "2PL",
+      "dimensions": [
+        {
+          "dimension": "亲子沟通",
+          "items": [
+            {
+              "item_id": "ff1_q1",
+              "a": 1.2,
+              "b": -1.7,
+              "stage_target": 1
+            },
+            {
+              "item_id": "ff1_q2",
+              "a": 1.3,
+              "b": -0.7,
+              "stage_target": 3
+            },
+            {
+              "item_id": "ff1_q3",
+              "a": 1.4,
+              "b": 0.3,
+              "stage_target": 5
+            },
+            {
+              "item_id": "ff1_q4",
+              "a": 1.3,
+              "b": 1.3,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "家长参与度",
+          "items": [
+            {
+              "item_id": "ff2_q1",
+              "a": 1.25,
+              "b": -1.4,
+              "stage_target": 1
+            },
+            {
+              "item_id": "ff2_q2",
+              "a": 1.35,
+              "b": -0.4,
+              "stage_target": 3
+            },
+            {
+              "item_id": "ff2_q3",
+              "a": 1.45,
+              "b": 0.6,
+              "stage_target": 5
+            },
+            {
+              "item_id": "ff2_q4",
+              "a": 1.35,
+              "b": 1.6,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "家庭稳定性",
+          "items": [
+            {
+              "item_id": "ff3_q1",
+              "a": 1.3,
+              "b": -1.1,
+              "stage_target": 1
+            },
+            {
+              "item_id": "ff3_q2",
+              "a": 1.4,
+              "b": -0.1,
+              "stage_target": 3
+            },
+            {
+              "item_id": "ff3_q3",
+              "a": 1.5,
+              "b": 0.9,
+              "stage_target": 5
+            },
+            {
+              "item_id": "ff3_q4",
+              "a": 1.4,
+              "b": 1.9,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "教育观念一致性",
+          "items": [
+            {
+              "item_id": "ff4_q1",
+              "a": 1.2,
+              "b": -0.9,
+              "stage_target": 1
+            },
+            {
+              "item_id": "ff4_q2",
+              "a": 1.3,
+              "b": 0.1,
+              "stage_target": 3
+            },
+            {
+              "item_id": "ff4_q3",
+              "a": 1.4,
+              "b": 1.1,
+              "stage_target": 5
+            },
+            {
+              "item_id": "ff4_q4",
+              "a": 1.3,
+              "b": 2.1,
+              "stage_target": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tool_id": "assess_fireup_individual",
+      "tool_name_zh": "生涯密码-个人素质测评",
+      "model": "2PL",
+      "dimensions": [
+        {
+          "dimension": "自我效能感",
+          "items": [
+            {
+              "item_id": "fi1_q1",
+              "a": 1.2,
+              "b": -1.3,
+              "stage_target": 1
+            },
+            {
+              "item_id": "fi1_q2",
+              "a": 1.3,
+              "b": -0.3,
+              "stage_target": 3
+            },
+            {
+              "item_id": "fi1_q3",
+              "a": 1.4,
+              "b": 0.7,
+              "stage_target": 5
+            },
+            {
+              "item_id": "fi1_q4",
+              "a": 1.3,
+              "b": 1.7,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "抗挫力",
+          "items": [
+            {
+              "item_id": "fi2_q1",
+              "a": 1.25,
+              "b": -1.0,
+              "stage_target": 1
+            },
+            {
+              "item_id": "fi2_q2",
+              "a": 1.35,
+              "b": 0.0,
+              "stage_target": 3
+            },
+            {
+              "item_id": "fi2_q3",
+              "a": 1.45,
+              "b": 1.0,
+              "stage_target": 5
+            },
+            {
+              "item_id": "fi2_q4",
+              "a": 1.35,
+              "b": 2.0,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "自律性",
+          "items": [
+            {
+              "item_id": "fi3_q1",
+              "a": 1.3,
+              "b": -1.1,
+              "stage_target": 1
+            },
+            {
+              "item_id": "fi3_q2",
+              "a": 1.4,
+              "b": -0.1,
+              "stage_target": 3
+            },
+            {
+              "item_id": "fi3_q3",
+              "a": 1.5,
+              "b": 0.9,
+              "stage_target": 5
+            },
+            {
+              "item_id": "fi3_q4",
+              "a": 1.4,
+              "b": 1.9,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "目标设定能力",
+          "items": [
+            {
+              "item_id": "fi4_q1",
+              "a": 1.2,
+              "b": -0.9,
+              "stage_target": 1
+            },
+            {
+              "item_id": "fi4_q2",
+              "a": 1.3,
+              "b": 0.1,
+              "stage_target": 3
+            },
+            {
+              "item_id": "fi4_q3",
+              "a": 1.4,
+              "b": 1.1,
+              "stage_target": 5
+            },
+            {
+              "item_id": "fi4_q4",
+              "a": 1.3,
+              "b": 2.1,
+              "stage_target": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tool_id": "assess_fireup_resources",
+      "tool_name_zh": "生涯密码-学习资源测评",
+      "model": "2PL",
+      "dimensions": [
+        {
+          "dimension": "教材配置",
+          "items": [
+            {
+              "item_id": "fr1_q1",
+              "a": 1.2,
+              "b": -1.8,
+              "stage_target": 1
+            },
+            {
+              "item_id": "fr1_q2",
+              "a": 1.3,
+              "b": -0.8,
+              "stage_target": 3
+            },
+            {
+              "item_id": "fr1_q3",
+              "a": 1.4,
+              "b": 0.2,
+              "stage_target": 5
+            },
+            {
+              "item_id": "fr1_q4",
+              "a": 1.3,
+              "b": 1.2,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "辅助工具",
+          "items": [
+            {
+              "item_id": "fr2_q1",
+              "a": 1.25,
+              "b": -1.5,
+              "stage_target": 1
+            },
+            {
+              "item_id": "fr2_q2",
+              "a": 1.35,
+              "b": -0.5,
+              "stage_target": 3
+            },
+            {
+              "item_id": "fr2_q3",
+              "a": 1.45,
+              "b": 0.5,
+              "stage_target": 5
+            },
+            {
+              "item_id": "fr2_q4",
+              "a": 1.35,
+              "b": 1.5,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "网络资源利用",
+          "items": [
+            {
+              "item_id": "fr3_q1",
+              "a": 1.3,
+              "b": -1.1,
+              "stage_target": 1
+            },
+            {
+              "item_id": "fr3_q2",
+              "a": 1.4,
+              "b": -0.1,
+              "stage_target": 3
+            },
+            {
+              "item_id": "fr3_q3",
+              "a": 1.5,
+              "b": 0.9,
+              "stage_target": 5
+            },
+            {
+              "item_id": "fr3_q4",
+              "a": 1.4,
+              "b": 1.9,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "图书馆使用",
+          "items": [
+            {
+              "item_id": "fr4_q1",
+              "a": 1.2,
+              "b": -1.3,
+              "stage_target": 1
+            },
+            {
+              "item_id": "fr4_q2",
+              "a": 1.3,
+              "b": -0.3,
+              "stage_target": 3
+            },
+            {
+              "item_id": "fr4_q3",
+              "a": 1.4,
+              "b": 0.7,
+              "stage_target": 5
+            },
+            {
+              "item_id": "fr4_q4",
+              "a": 1.3,
+              "b": 1.7,
+              "stage_target": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tool_id": "assess_fireup_ecosystem",
+      "tool_name_zh": "生涯密码-学习生态测评",
+      "model": "2PL",
+      "dimensions": [
+        {
+          "dimension": "学校生态",
+          "items": [
+            {
+              "item_id": "fe1_q1",
+              "a": 1.2,
+              "b": -1.6,
+              "stage_target": 1
+            },
+            {
+              "item_id": "fe1_q2",
+              "a": 1.3,
+              "b": -0.6,
+              "stage_target": 3
+            },
+            {
+              "item_id": "fe1_q3",
+              "a": 1.4,
+              "b": 0.4,
+              "stage_target": 5
+            },
+            {
+              "item_id": "fe1_q4",
+              "a": 1.3,
+              "b": 1.4,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "校外培训生态",
+          "items": [
+            {
+              "item_id": "fe2_q1",
+              "a": 1.25,
+              "b": -1.2,
+              "stage_target": 1
+            },
+            {
+              "item_id": "fe2_q2",
+              "a": 1.35,
+              "b": -0.2,
+              "stage_target": 3
+            },
+            {
+              "item_id": "fe2_q3",
+              "a": 1.45,
+              "b": 0.8,
+              "stage_target": 5
+            },
+            {
+              "item_id": "fe2_q4",
+              "a": 1.35,
+              "b": 1.8,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "同伴网络",
+          "items": [
+            {
+              "item_id": "fe3_q1",
+              "a": 1.3,
+              "b": -1.3,
+              "stage_target": 1
+            },
+            {
+              "item_id": "fe3_q2",
+              "a": 1.4,
+              "b": -0.3,
+              "stage_target": 3
+            },
+            {
+              "item_id": "fe3_q3",
+              "a": 1.5,
+              "b": 0.7,
+              "stage_target": 5
+            },
+            {
+              "item_id": "fe3_q4",
+              "a": 1.4,
+              "b": 1.7,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "社区支持",
+          "items": [
+            {
+              "item_id": "fe4_q1",
+              "a": 1.2,
+              "b": -1.4,
+              "stage_target": 1
+            },
+            {
+              "item_id": "fe4_q2",
+              "a": 1.3,
+              "b": -0.4,
+              "stage_target": 3
+            },
+            {
+              "item_id": "fe4_q3",
+              "a": 1.4,
+              "b": 0.6,
+              "stage_target": 5
+            },
+            {
+              "item_id": "fe4_q4",
+              "a": 1.3,
+              "b": 1.6,
+              "stage_target": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tool_id": "assess_fireup_usability",
+      "tool_name_zh": "生涯密码-工具适用性测评",
+      "model": "2PL",
+      "dimensions": [
+        {
+          "dimension": "数字工具使用",
+          "items": [
+            {
+              "item_id": "fu1_q1",
+              "a": 1.2,
+              "b": -1.5,
+              "stage_target": 1
+            },
+            {
+              "item_id": "fu1_q2",
+              "a": 1.3,
+              "b": -0.5,
+              "stage_target": 3
+            },
+            {
+              "item_id": "fu1_q3",
+              "a": 1.4,
+              "b": 0.5,
+              "stage_target": 5
+            },
+            {
+              "item_id": "fu1_q4",
+              "a": 1.3,
+              "b": 1.5,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "AI 辅助接受度",
+          "items": [
+            {
+              "item_id": "fu2_q1",
+              "a": 1.25,
+              "b": -1.1,
+              "stage_target": 1
+            },
+            {
+              "item_id": "fu2_q2",
+              "a": 1.35,
+              "b": -0.1,
+              "stage_target": 3
+            },
+            {
+              "item_id": "fu2_q3",
+              "a": 1.45,
+              "b": 0.9,
+              "stage_target": 5
+            },
+            {
+              "item_id": "fu2_q4",
+              "a": 1.35,
+              "b": 1.9,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "工具切换成本",
+          "items": [
+            {
+              "item_id": "fu3_q1",
+              "a": 1.3,
+              "b": -1.2,
+              "stage_target": 1
+            },
+            {
+              "item_id": "fu3_q2",
+              "a": 1.4,
+              "b": -0.2,
+              "stage_target": 3
+            },
+            {
+              "item_id": "fu3_q3",
+              "a": 1.5,
+              "b": 0.8,
+              "stage_target": 5
+            },
+            {
+              "item_id": "fu3_q4",
+              "a": 1.4,
+              "b": 1.8,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "工具适配性",
+          "items": [
+            {
+              "item_id": "fu4_q1",
+              "a": 1.2,
+              "b": -1.0,
+              "stage_target": 1
+            },
+            {
+              "item_id": "fu4_q2",
+              "a": 1.3,
+              "b": 0.0,
+              "stage_target": 3
+            },
+            {
+              "item_id": "fu4_q3",
+              "a": 1.4,
+              "b": 1.0,
+              "stage_target": 5
+            },
+            {
+              "item_id": "fu4_q4",
+              "a": 1.3,
+              "b": 2.0,
+              "stage_target": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tool_id": "assess_fireup_pathways",
+      "tool_name_zh": "生涯密码-路径规划测评",
+      "model": "2PL",
+      "dimensions": [
+        {
+          "dimension": "升学路径清晰度",
+          "items": [
+            {
+              "item_id": "fp1_q1",
+              "a": 1.2,
+              "b": -1.4,
+              "stage_target": 1
+            },
+            {
+              "item_id": "fp1_q2",
+              "a": 1.3,
+              "b": -0.4,
+              "stage_target": 3
+            },
+            {
+              "item_id": "fp1_q3",
+              "a": 1.4,
+              "b": 0.6,
+              "stage_target": 5
+            },
+            {
+              "item_id": "fp1_q4",
+              "a": 1.3,
+              "b": 1.6,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "备选方案意识",
+          "items": [
+            {
+              "item_id": "fp2_q1",
+              "a": 1.25,
+              "b": -1.1,
+              "stage_target": 1
+            },
+            {
+              "item_id": "fp2_q2",
+              "a": 1.35,
+              "b": -0.1,
+              "stage_target": 3
+            },
+            {
+              "item_id": "fp2_q3",
+              "a": 1.45,
+              "b": 0.9,
+              "stage_target": 5
+            },
+            {
+              "item_id": "fp2_q4",
+              "a": 1.35,
+              "b": 1.9,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "里程碑设定",
+          "items": [
+            {
+              "item_id": "fp3_q1",
+              "a": 1.3,
+              "b": -0.9,
+              "stage_target": 1
+            },
+            {
+              "item_id": "fp3_q2",
+              "a": 1.4,
+              "b": 0.1,
+              "stage_target": 3
+            },
+            {
+              "item_id": "fp3_q3",
+              "a": 1.5,
+              "b": 1.1,
+              "stage_target": 5
+            },
+            {
+              "item_id": "fp3_q4",
+              "a": 1.4,
+              "b": 2.1,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "路径灵活性",
+          "items": [
+            {
+              "item_id": "fp4_q1",
+              "a": 1.2,
+              "b": -1.0,
+              "stage_target": 1
+            },
+            {
+              "item_id": "fp4_q2",
+              "a": 1.3,
+              "b": 0.0,
+              "stage_target": 3
+            },
+            {
+              "item_id": "fp4_q3",
+              "a": 1.4,
+              "b": 1.0,
+              "stage_target": 5
+            },
+            {
+              "item_id": "fp4_q4",
+              "a": 1.3,
+              "b": 2.0,
+              "stage_target": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tool_id": "assess_flywheels_self_eval",
+      "tool_name_zh": "六飞轮自评测评",
+      "model": "2PL",
+      "dimensions": [
+        {
+          "dimension": "计划飞轮执行度",
+          "items": [
+            {
+              "item_id": "fls1_q1",
+              "a": 1.2,
+              "b": -1.6,
+              "stage_target": 1
+            },
+            {
+              "item_id": "fls1_q2",
+              "a": 1.3,
+              "b": -0.6,
+              "stage_target": 3
+            },
+            {
+              "item_id": "fls1_q3",
+              "a": 1.4,
+              "b": 0.4,
+              "stage_target": 5
+            },
+            {
+              "item_id": "fls1_q4",
+              "a": 1.3,
+              "b": 1.4,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "预习飞轮执行度",
+          "items": [
+            {
+              "item_id": "fls2_q1",
+              "a": 1.25,
+              "b": -1.4,
+              "stage_target": 1
+            },
+            {
+              "item_id": "fls2_q2",
+              "a": 1.35,
+              "b": -0.4,
+              "stage_target": 3
+            },
+            {
+              "item_id": "fls2_q3",
+              "a": 1.45,
+              "b": 0.6,
+              "stage_target": 5
+            },
+            {
+              "item_id": "fls2_q4",
+              "a": 1.35,
+              "b": 1.6,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "复习飞轮执行度",
+          "items": [
+            {
+              "item_id": "fls3_q1",
+              "a": 1.3,
+              "b": -1.2,
+              "stage_target": 1
+            },
+            {
+              "item_id": "fls3_q2",
+              "a": 1.4,
+              "b": -0.2,
+              "stage_target": 3
+            },
+            {
+              "item_id": "fls3_q3",
+              "a": 1.5,
+              "b": 0.8,
+              "stage_target": 5
+            },
+            {
+              "item_id": "fls3_q4",
+              "a": 1.4,
+              "b": 1.8,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "听课飞轮执行度",
+          "items": [
+            {
+              "item_id": "fls4_q1",
+              "a": 1.2,
+              "b": -1.5,
+              "stage_target": 1
+            },
+            {
+              "item_id": "fls4_q2",
+              "a": 1.3,
+              "b": -0.5,
+              "stage_target": 3
+            },
+            {
+              "item_id": "fls4_q3",
+              "a": 1.4,
+              "b": 0.5,
+              "stage_target": 5
+            },
+            {
+              "item_id": "fls4_q4",
+              "a": 1.3,
+              "b": 1.5,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "作业飞轮执行度",
+          "items": [
+            {
+              "item_id": "fls5_q1",
+              "a": 1.25,
+              "b": -1.3,
+              "stage_target": 1
+            },
+            {
+              "item_id": "fls5_q2",
+              "a": 1.35,
+              "b": -0.3,
+              "stage_target": 3
+            },
+            {
+              "item_id": "fls5_q3",
+              "a": 1.45,
+              "b": 0.7,
+              "stage_target": 5
+            },
+            {
+              "item_id": "fls5_q4",
+              "a": 1.35,
+              "b": 1.7,
+              "stage_target": 7
+            }
+          ]
+        },
+        {
+          "dimension": "考试飞轮执行度",
+          "items": [
+            {
+              "item_id": "fls6_q1",
+              "a": 1.3,
+              "b": -1.0,
+              "stage_target": 1
+            },
+            {
+              "item_id": "fls6_q2",
+              "a": 1.4,
+              "b": 0.0,
+              "stage_target": 3
+            },
+            {
+              "item_id": "fls6_q3",
+              "a": 1.5,
+              "b": 1.0,
+              "stage_target": 5
+            },
+            {
+              "item_id": "fls6_q4",
+              "a": 1.4,
+              "b": 2.0,
+              "stage_target": 7
+            }
           ]
         }
       ]
     }
   ],
-  "_coverage_note": "本种子数据覆盖 5/22 工具(MECE 4 个 + 七阶综合 1 个)共 80 题; Phase 2.5 完整版将覆盖全部 22 工具 352 题"
+  "_coverage_note": "本种子数据覆盖全部 22/22 工具 92 维度 368 题; Phase 2.5 完整标定版"
 }
