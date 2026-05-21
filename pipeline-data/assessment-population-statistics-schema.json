@@ -1,0 +1,148 @@
+{
+  "$schema": "https://xingyaotu.cn/schemas/assessment-population-statistics.v1.0.json",
+  "version": "1.0",
+  "compliance": "v5.25 道层零漂移",
+  "last_updated": "2026-05-21",
+  "_meta": {
+    "description": "测评人口统计 schema — 定义平台全体学生测评结果的聚合统计结构, 用于平台运营分析与基准更新",
+    "pipl_note": "PIPL 合规: 人口统计数据为聚合匿名统计; 不含个体 student_id; 最小样本量 ≥ 50 才输出统计结果",
+    "usage": "每月/每季度运行聚合分析 → 输出人口统计报告 → 更新基准组数据 → 推送运营看板"
+  },
+  "population_stats_schema": {
+    "description": "人口统计报告主体结构",
+    "fields": {
+      "stats_report_id": {
+        "type": "string",
+        "pattern": "^PSTAT-[0-9]{6}-[A-Z0-9]{4}$",
+        "required": true
+      },
+      "report_period": {
+        "type": "object",
+        "properties": {
+          "start_date": {"type": "string", "format": "date"},
+          "end_date": {"type": "string", "format": "date"},
+          "period_type": {"type": "string", "enum": ["monthly", "quarterly", "annual"]}
+        },
+        "required": true
+      },
+      "total_assessments_completed": {
+        "type": "integer",
+        "minimum": 50,
+        "description": "统计期内完成测评总人次",
+        "required": true
+      },
+      "stage_distribution": {
+        "type": "object",
+        "description": "全平台七阶分布 (比例和 = 1.0)",
+        "properties": {
+          "不会": {"type": "number", "minimum": 0, "maximum": 1},
+          "模糊": {"type": "number", "minimum": 0, "maximum": 1},
+          "清晰": {"type": "number", "minimum": 0, "maximum": 1},
+          "框架": {"type": "number", "minimum": 0, "maximum": 1},
+          "运用": {"type": "number", "minimum": 0, "maximum": 1},
+          "熟练": {"type": "number", "minimum": 0, "maximum": 1},
+          "创新": {"type": "number", "minimum": 0, "maximum": 1}
+        },
+        "required": true,
+        "_dao_guard": "全平台七阶分布 — 七阶: 不会/模糊/清晰/框架/运用/熟练/创新 分布和 = 1.0"
+      },
+      "mece_population_means": {
+        "type": "object",
+        "description": "全平台 MECE 四维度 θ 均值",
+        "properties": {
+          "M_theta_mean": {"type": "number"},
+          "M_theta_sd": {"type": "number", "minimum": 0},
+          "E_exec_theta_mean": {"type": "number"},
+          "E_exec_theta_sd": {"type": "number", "minimum": 0},
+          "C_theta_mean": {"type": "number"},
+          "C_theta_sd": {"type": "number", "minimum": 0},
+          "E_env_theta_mean": {"type": "number"},
+          "E_env_theta_sd": {"type": "number", "minimum": 0}
+        },
+        "required": true,
+        "_dao_guard": "MECE 四维度人口均值 — M/E_exec/C/E_env 道层守护"
+      },
+      "flywheel_population_means": {
+        "type": "object",
+        "description": "全平台六飞轮 θ 均值",
+        "properties": {
+          "计划_theta_mean": {"type": "number"},
+          "预习_theta_mean": {"type": "number"},
+          "复习_theta_mean": {"type": "number"},
+          "听课_theta_mean": {"type": "number"},
+          "作业_theta_mean": {"type": "number"},
+          "考试_theta_mean": {"type": "number"}
+        },
+        "required": true,
+        "_dao_guard": "六飞轮人口均值 — 计划/预习/复习/听课/作业/考试 道层守护"
+      },
+      "primary_bottleneck_distribution": {
+        "type": "object",
+        "description": "全平台 MECE 主瓶颈分布",
+        "properties": {
+          "M": {"type": "number", "minimum": 0, "maximum": 1},
+          "E_exec": {"type": "number", "minimum": 0, "maximum": 1},
+          "C": {"type": "number", "minimum": 0, "maximum": 1},
+          "E_env": {"type": "number", "minimum": 0, "maximum": 1}
+        },
+        "_dao_guard": "主瓶颈分布 — MECE: M/E_exec/C/E_env 分布和 = 1.0 守护"
+      },
+      "most_common_stage": {
+        "type": "string",
+        "enum": ["不会", "模糊", "清晰", "框架", "运用", "熟练", "创新"],
+        "description": "全平台最常见七阶阶位 (众数)"
+      },
+      "most_common_bottleneck": {
+        "type": "string",
+        "enum": ["M", "E_exec", "C", "E_env"],
+        "description": "全平台最常见 MECE 主瓶颈"
+      },
+      "weakest_flywheel_platform": {
+        "type": "string",
+        "enum": ["计划", "预习", "复习", "听课", "作业", "考试"],
+        "description": "全平台最薄弱飞轮 (θ 均值最低)",
+        "_dao_guard": "最薄弱飞轮统计 — 六飞轮: 计划/预习/复习/听课/作业/考试 严格枚举"
+      }
+    }
+  },
+  "cohort_breakdown": {
+    "description": "按基准组分类的统计细分",
+    "cohort_ids": ["bm-national-avg", "bm-gaokao-ready", "bm-junior-high"],
+    "per_cohort_fields": ["stage_distribution", "mece_population_means", "flywheel_population_means"],
+    "_dao_guard": "基准组细分统计 — 3基准组: bm-national-avg/bm-gaokao-ready/bm-junior-high 道层守护"
+  },
+  "trend_analysis": {
+    "description": "趋势分析配置",
+    "stage_trend": {
+      "description": "七阶分布季度趋势",
+      "periods_required": 4,
+      "stage_enum_guard": ["不会", "模糊", "清晰", "框架", "运用", "熟练", "创新"],
+      "_dao_guard": "七阶趋势分析 — 连续4期七阶分布变化; 阶位名称严格枚举守护"
+    },
+    "mece_trend": {
+      "description": "MECE 四维度θ均值趋势",
+      "dimension_enum_guard": ["M", "E_exec", "C", "E_env"]
+    },
+    "flywheel_trend": {
+      "description": "六飞轮θ均值趋势",
+      "flywheel_enum_guard": ["计划", "预习", "复习", "听课", "作业", "考试"],
+      "_dao_guard": "六飞轮趋势分析 — 飞轮名称: 计划/预习/复习/听课/作业/考试 严格枚举守护"
+    }
+  },
+  "minimum_cell_size_rule": {
+    "description": "最小单元格样本量规则 (防止反向识别个体)",
+    "min_cell_size": 50,
+    "suppression_action": "小于 50 的单元格数据不输出, 标记为 suppressed",
+    "_dao_guard": "最小样本量规则 — PIPL 合规: 防止通过小样本反向识别个体; 最小 50 人"
+  },
+  "validation_rules": {
+    "seven_stage_valid_names": ["不会", "模糊", "清晰", "框架", "运用", "熟练", "创新"],
+    "mece_dimension_codes": ["M", "E_exec", "C", "E_env"],
+    "six_flywheel_valid_names": ["计划", "预习", "复习", "听课", "作业", "考试"],
+    "stage_distribution_sum_constraint": "stage_distribution 之和必须 = 1.0",
+    "bottleneck_distribution_sum_constraint": "primary_bottleneck_distribution 之和必须 = 1.0",
+    "min_assessments_for_output": 50,
+    "cohort_ids": ["bm-national-avg", "bm-gaokao-ready", "bm-junior-high"],
+    "pipl_constraints": "PIPL 合规: 人口统计数据为聚合匿名统计; 最小单元格 50 人; 不含 student_id 明文; 不含可识别子群数据"
+  }
+}
