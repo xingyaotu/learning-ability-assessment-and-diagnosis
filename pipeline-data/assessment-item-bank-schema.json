@@ -1,0 +1,165 @@
+{
+  "$schema": "https://xingyaotu.cn/schemas/assessment-item-bank.v1.0.json",
+  "version": "1.0",
+  "compliance": "v5.11 道层零漂移",
+  "last_updated": "2026-05-21",
+  "_meta": {
+    "description": "测评题库 schema — 定义 CAT 自适应测评中题目的结构、IRT 参数与元数据",
+    "pipl_note": "PIPL 合规: 题库不含学生个人信息; item_id 为平台内部匿名 ID",
+    "usage": "CAT 系统 → cat-config.json 选题策略 → 本 schema 题目 → IRT 估分 → irt-scoring-thresholds.json 分类"
+  },
+  "item_schema": {
+    "description": "单道测评题目的完整结构定义",
+    "fields": {
+      "item_id": {
+        "type": "string",
+        "format": "{tool_code}_q{sequence}",
+        "required": true,
+        "description": "全局唯一题目 ID，格式: 工具代码_q序号 (e.g. mot_m1_q1)"
+      },
+      "tool_id": {
+        "type": "string",
+        "required": true,
+        "description": "所属测评工具 ID，必须在 mece-assessment-schema.json 工具目录中"
+      },
+      "dimension_id": {
+        "type": "string",
+        "required": true,
+        "description": "所属测评维度名称 (e.g. 内驱力, 理解力, 执行意愿)"
+      },
+      "item_type": {
+        "type": "string",
+        "enum": ["likert_5", "likert_7", "multiple_choice", "forced_choice", "open_ended_scored"],
+        "required": true
+      },
+      "irt_model": {
+        "type": "string",
+        "enum": ["1PL", "2PL", "3PL"],
+        "required": true,
+        "description": "IRT 模型类型; 1PL 用于 jumeq_economy/camiq_monetary; 3PL 用于 mastery_stages"
+      },
+      "irt_params": {
+        "type": "object",
+        "required": true,
+        "description": "IRT 标定参数 (与 irt-calibration-seed.json 一一对应)",
+        "properties": {
+          "a": {
+            "type": "number",
+            "description": "区分度参数; 1PL 固定 1.0; 2PL ∈ [0.5,2.0]; 3PL ∈ [0.5,2.0]"
+          },
+          "b": {
+            "type": "number",
+            "description": "难度参数 θ 量纲; 通常 ∈ [-3.0, 3.0]"
+          },
+          "c": {
+            "type": "number",
+            "description": "猜测参数; 仅 3PL 使用; ∈ [0, 0.35]"
+          }
+        }
+      },
+      "stage_target": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 7,
+        "required": true,
+        "description": "本题主要鉴别的阶位 (1=不会 ~ 7=创新)"
+      },
+      "content": {
+        "type": "object",
+        "required": true,
+        "properties": {
+          "stem": {"type": "string", "description": "题干文本"},
+          "options": {
+            "type": "array",
+            "items": {
+              "option_id": {"type": "string"},
+              "text": {"type": "string"},
+              "score": {"type": "number", "description": "该选项对应的分值"}
+            },
+            "description": "选项列表; open_ended_scored 类型可为空"
+          },
+          "scoring_rubric": {"type": "string", "description": "评分细则; open_ended_scored 必填"},
+          "reverse_scored": {"type": "boolean", "default": false, "description": "是否为反向计分题"}
+        }
+      },
+      "metadata": {
+        "type": "object",
+        "properties": {
+          "difficulty_label": {"type": "string", "enum": ["easy", "medium", "hard", "very_hard"]},
+          "exposure_count": {"type": "integer", "minimum": 0, "description": "历史曝光次数"},
+          "exposure_rate": {"type": "number", "minimum": 0, "maximum": 1, "description": "曝光率(受 Sympson-Hetter 控制)"},
+          "calibration_sample_size": {"type": "integer", "minimum": 100, "description": "标定样本量"},
+          "last_calibrated": {"type": "date"},
+          "active": {"type": "boolean", "default": true, "description": "是否在题库中启用"}
+        }
+      }
+    }
+  },
+  "tool_item_counts": {
+    "description": "各工具的题目数量配置 (与 irt-calibration-seed.json 完全对应)",
+    "tools": [
+      {"tool_id": "assess_mece_motivation",     "dimensions": 4, "items_per_dim": 4, "total_items": 16,  "irt_model": "2PL"},
+      {"tool_id": "assess_mece_execution",      "dimensions": 4, "items_per_dim": 4, "total_items": 16,  "irt_model": "2PL"},
+      {"tool_id": "assess_mece_capability",     "dimensions": 4, "items_per_dim": 4, "total_items": 16,  "irt_model": "2PL"},
+      {"tool_id": "assess_mece_environment",    "dimensions": 4, "items_per_dim": 4, "total_items": 16,  "irt_model": "2PL"},
+      {"tool_id": "assess_mastery_stages",      "dimensions": 4, "items_per_dim": 4, "total_items": 16,  "irt_model": "3PL"},
+      {"tool_id": "assess_jumeq_jobplacement",  "dimensions": 4, "items_per_dim": 4, "total_items": 16,  "irt_model": "2PL"},
+      {"tool_id": "assess_jumeq_university",    "dimensions": 4, "items_per_dim": 4, "total_items": 16,  "irt_model": "2PL"},
+      {"tool_id": "assess_jumeq_major",         "dimensions": 4, "items_per_dim": 4, "total_items": 16,  "irt_model": "2PL"},
+      {"tool_id": "assess_jumeq_economy",       "dimensions": 4, "items_per_dim": 4, "total_items": 16,  "irt_model": "1PL"},
+      {"tool_id": "assess_jumeq_qualification", "dimensions": 4, "items_per_dim": 4, "total_items": 16,  "irt_model": "2PL"},
+      {"tool_id": "assess_camiq_character",     "dimensions": 5, "items_per_dim": 4, "total_items": 20,  "irt_model": "2PL"},
+      {"tool_id": "assess_camiq_aptitude",      "dimensions": 5, "items_per_dim": 4, "total_items": 20,  "irt_model": "2PL"},
+      {"tool_id": "assess_camiq_monetary",      "dimensions": 4, "items_per_dim": 4, "total_items": 16,  "irt_model": "1PL"},
+      {"tool_id": "assess_camiq_interest",      "dimensions": 4, "items_per_dim": 4, "total_items": 16,  "irt_model": "2PL"},
+      {"tool_id": "assess_camiq_qualification", "dimensions": 4, "items_per_dim": 4, "total_items": 16,  "irt_model": "2PL"},
+      {"tool_id": "assess_fireup_family",       "dimensions": 4, "items_per_dim": 4, "total_items": 16,  "irt_model": "2PL"},
+      {"tool_id": "assess_fireup_individual",   "dimensions": 4, "items_per_dim": 4, "total_items": 16,  "irt_model": "2PL"},
+      {"tool_id": "assess_fireup_resources",    "dimensions": 4, "items_per_dim": 4, "total_items": 16,  "irt_model": "2PL"},
+      {"tool_id": "assess_fireup_ecosystem",    "dimensions": 4, "items_per_dim": 4, "total_items": 16,  "irt_model": "2PL"},
+      {"tool_id": "assess_fireup_usability",    "dimensions": 4, "items_per_dim": 4, "total_items": 16,  "irt_model": "2PL"},
+      {"tool_id": "assess_fireup_pathways",     "dimensions": 4, "items_per_dim": 4, "total_items": 16,  "irt_model": "2PL"},
+      {"tool_id": "assess_flywheels_self_eval", "dimensions": 6, "items_per_dim": 4, "total_items": 24,  "irt_model": "2PL"}
+    ],
+    "totals": {
+      "total_tools": 22,
+      "total_dimensions": 92,
+      "total_items": 368
+    }
+  },
+  "flywheel_dimension_names": {
+    "description": "assess_flywheels_self_eval 六维度与六飞轮一一对应",
+    "mapping": {
+      "fw_dim_1": "计划",
+      "fw_dim_2": "预习",
+      "fw_dim_3": "复习",
+      "fw_dim_4": "听课",
+      "fw_dim_5": "作业",
+      "fw_dim_6": "考试"
+    },
+    "_dao_guard": "六飞轮维度名称必须为: 计划/预习/复习/听课/作业/考试"
+  },
+  "cat_item_selection_rules": {
+    "description": "CAT 选题时的额外约束规则",
+    "max_consecutive_same_dimension": 2,
+    "max_items_per_dimension": 6,
+    "exposure_rate_ceiling": 0.40,
+    "sympson_hetter_control": true,
+    "content_balancing": "proportional_to_dimension_count",
+    "item_refresh_policy": "re_calibrate_after_500_exposures"
+  },
+  "validation_rules": {
+    "item_id_format": "must match {tool_code}_q{N} pattern",
+    "irt_model_constraints": {
+      "1PL": {"a_fixed": 1.0, "b_range": [-3.0, 3.0], "c": "not_applicable"},
+      "2PL": {"a_range": [0.5, 2.0], "b_range": [-3.0, 3.0], "c": "not_applicable"},
+      "3PL": {"a_range": [0.5, 2.0], "b_range": [-3.0, 3.0], "c_range": [0.0, 0.35]}
+    },
+    "stage_target_range": "∈ [1, 7]",
+    "total_items_constraint": "sum(tool_item_counts.tools[*].total_items) == 368",
+    "total_tools_constraint": "len(tool_item_counts.tools) == 22",
+    "total_dimensions_constraint": "sum(tool_item_counts.tools[*].dimensions) == 92",
+    "six_flywheel_dim_names": ["计划", "预习", "复习", "听课", "作业", "考试"],
+    "flywheel_dao_guard": "assess_flywheels_self_eval 的六维度名称严格为六飞轮枚举"
+  }
+}
