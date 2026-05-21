@@ -1,0 +1,192 @@
+{
+  "$schema": "https://xingyaotu.cn/schemas/assessment-score-interpretation.v1.0.json",
+  "version": "1.0",
+  "compliance": "v5.22 道层零漂移",
+  "last_updated": "2026-05-21",
+  "_meta": {
+    "description": "测评分数解读规则 schema — 定义 IRT θ 值转换为七阶/MECE/六飞轮描述性文本的标准化解读规则",
+    "pipl_note": "PIPL 合规: 解读规则为通用规则库; 不含任何个体学生数据; 解读输出中 student_id 为平台匿名 ID",
+    "usage": "CAT 测评完成 → θ 值输入 → 解读规则映射 → 生成描述性解读文本 → 推送教练/报告"
+  },
+  "theta_to_stage_mapping": {
+    "description": "θ 值→七阶阶位映射规则 (与 IRT 评分阈值 schema 一致)",
+    "mapping_rules": [
+      {
+        "stage": "不会",
+        "theta_range": {"min": null, "max": -2.0},
+        "description_template": "当前学习力处于起步阶段, 对学习方法尚未建立基础认知",
+        "_dao_guard": "不会阶位解读 — 七阶第1阶; 不得使用'不及格'等负面标签"
+      },
+      {
+        "stage": "模糊",
+        "theta_range": {"min": -2.0, "max": -1.0},
+        "description_template": "对学习方法有初步感知, 但尚未形成稳定的执行模式",
+        "_dao_guard": "模糊阶位解读 — 七阶第2阶; 解读须具建设性"
+      },
+      {
+        "stage": "清晰",
+        "theta_range": {"min": -1.0, "max": 0.0},
+        "description_template": "已建立基本学习认知框架, 能理解学习方法的逻辑但执行不稳定",
+        "_dao_guard": "清晰阶位解读 — 七阶第3阶"
+      },
+      {
+        "stage": "框架",
+        "theta_range": {"min": 0.0, "max": 1.0},
+        "description_template": "掌握完整学习方法框架, 能在辅导下较稳定执行",
+        "_dao_guard": "框架阶位解读 — 七阶第4阶"
+      },
+      {
+        "stage": "运用",
+        "theta_range": {"min": 1.0, "max": 1.8},
+        "description_template": "能独立运用学习方法, 多数情境下执行有效",
+        "_dao_guard": "运用阶位解读 — 七阶第5阶"
+      },
+      {
+        "stage": "熟练",
+        "theta_range": {"min": 1.8, "max": 2.6},
+        "description_template": "学习方法执行流畅, 能根据情境灵活调整",
+        "_dao_guard": "熟练阶位解读 — 七阶第6阶"
+      },
+      {
+        "stage": "创新",
+        "theta_range": {"min": 2.6, "max": null},
+        "description_template": "学习方法已内化并能创造性迁移应用, 具备自我优化能力",
+        "_dao_guard": "创新阶位解读 — 七阶第7阶"
+      }
+    ],
+    "stage_enum_guard": ["不会", "模糊", "清晰", "框架", "运用", "熟练", "创新"]
+  },
+  "mece_dimension_interpretation": {
+    "description": "MECE 四维度 θ 解读规则",
+    "dimensions": {
+      "M": {
+        "dimension_name": "动力",
+        "high_theta_description": "学习动力充足, 具有清晰目标感和内在驱动力",
+        "low_theta_description": "学习动力不足, 需要外部激励和目标重建",
+        "coaching_focus_when_low": "MECE-M 动力激活 SOP",
+        "_dao_guard": "M维度解读 — MECE 动力维度; 不得漂移为其他概念"
+      },
+      "E_exec": {
+        "dimension_name": "执行力",
+        "high_theta_description": "执行力强, 计划落实稳定, 作业完成质量高",
+        "low_theta_description": "执行力薄弱, 计划制定与落实存在明显差距",
+        "coaching_focus_when_low": "MECE-E_exec 执行强化 SOP",
+        "_dao_guard": "E_exec维度解读 — MECE 执行力维度; 编码 E_exec 不得漂移"
+      },
+      "C": {
+        "dimension_name": "能力",
+        "high_theta_description": "学科能力扎实, 知识体系完整, 迁移应用能力强",
+        "low_theta_description": "知识漏洞较多, 需系统补全基础",
+        "coaching_focus_when_low": "MECE-C 能力补全 SOP",
+        "_dao_guard": "C维度解读 — MECE 能力维度; 不得漂移为'认知'等其他概念"
+      },
+      "E_env": {
+        "dimension_name": "环境",
+        "high_theta_description": "学习环境支持良好, 家庭/学校环境配合度高",
+        "low_theta_description": "学习环境存在干扰因素, 需要环境优化干预",
+        "coaching_focus_when_low": "MECE-E_env 环境优化 SOP",
+        "_dao_guard": "E_env维度解读 — MECE 环境维度; 编码 E_env 不得漂移"
+      }
+    },
+    "mece_enum_guard": ["M", "E_exec", "C", "E_env"]
+  },
+  "flywheel_interpretation": {
+    "description": "六飞轮 θ 解读规则",
+    "flywheels": {
+      "计划": {
+        "high_theta_description": "计划制定能力强, 时间管理有效, 目标分解清晰",
+        "low_theta_description": "计划制定不系统, 时间安排缺乏统筹"
+      },
+      "预习": {
+        "high_theta_description": "预习习惯好, 课前准备充分, 学习迁移能力强",
+        "low_theta_description": "预习习惯缺失, 课前几乎无准备"
+      },
+      "复习": {
+        "high_theta_description": "复习方法科学, 知识巩固效果好, 遗忘曲线管理有效",
+        "low_theta_description": "复习频率不足或方法低效"
+      },
+      "听课": {
+        "high_theta_description": "课堂专注度高, 笔记质量好, 课堂互动积极",
+        "low_theta_description": "课堂专注度低, 笔记零散"
+      },
+      "作业": {
+        "high_theta_description": "作业完成质量高, 错题分析深入, 按时提交",
+        "low_theta_description": "作业完成质量不稳定或拖延"
+      },
+      "考试": {
+        "high_theta_description": "考试状态稳定, 考场策略得当, 应对紧张能力强",
+        "low_theta_description": "考试焦虑明显或考场策略欠佳"
+      }
+    },
+    "_dao_guard": "六飞轮解读 — 严格使用: 计划/预习/复习/听课/作业/考试; 不得出现其他飞轮名称"
+  },
+  "composite_interpretation_rules": {
+    "description": "综合解读规则 (多维度联合)",
+    "rules": [
+      {
+        "rule_id": "cir-low-stage-high-M",
+        "condition": "stage IN ['不会','模糊'] AND M_theta > 0",
+        "interpretation": "学生有学习意愿但方法不足 — 优先六飞轮训练",
+        "_dao_guard": "联合解读规则 — 七阶: 不会/模糊 + MECE-M 联动"
+      },
+      {
+        "rule_id": "cir-mid-stage-low-E_exec",
+        "condition": "stage IN ['清晰','框架'] AND E_exec_theta < -0.5",
+        "interpretation": "认知清晰但执行力弱 — 优先⑤第5步=流程强化",
+        "_dao_guard": "联合解读规则 — ⑤第5步=流程 执行力主瓶颈识别守护"
+      },
+      {
+        "rule_id": "cir-high-stage-low-flywheel",
+        "condition": "stage IN ['运用','熟练'] AND count(flywheel_theta < 0) >= 3",
+        "interpretation": "整体能力强但飞轮短板明显 — 针对性飞轮补强",
+        "_dao_guard": "联合解读规则 — 六飞轮短板识别; 飞轮名称严格枚举"
+      }
+    ]
+  },
+  "interpretation_output_schema": {
+    "description": "解读输出记录结构",
+    "fields": {
+      "interpretation_id": {
+        "type": "string",
+        "pattern": "^INTP-[0-9]{8}-[A-Z0-9]{6}$"
+      },
+      "session_id": {"type": "string"},
+      "student_id": {"type": "string", "description": "平台匿名 student_id"},
+      "stage_interpretation": {
+        "type": "object",
+        "properties": {
+          "stage": {
+            "type": "string",
+            "enum": ["不会", "模糊", "清晰", "框架", "运用", "熟练", "创新"]
+          },
+          "description_text": {"type": "string"}
+        }
+      },
+      "primary_bottleneck_interpretation": {
+        "type": "object",
+        "properties": {
+          "dimension": {"type": "string", "enum": ["M", "E_exec", "C", "E_env"]},
+          "description_text": {"type": "string"}
+        }
+      },
+      "flywheel_interpretations": {
+        "type": "object",
+        "description": "六飞轮各自的描述性解读",
+        "_dao_guard": "飞轮解读输出 — 键名严格为: 计划/预习/复习/听课/作业/考试"
+      },
+      "theta_values_excluded_from_output": {
+        "type": "boolean",
+        "description": "θ 原始值是否已从输出中排除 (家长/学生版报告必须为 true)"
+      }
+    }
+  },
+  "validation_rules": {
+    "seven_stage_valid_names": ["不会", "模糊", "清晰", "框架", "运用", "熟练", "创新"],
+    "mece_dimension_codes": ["M", "E_exec", "C", "E_env"],
+    "six_flywheel_valid_names": ["计划", "预习", "复习", "听课", "作业", "考试"],
+    "stage_count": 7,
+    "theta_exclusion_rule": "家长版/学生版解读输出中 theta_values_excluded_from_output 必须为 true",
+    "description_tone_rule": "解读文本须具建设性; 禁止使用负面标签 (如'不及格'/'差生'/'失败')",
+    "pipl_constraints": "PIPL 合规: interpretation_output 中 student_id 为平台匿名 ID; 解读规则库本身不含个体数据"
+  }
+}
