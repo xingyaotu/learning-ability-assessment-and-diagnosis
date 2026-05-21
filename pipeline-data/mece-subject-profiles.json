@@ -1,0 +1,122 @@
+{
+  "$schema": "https://xingyaotu.cn/schemas/mece-subject-profiles.v1.0.json",
+  "version": "1.0",
+  "compliance": "v5.8 道层零漂移",
+  "last_updated": "2026-05-21",
+  "_meta": {
+    "description": "MECE 科目专项画像配置 — 不同科目对 M动力/E执行力/C能力/E环境 四维度的权重侧重",
+    "mece_dimensions": {
+      "M": "动力 (assess_mece_motivation)",
+      "E_exec": "执行力 (assess_mece_execution)",
+      "C": "能力 (assess_mece_capability)",
+      "E_env": "环境 (assess_mece_environment)"
+    },
+    "usage": "assessment 阶位结果 + 本配置 → 科目专项 MECE 综合 θ → 七阶分类 → 报告"
+  },
+  "subject_profiles": [
+    {
+      "subject_id": "math",
+      "subject_name": "数学",
+      "mece_weights": {"M": 0.20, "E_exec": 0.30, "C": 0.40, "E_env": 0.10},
+      "profile_rationale": "数学高度依赖能力(逻辑推理/理解力)和执行力(做题习惯/时间管理); 动力次之",
+      "primary_bottleneck_dimension": "C",
+      "key_capability_dimensions": ["理解力", "思维力", "迁移力"],
+      "cat_ability_emphasis": "high_discrimination",
+      "stage_threshold_adjustment": 0.0,
+      "recommended_assessment_tools": ["assess_mece_capability", "assess_mece_execution", "assess_mastery_stages"]
+    },
+    {
+      "subject_id": "chinese",
+      "subject_name": "语文",
+      "mece_weights": {"M": 0.30, "E_exec": 0.20, "C": 0.35, "E_env": 0.15},
+      "profile_rationale": "语文对动力(阅读兴趣/内驱力)和能力(理解力/记忆力)要求均衡; 长期积累为主",
+      "primary_bottleneck_dimension": "M",
+      "key_capability_dimensions": ["理解力", "记忆力"],
+      "cat_ability_emphasis": "balanced",
+      "stage_threshold_adjustment": -0.10,
+      "recommended_assessment_tools": ["assess_mece_motivation", "assess_mece_capability", "assess_flywheels_self_eval"]
+    },
+    {
+      "subject_id": "english",
+      "subject_name": "英语",
+      "mece_weights": {"M": 0.30, "E_exec": 0.25, "C": 0.30, "E_env": 0.15},
+      "profile_rationale": "英语对动力(学习兴趣)和能力(记忆力/迁移力)并重; 需要良好的环境资源(输入环境)",
+      "primary_bottleneck_dimension": "M",
+      "key_capability_dimensions": ["记忆力", "理解力"],
+      "cat_ability_emphasis": "balanced",
+      "stage_threshold_adjustment": -0.05,
+      "recommended_assessment_tools": ["assess_mece_motivation", "assess_mece_capability", "assess_mece_environment"]
+    },
+    {
+      "subject_id": "physics",
+      "subject_name": "物理",
+      "mece_weights": {"M": 0.15, "E_exec": 0.30, "C": 0.45, "E_env": 0.10},
+      "profile_rationale": "物理高度依赖能力(思维力/理解力/迁移力)和执行力(解题流程标准化)",
+      "primary_bottleneck_dimension": "C",
+      "key_capability_dimensions": ["思维力", "理解力", "迁移力"],
+      "cat_ability_emphasis": "high_discrimination",
+      "stage_threshold_adjustment": 0.10,
+      "recommended_assessment_tools": ["assess_mece_capability", "assess_mece_execution", "assess_mastery_stages"]
+    },
+    {
+      "subject_id": "chemistry",
+      "subject_name": "化学",
+      "mece_weights": {"M": 0.20, "E_exec": 0.30, "C": 0.40, "E_env": 0.10},
+      "profile_rationale": "化学需要较强记忆力和执行力(实验步骤/计算); 能力维度偏重记忆与理解",
+      "primary_bottleneck_dimension": "C",
+      "key_capability_dimensions": ["记忆力", "理解力"],
+      "cat_ability_emphasis": "balanced",
+      "stage_threshold_adjustment": 0.0,
+      "recommended_assessment_tools": ["assess_mece_capability", "assess_mece_execution"]
+    },
+    {
+      "subject_id": "biology",
+      "subject_name": "生物",
+      "mece_weights": {"M": 0.25, "E_exec": 0.20, "C": 0.40, "E_env": 0.15},
+      "profile_rationale": "生物以记忆和理解为主; 动力(兴趣)是关键驱动; 实验环境资源有一定影响",
+      "primary_bottleneck_dimension": "C",
+      "key_capability_dimensions": ["记忆力", "理解力"],
+      "cat_ability_emphasis": "balanced",
+      "stage_threshold_adjustment": -0.05,
+      "recommended_assessment_tools": ["assess_mece_capability", "assess_mece_motivation", "assess_mece_environment"]
+    },
+    {
+      "subject_id": "history",
+      "subject_name": "历史",
+      "mece_weights": {"M": 0.30, "E_exec": 0.20, "C": 0.35, "E_env": 0.15},
+      "profile_rationale": "历史以动力(兴趣)和能力(记忆/理解)为主; 背景资源对深度理解有帮助",
+      "primary_bottleneck_dimension": "M",
+      "key_capability_dimensions": ["记忆力", "理解力"],
+      "cat_ability_emphasis": "balanced",
+      "stage_threshold_adjustment": -0.10,
+      "recommended_assessment_tools": ["assess_mece_motivation", "assess_mece_capability"]
+    },
+    {
+      "subject_id": "geography",
+      "subject_name": "地理",
+      "mece_weights": {"M": 0.20, "E_exec": 0.25, "C": 0.40, "E_env": 0.15},
+      "profile_rationale": "地理需要空间思维(能力)和规律归纳(执行); 地图资源和工具环境有中等影响",
+      "primary_bottleneck_dimension": "C",
+      "key_capability_dimensions": ["思维力", "理解力", "迁移力"],
+      "cat_ability_emphasis": "balanced",
+      "stage_threshold_adjustment": 0.0,
+      "recommended_assessment_tools": ["assess_mece_capability", "assess_mece_execution", "assess_mece_environment"]
+    },
+    {
+      "subject_id": "politics",
+      "subject_name": "政治",
+      "mece_weights": {"M": 0.35, "E_exec": 0.20, "C": 0.30, "E_env": 0.15},
+      "profile_rationale": "政治以动力(价值认同/内驱力)和能力(理解力/迁移力)并重; 社会环境影响较大",
+      "primary_bottleneck_dimension": "M",
+      "key_capability_dimensions": ["理解力", "迁移力"],
+      "cat_ability_emphasis": "balanced",
+      "stage_threshold_adjustment": -0.10,
+      "recommended_assessment_tools": ["assess_mece_motivation", "assess_mece_capability", "assess_mece_environment"]
+    }
+  ],
+  "validation_rules": {
+    "weight_sum_constraint": "M + E_exec + C + E_env = 1.0 for each subject",
+    "stage_threshold_range": "stage_threshold_adjustment ∈ [-0.5, 0.5]",
+    "mece_dimension_codes": ["M", "E_exec", "C", "E_env"]
+  }
+}
