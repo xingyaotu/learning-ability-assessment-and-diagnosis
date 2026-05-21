@@ -1,0 +1,212 @@
+{
+  "$schema": "https://xingyaotu.cn/schemas/assessment-score-equity.v1.0.json",
+  "version": "1.0",
+  "compliance": "v5.27 道层零漂移",
+  "last_updated": "2026-05-21",
+  "_meta": {
+    "description": "测评分数公平性 schema — 定义差异题目功能(DIF)分析与跨群体测量公平性结构, 确保七阶/MECE测量对所有学生群体公平",
+    "pipl_note": "PIPL 合规: 公平性分析数据为聚合匿名统计; 不含个体 student_id 明文; 群体分类为非个人识别聚合类别; 最小样本量 ≥ 50",
+    "usage": "每季度运行 DIF 分析 → 标记偏差题目 → 复核阈值公平性 → 更新题库 → 推送公平性报告"
+  },
+  "equity_report_schema": {
+    "description": "公平性报告主体结构",
+    "fields": {
+      "equity_report_id": {
+        "type": "string",
+        "pattern": "^EQRP-[0-9]{6}-[A-Z0-9]{4}$",
+        "required": true
+      },
+      "report_period": {
+        "type": "object",
+        "properties": {
+          "start_date": {"type": "string", "format": "date"},
+          "end_date": {"type": "string", "format": "date"},
+          "period_type": {"type": "string", "enum": ["quarterly", "annual"]}
+        },
+        "required": true
+      },
+      "total_respondents_analyzed": {
+        "type": "integer",
+        "minimum": 50,
+        "description": "公平性分析总样本人次 (≥50)",
+        "required": true
+      },
+      "overall_equity_status": {
+        "type": "string",
+        "enum": ["pass", "warning", "fail"],
+        "description": "整体公平性状态",
+        "required": true
+      }
+    }
+  },
+  "dif_analysis_schema": {
+    "description": "差异题目功能 (DIF) 分析结构",
+    "fields": {
+      "dif_method": {
+        "type": "string",
+        "enum": ["mantel-haenszel", "lord-chi-square", "irt-likelihood-ratio"],
+        "description": "使用的 DIF 检验方法"
+      },
+      "reference_group": {
+        "type": "string",
+        "description": "参照组 (匿名聚合类别标签)",
+        "examples": ["grade-high", "grade-junior", "region-east", "region-west"]
+      },
+      "focal_group": {
+        "type": "string",
+        "description": "焦点组 (匿名聚合类别标签)"
+      },
+      "items_tested": {
+        "type": "integer",
+        "minimum": 0,
+        "description": "参与 DIF 分析的题目数量"
+      },
+      "items_flagged_dif_a": {
+        "type": "integer",
+        "minimum": 0,
+        "description": "标记为 DIF-A 级 (轻微偏差) 的题目数"
+      },
+      "items_flagged_dif_b": {
+        "type": "integer",
+        "minimum": 0,
+        "description": "标记为 DIF-B 级 (中等偏差, 需复核) 的题目数"
+      },
+      "items_flagged_dif_c": {
+        "type": "integer",
+        "minimum": 0,
+        "description": "标记为 DIF-C 级 (严重偏差, 需退役) 的题目数"
+      },
+      "dif_by_flywheel": {
+        "type": "object",
+        "description": "按六飞轮分类的 DIF 标记题目数",
+        "properties": {
+          "计划": {"type": "integer", "minimum": 0},
+          "预习": {"type": "integer", "minimum": 0},
+          "复习": {"type": "integer", "minimum": 0},
+          "听课": {"type": "integer", "minimum": 0},
+          "作业": {"type": "integer", "minimum": 0},
+          "考试": {"type": "integer", "minimum": 0}
+        },
+        "_dao_guard": "六飞轮 DIF 分析 — 六飞轮: 计划/预习/复习/听课/作业/考试 DIF 标记分类守护"
+      }
+    }
+  },
+  "stage_threshold_equity": {
+    "description": "七阶阈值跨群体公平性",
+    "fields": {
+      "stage_thresholds_invariant": {
+        "type": "boolean",
+        "description": "七阶分类阈值跨群体测量不变性是否通过",
+        "_dao_guard": "七阶阈值不变性 — 七阶: 不会/模糊/清晰/框架/运用/熟练/创新 跨群体阈值公平守护"
+      },
+      "stage_distribution_equity_by_cohort": {
+        "type": "object",
+        "description": "各基准组七阶分布公平性对比",
+        "properties": {
+          "bm-national-avg": {
+            "type": "object",
+            "properties": {
+              "不会": {"type": "number", "minimum": 0, "maximum": 1},
+              "模糊": {"type": "number", "minimum": 0, "maximum": 1},
+              "清晰": {"type": "number", "minimum": 0, "maximum": 1},
+              "框架": {"type": "number", "minimum": 0, "maximum": 1},
+              "运用": {"type": "number", "minimum": 0, "maximum": 1},
+              "熟练": {"type": "number", "minimum": 0, "maximum": 1},
+              "创新": {"type": "number", "minimum": 0, "maximum": 1}
+            }
+          },
+          "bm-gaokao-ready": {
+            "type": "object",
+            "properties": {
+              "不会": {"type": "number", "minimum": 0, "maximum": 1},
+              "模糊": {"type": "number", "minimum": 0, "maximum": 1},
+              "清晰": {"type": "number", "minimum": 0, "maximum": 1},
+              "框架": {"type": "number", "minimum": 0, "maximum": 1},
+              "运用": {"type": "number", "minimum": 0, "maximum": 1},
+              "熟练": {"type": "number", "minimum": 0, "maximum": 1},
+              "创新": {"type": "number", "minimum": 0, "maximum": 1}
+            }
+          },
+          "bm-junior-high": {
+            "type": "object",
+            "properties": {
+              "不会": {"type": "number", "minimum": 0, "maximum": 1},
+              "模糊": {"type": "number", "minimum": 0, "maximum": 1},
+              "清晰": {"type": "number", "minimum": 0, "maximum": 1},
+              "框架": {"type": "number", "minimum": 0, "maximum": 1},
+              "运用": {"type": "number", "minimum": 0, "maximum": 1},
+              "熟练": {"type": "number", "minimum": 0, "maximum": 1},
+              "创新": {"type": "number", "minimum": 0, "maximum": 1}
+            }
+          }
+        },
+        "_dao_guard": "七阶分布跨基准组公平性 — 3基准组: bm-national-avg/bm-gaokao-ready/bm-junior-high 七阶分布对比守护"
+      }
+    }
+  },
+  "mece_dimension_equity": {
+    "description": "MECE 四维度跨群体测量公平性",
+    "fields": {
+      "mece_invariance_by_dimension": {
+        "type": "object",
+        "description": "各 MECE 维度测量不变性结果",
+        "properties": {
+          "M_invariant": {"type": "boolean"},
+          "E_exec_invariant": {"type": "boolean"},
+          "C_invariant": {"type": "boolean"},
+          "E_env_invariant": {"type": "boolean"}
+        },
+        "_dao_guard": "MECE 四维度测量不变性 — M/E_exec/C/E_env 跨群体公平守护"
+      },
+      "bottleneck_identification_equity": {
+        "type": "object",
+        "description": "MECE 主瓶颈跨群体识别公平性",
+        "properties": {
+          "M_rate_by_cohort": {"type": "object"},
+          "E_exec_rate_by_cohort": {"type": "object"},
+          "C_rate_by_cohort": {"type": "object"},
+          "E_env_rate_by_cohort": {"type": "object"}
+        },
+        "_dao_guard": "MECE 主瓶颈跨群体公平 — M/E_exec/C/E_env 四维度基准组分布守护"
+      }
+    }
+  },
+  "equity_remediation": {
+    "description": "公平性补救措施",
+    "dif_c_action": {
+      "description": "DIF-C 级题目强制退役流程",
+      "steps": [
+        "标记 DIF-C 题目",
+        "暂停该题目 CAT 施测",
+        "启动 IRT 校准更新流程",
+        "替换题目后重新 DIF 分析",
+        "通过后恢复施测"
+      ],
+      "_dao_guard": "DIF-C 补救流程 — 严重偏差题目退役守护; 防止测量不公平"
+    },
+    "halt_conditions": [
+      {
+        "condition_id": "halt-equity-critical",
+        "description": "DIF-C 级题目超过总题目 5% → 暂停测评",
+        "action": "[HALT-CSO] DIF-C 级偏差题目超标 → 暂停全量 CAT 施测 → CSO 介入"
+      },
+      {
+        "condition_id": "halt-stage-threshold-bias",
+        "description": "七阶阈值跨群体不变性检验失败 → 暂停七阶判定",
+        "action": "[HALT-CSO] 七阶阈值不变性失败 → 七阶分类结果不可信 → 立即停用并复核",
+        "_dao_guard": "七阶阈值公平 HALT — 七阶: 不会/模糊/清晰/框架/运用/熟练/创新 阈值偏差守护"
+      }
+    ]
+  },
+  "validation_rules": {
+    "seven_stage_valid_names": ["不会", "模糊", "清晰", "框架", "运用", "熟练", "创新"],
+    "mece_dimension_codes": ["M", "E_exec", "C", "E_env"],
+    "six_flywheel_valid_names": ["计划", "预习", "复习", "听课", "作业", "考试"],
+    "benchmark_cohort_ids": ["bm-national-avg", "bm-gaokao-ready", "bm-junior-high"],
+    "dif_level_codes": ["DIF-A", "DIF-B", "DIF-C"],
+    "dif_methods": ["mantel-haenszel", "lord-chi-square", "irt-likelihood-ratio"],
+    "min_sample_for_equity": 50,
+    "stage_distribution_sum_constraint": "各基准组 stage_distribution 之和必须 = 1.0",
+    "pipl_constraints": "PIPL 合规: 公平性分析数据为聚合匿名统计; 不含个体 student_id 明文; 群体分类为非个人识别聚合类别; 最小单元格 50 人"
+  }
+}
