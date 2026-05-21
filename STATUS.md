@@ -135,3 +135,8 @@
   - 2PL 工具: CAT enabled (MaxInfo + SE≤0.35 停止规则 + Sympson-Hetter曝光控制)
   - 1PL 工具(2个): cat_enabled=false (固定形式施测)
   - 3PL(assess_mastery_stages): guessing_correction=true
+
+## 2026-05-21T07:00:00Z · assessment — CAT 配置验证 + CI v5.7
+### feat(scripts+ci): validate-cat-config.py — CAT 自适应测评配置验证 + CI v5.7
+- scripts/validate-cat-config.py: 42/42 通过 (tool_id存在/1PL固定施测/停止规则/曝光控制)
+- .github/workflows/validate.yml → v5.7: 新增 cat-config CI job (共 9 jobs)

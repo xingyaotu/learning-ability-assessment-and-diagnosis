@@ -1,5 +1,5 @@
 name: Validate
-# 道层 Compliance: v5.6 | JSON 验证 + 内容检查 + 四元组联动验证 + 跨库 schema 验证 + IRT 配置验证 + IRT 种子验证 + IRT 评分阈值验证 + 进度 schema 验证
+# 道层 Compliance: v5.7 | JSON 验证 + 内容检查 + 四元组联动验证 + 跨库 schema 验证 + IRT 配置验证 + IRT 种子验证 + IRT 评分阈值验证 + 进度 schema 验证 + CAT 配置验证
 on:
   pull_request:
     types: [opened, synchronize, reopened]
@@ -92,3 +92,11 @@ jobs:
       - uses: actions/checkout@v4
       - name: 运行学生进度 schema 验证脚本
         run: python3 scripts/validate-progress-schema.py
+
+  cat-config:
+    name: CAT 自适应测评配置验证(1PL固定施测 + 停止规则 + 曝光控制)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 运行 CAT 配置验证脚本
+        run: python3 scripts/validate-cat-config.py
