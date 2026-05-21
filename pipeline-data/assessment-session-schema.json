@@ -1,0 +1,181 @@
+{
+  "$schema": "https://xingyaotu.cn/schemas/assessment-session.v1.0.json",
+  "version": "1.0",
+  "compliance": "v5.12 道层零漂移",
+  "last_updated": "2026-05-21",
+  "_meta": {
+    "description": "测评会话 schema — 记录单次 CAT 自适应测评的完整执行过程与结果",
+    "pipl_note": "PIPL 合规: student_id 为平台匿名 ID; 不存储真实姓名/身份证/联系方式",
+    "usage": "CAT 执行 → 本 schema 记录 → IRT 估分(irt-scoring-thresholds.json) → 报告(report-output-schema) → 教练路由(mece-diagnosis-rules)"
+  },
+  "session_record_schema": {
+    "description": "单次测评会话完整记录",
+    "fields": {
+      "session_id": {
+        "type": "string",
+        "format": "sess-{uuid}",
+        "required": true
+      },
+      "student_id": {
+        "type": "string",
+        "description": "平台匿名 ID — PIPL 合规",
+        "required": true
+      },
+      "tool_id": {
+        "type": "string",
+        "description": "本次测评工具 ID",
+        "required": true
+      },
+      "subject": {
+        "type": "string",
+        "enum": ["math", "chinese", "english", "physics", "chemistry", "biology", "history", "geography", "politics", "general"],
+        "required": true
+      },
+      "session_type": {
+        "type": "string",
+        "enum": ["initial", "progress", "final", "diagnostic"],
+        "required": true
+      },
+      "start_time": {"type": "datetime", "required": true},
+      "end_time": {"type": "datetime", "required": true},
+      "duration_seconds": {"type": "integer", "minimum": 60},
+      "item_responses": {
+        "type": "array",
+        "description": "CAT 施测过程中的逐题记录",
+        "items": {
+          "response_seq": {"type": "integer", "minimum": 1, "description": "施测顺序"},
+          "item_id": {"type": "string"},
+          "dimension_id": {"type": "string"},
+          "stage_target": {"type": "integer", "minimum": 1, "maximum": 7},
+          "response_value": {"type": "number", "description": "原始作答分值"},
+          "response_time_ms": {"type": "integer", "minimum": 0},
+          "theta_estimate_after": {"type": "number", "description": "该题后的 θ EAP 估计值"},
+          "se_after": {"type": "number", "minimum": 0, "description": "标准误 SE"},
+          "info_contributed": {"type": "number", "minimum": 0, "description": "该题贡献的 Fisher 信息量"}
+        }
+      },
+      "stopping_reason": {
+        "type": "string",
+        "enum": ["se_threshold_met", "max_items_reached", "min_items_with_se_met", "time_limit"],
+        "description": "CAT 停止原因"
+      },
+      "items_administered": {"type": "integer", "minimum": 1},
+      "dimension_results": {
+        "type": "array",
+        "description": "各维度最终估计结果",
+        "items": {
+          "dimension_id": {"type": "string"},
+          "theta_final": {"type": "number"},
+          "se_final": {"type": "number", "minimum": 0},
+          "items_used": {"type": "integer", "minimum": 1},
+          "stage_classified": {"type": "integer", "minimum": 1, "maximum": 7}
+        }
+      },
+      "tool_result": {
+        "type": "object",
+        "description": "工具层面汇总结果",
+        "properties": {
+          "overall_theta": {"type": "number", "description": "跨维度综合 θ"},
+          "overall_stage": {"type": "integer", "minimum": 1, "maximum": 7},
+          "stage_name": {
+            "type": "string",
+            "enum": ["不会", "模糊", "清晰", "框架", "运用", "熟练", "创新"]
+          },
+          "confidence_level": {"type": "number", "minimum": 0, "maximum": 1},
+          "mece_profile": {
+            "type": "object",
+            "description": "MECE 四维度分解 (仅 mece 类工具有效)",
+            "properties": {
+              "M_theta": {"type": "number"},
+              "E_exec_theta": {"type": "number"},
+              "C_theta": {"type": "number"},
+              "E_env_theta": {"type": "number"},
+              "composite_theta": {"type": "number"}
+            }
+          }
+        }
+      },
+      "flywheels_result": {
+        "type": "object",
+        "description": "飞轮自评结果 (仅 flywheels_self_eval 工具有效)",
+        "properties": {
+          "计划_theta": {"type": "number"},
+          "预习_theta": {"type": "number"},
+          "复习_theta": {"type": "number"},
+          "听课_theta": {"type": "number"},
+          "作业_theta": {"type": "number"},
+          "考试_theta": {"type": "number"}
+        }
+      },
+      "cat_config_used": {
+        "type": "object",
+        "description": "本次 CAT 使用的配置快照",
+        "properties": {
+          "estimation_method": {"type": "string"},
+          "selection_method": {"type": "string"},
+          "se_threshold": {"type": "number"},
+          "max_items": {"type": "integer"},
+          "min_items": {"type": "integer"}
+        }
+      },
+      "data_quality": {
+        "type": "object",
+        "properties": {
+          "response_pattern_flag": {"type": "boolean", "description": "是否检测到异常作答模式"},
+          "speeded_response_count": {"type": "integer", "description": "超速作答题数 (< 3秒)"},
+          "session_valid": {"type": "boolean", "description": "会话是否有效 (无作弊/中断)"}
+        }
+      }
+    }
+  },
+  "session_summary_schema": {
+    "description": "跨多次会话的测评汇总 — 追踪 θ 变化趋势",
+    "fields": {
+      "summary_id": {"type": "string", "required": true},
+      "student_id": {"type": "string", "required": true},
+      "tool_id": {"type": "string", "required": true},
+      "subject": {"type": "string", "required": true},
+      "sessions": {
+        "type": "array",
+        "items": {
+          "session_id": {"type": "string"},
+          "session_date": {"type": "date"},
+          "overall_theta": {"type": "number"},
+          "overall_stage": {"type": "integer", "minimum": 1, "maximum": 7}
+        }
+      },
+      "theta_trajectory": {
+        "type": "object",
+        "properties": {
+          "initial_theta": {"type": "number"},
+          "latest_theta": {"type": "number"},
+          "theta_delta": {"type": "number"},
+          "trend": {"type": "string", "enum": ["improving", "stable", "declining"]}
+        }
+      },
+      "stage_history": {
+        "type": "array",
+        "items": {
+          "date": {"type": "date"},
+          "stage": {"type": "integer", "minimum": 1, "maximum": 7},
+          "stage_name": {"type": "string", "enum": ["不会", "模糊", "清晰", "框架", "运用", "熟练", "创新"]}
+        }
+      }
+    }
+  },
+  "flywheel_session_constraints": {
+    "description": "flywheels_self_eval 工具的六维度约束 (道层守护)",
+    "six_flywheel_dim_order": ["计划", "预习", "复习", "听课", "作业", "考试"],
+    "_dao_guard": "flywheels_result 中的维度键严格为六飞轮枚举"
+  },
+  "validation_rules": {
+    "session_type_enum": ["initial", "progress", "final", "diagnostic"],
+    "stopping_reason_enum": ["se_threshold_met", "max_items_reached", "min_items_with_se_met", "time_limit"],
+    "stage_enum": ["不会", "模糊", "清晰", "框架", "运用", "熟练", "创新"],
+    "stage_range": "overall_stage ∈ [1, 7]",
+    "theta_range": "theta_final ∈ [-4.0, 4.0]",
+    "se_positive": "se_final > 0",
+    "six_flywheel_result_keys": ["计划_theta", "预习_theta", "复习_theta", "听课_theta", "作业_theta", "考试_theta"],
+    "pipl_constraints": "student_id 为平台匿名 ID; 不含真实姓名/联系方式/身份证号"
+  }
+}
