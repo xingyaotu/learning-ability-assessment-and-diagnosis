@@ -1,5 +1,5 @@
 name: Validate
-# 道层 Compliance: v5.14 | JSON 验证 + 内容检查 + 四元组联动验证 + 跨库 schema 验证 + IRT 配置验证 + IRT 种子验证 + IRT 评分阈值验证 + 进度 schema 验证 + CAT 配置验证 + 报告 schema 验证 + MECE 科目画像验证 + MECE 诊断规则验证 + 题库 schema 验证 + 测评会话 schema 验证 + 常模表验证 + 信效度配置验证
+# 道层 Compliance: v5.15 | JSON 验证 + 内容检查 + 四元组联动验证 + 跨库 schema 验证 + IRT 配置验证 + IRT 种子验证 + IRT 评分阈值验证 + 进度 schema 验证 + CAT 配置验证 + 报告 schema 验证 + MECE 科目画像验证 + MECE 诊断规则验证 + 题库 schema 验证 + 测评会话 schema 验证 + 常模表验证 + 信效度配置验证 + 纵向追踪 schema 验证
 on:
   pull_request:
     types: [opened, synchronize, reopened]
@@ -156,3 +156,11 @@ jobs:
       - uses: actions/checkout@v4
       - name: 运行测评信效度配置验证脚本
         run: python3 scripts/validate-reliability-config.py
+
+  longitudinal-schema:
+    name: 学生学习力纵向追踪 schema 验证(MECE/七阶/六飞轮轨迹 + 常模比较 + PIPL)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 运行纵向追踪 schema 验证脚本
+        run: python3 scripts/validate-longitudinal-schema.py

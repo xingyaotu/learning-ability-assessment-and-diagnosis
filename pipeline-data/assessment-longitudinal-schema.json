@@ -1,0 +1,214 @@
+{
+  "$schema": "https://xingyaotu.cn/schemas/assessment-longitudinal.v1.0.json",
+  "version": "1.0",
+  "compliance": "v5.15 道层零漂移",
+  "last_updated": "2026-05-21",
+  "_meta": {
+    "description": "学生学习力纵向追踪 schema — 定义跨多次测评会话的学生成长轨迹结构",
+    "pipl_note": "PIPL 合规: student_id 为平台匿名 ID; 所有纵向记录不含真实姓名、学校或联系方式",
+    "usage": "每次完成 CAT 测评后 → 追加至本 schema → 生成成长轨迹报告 → 教练目标复核"
+  },
+  "longitudinal_record_schema": {
+    "description": "单个学生的全部测评历史记录结构",
+    "fields": {
+      "longitudinal_id": {
+        "type": "string",
+        "pattern": "^LNG-[0-9]{8}-[A-Z0-9]{8}$",
+        "required": true
+      },
+      "student_id": {
+        "type": "string",
+        "description": "平台匿名 ID — 不含真实个人识别信息",
+        "required": true
+      },
+      "enrollment_date": {
+        "type": "string",
+        "format": "date",
+        "required": true
+      },
+      "total_sessions": {
+        "type": "integer",
+        "minimum": 1,
+        "required": true
+      },
+      "days_tracked": {
+        "type": "integer",
+        "minimum": 0,
+        "description": "入学至最近一次测评的天数"
+      },
+      "assessment_history": {
+        "type": "array",
+        "description": "历次测评会话摘要 (按时间升序)",
+        "items": {
+          "session_id": {"type": "string"},
+          "assessment_date": {"type": "string", "format": "date"},
+          "tools_used": {
+            "type": "array",
+            "items": {"type": "string"},
+            "description": "本次会话使用的测评工具 ID 列表"
+          },
+          "composite_theta": {
+            "type": "number",
+            "description": "本次综合能力 θ 估计值"
+          },
+          "stage_estimate": {
+            "type": "string",
+            "enum": ["不会", "模糊", "清晰", "框架", "运用", "熟练", "创新"],
+            "description": "七阶阶位估计 — 七阶道层守护"
+          },
+          "mece_snapshot": {
+            "type": "object",
+            "description": "本次 MECE 四维度 θ 快照",
+            "properties": {
+              "M_theta": {"type": "number", "description": "动力维度 θ"},
+              "E_exec_theta": {"type": "number", "description": "执行力维度 θ"},
+              "C_theta": {"type": "number", "description": "能力维度 θ"},
+              "E_env_theta": {"type": "number", "description": "环境维度 θ"}
+            }
+          }
+        }
+      },
+      "mece_trajectory": {
+        "type": "object",
+        "description": "MECE 四维度成长轨迹 (θ 时序列表)",
+        "properties": {
+          "M_theta": {
+            "type": "array",
+            "items": {"type": "number"},
+            "description": "动力 θ 时序 (与 assessment_history 一一对应)"
+          },
+          "E_exec_theta": {
+            "type": "array",
+            "items": {"type": "number"},
+            "description": "执行力 θ 时序"
+          },
+          "C_theta": {
+            "type": "array",
+            "items": {"type": "number"},
+            "description": "能力 θ 时序"
+          },
+          "E_env_theta": {
+            "type": "array",
+            "items": {"type": "number"},
+            "description": "环境 θ 时序"
+          }
+        },
+        "_dao_guard": "MECE 四维度 M/E_exec/C/E_env θ 轨迹 — 维度编码零漂移守护"
+      },
+      "flywheel_trajectory": {
+        "type": "object",
+        "description": "六飞轮 θ 成长轨迹",
+        "properties": {
+          "计划_theta": {"type": "array", "items": {"type": "number"}},
+          "预习_theta": {"type": "array", "items": {"type": "number"}},
+          "复习_theta": {"type": "array", "items": {"type": "number"}},
+          "听课_theta": {"type": "array", "items": {"type": "number"}},
+          "作业_theta": {"type": "array", "items": {"type": "number"}},
+          "考试_theta": {"type": "array", "items": {"type": "number"}}
+        },
+        "_dao_guard": "六飞轮: 计划/预习/复习/听课/作业/考试 θ 轨迹 — 飞轮名称道层守护"
+      },
+      "stage_history": {
+        "type": "array",
+        "description": "七阶阶位历史",
+        "items": {
+          "assessment_date": {"type": "string", "format": "date"},
+          "stage_estimate": {
+            "type": "string",
+            "enum": ["不会", "模糊", "清晰", "框架", "运用", "熟练", "创新"]
+          },
+          "theta_at_stage": {"type": "number"},
+          "confidence": {"type": "number", "minimum": 0, "maximum": 1}
+        }
+      },
+      "summary_stats": {
+        "type": "object",
+        "description": "纵向追踪汇总统计",
+        "properties": {
+          "initial_stage": {
+            "type": "string",
+            "enum": ["不会", "模糊", "清晰", "框架", "运用", "熟练", "创新"]
+          },
+          "current_stage": {
+            "type": "string",
+            "enum": ["不会", "模糊", "清晰", "框架", "运用", "熟练", "创新"]
+          },
+          "stage_advancement_count": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "阶位上升次数"
+          },
+          "initial_composite_theta": {"type": "number"},
+          "current_composite_theta": {"type": "number"},
+          "theta_delta": {
+            "type": "number",
+            "description": "综合 θ 变化量 = current - initial"
+          },
+          "dominant_bottleneck_dimension": {
+            "type": "string",
+            "enum": ["M", "E_exec", "C", "E_env"],
+            "description": "历次测评中最频繁出现的主要瓶颈 MECE 维度"
+          },
+          "strongest_flywheel": {
+            "type": "string",
+            "enum": ["计划", "预习", "复习", "听课", "作业", "考试"],
+            "description": "六飞轮中 θ 最高的飞轮"
+          },
+          "weakest_flywheel": {
+            "type": "string",
+            "enum": ["计划", "预习", "复习", "听课", "作业", "考试"],
+            "description": "六飞轮中 θ 最低的飞轮"
+          }
+        }
+      }
+    }
+  },
+  "trajectory_analysis_rules": {
+    "minimum_sessions_for_trend": 3,
+    "stage_advancement_threshold": 0.5,
+    "theta_trend_window": 3,
+    "regression_alert_threshold": -0.8,
+    "plateau_detection": {
+      "description": "连续 N 次 θ 变化 < plateau_delta 视为高原期",
+      "consecutive_sessions": 3,
+      "plateau_delta": 0.1
+    },
+    "_dao_guard": "轨迹分析中阶位判定严格按七阶: 不会/模糊/清晰/框架/运用/熟练/创新"
+  },
+  "cohort_comparison_schema": {
+    "description": "学生纵向数据与常模组对比结构",
+    "fields": {
+      "norm_group_id": {
+        "type": "string",
+        "enum": ["ng-junior-high", "ng-senior-high", "ng-math-focused", "ng-gaokao-prep"]
+      },
+      "percentile_initial": {"type": "number", "minimum": 0, "maximum": 100},
+      "percentile_current": {"type": "number", "minimum": 0, "maximum": 100},
+      "percentile_delta": {"type": "number"},
+      "mece_dimension_percentiles": {
+        "M_percentile": {"type": "number", "minimum": 0, "maximum": 100},
+        "E_exec_percentile": {"type": "number", "minimum": 0, "maximum": 100},
+        "C_percentile": {"type": "number", "minimum": 0, "maximum": 100},
+        "E_env_percentile": {"type": "number", "minimum": 0, "maximum": 100}
+      }
+    }
+  },
+  "validation_rules": {
+    "required_fields": [
+      "longitudinal_id",
+      "student_id",
+      "enrollment_date",
+      "total_sessions",
+      "assessment_history",
+      "mece_trajectory",
+      "flywheel_trajectory",
+      "stage_history",
+      "summary_stats"
+    ],
+    "mece_dimension_codes": ["M", "E_exec", "C", "E_env"],
+    "flywheel_valid_names": ["计划", "预习", "复习", "听课", "作业", "考试"],
+    "seven_stage_valid_names": ["不会", "模糊", "清晰", "框架", "运用", "熟练", "创新"],
+    "trajectory_length_constraint": "len(mece_trajectory.M_theta) == len(assessment_history) == total_sessions",
+    "pipl_constraints": "student_id 为平台匿名 ID; longitudinal_record 不含真实个人识别信息; 按 PIPL 规定留存"
+  }
+}
