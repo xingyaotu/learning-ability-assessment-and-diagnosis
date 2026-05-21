@@ -1,0 +1,197 @@
+{
+  "$schema": "https://xingyaotu.cn/schemas/assessment-retest-protocol.v1.0.json",
+  "version": "1.0",
+  "compliance": "v5.23 道层零漂移",
+  "last_updated": "2026-05-21",
+  "_meta": {
+    "description": "测评复测协议 schema — 定义学生重新测评的触发条件、最短间隔、复测流程与结果比较规则",
+    "pipl_note": "PIPL 合规: 复测记录中所有 student_id 均为平台匿名 ID; 不含真实 PII",
+    "usage": "满足复测触发条件 → 系统/教练发起复测申请 → 复测 CAT 流程 → θ 变化对比 → 更新纵向追踪"
+  },
+  "retest_trigger_conditions": {
+    "description": "复测触发条件",
+    "triggers": [
+      {
+        "trigger_id": "rtt-stage-advance",
+        "trigger_name": "阶位进阶触发",
+        "description": "教练连续 3 次会话观察到学生阶位进展, 建议复测验证",
+        "min_coaching_sessions_required": 3,
+        "priority": "standard",
+        "_dao_guard": "阶位进阶触发 — 七阶进阶验证; 需教练记录连续3次七阶观察守护"
+      },
+      {
+        "trigger_id": "rtt-scheduled",
+        "trigger_name": "定期复测",
+        "description": "按固定周期触发复测 (默认每 90 天)",
+        "default_interval_days": 90,
+        "priority": "standard"
+      },
+      {
+        "trigger_id": "rtt-coaching-milestone",
+        "trigger_name": "教练里程碑",
+        "description": "学生完成教练计划重要里程碑后触发复测",
+        "priority": "high",
+        "_dao_guard": "里程碑复测 — 七阶目标阶位达成验证; MECE 变化对比守护"
+      },
+      {
+        "trigger_id": "rtt-plateau-detection",
+        "trigger_name": "停滞检测",
+        "description": "连续 6 次会话无阶位进展, 触发复测排查",
+        "min_sessions_without_progress": 6,
+        "priority": "high",
+        "_dao_guard": "停滞检测触发 — 七阶: 不会/模糊/清晰/框架/运用/熟练/创新 连续停滞守护"
+      },
+      {
+        "trigger_id": "rtt-student-request",
+        "trigger_name": "学生/家长主动申请",
+        "description": "学生或监护人主动申请复测",
+        "priority": "standard"
+      }
+    ]
+  },
+  "retest_interval_rules": {
+    "description": "复测最短间隔规则 (防止刷题效应)",
+    "minimum_intervals": {
+      "default_min_days": 30,
+      "by_irt_model": {
+        "1PL": {"min_days": 30, "note": "Rasch 模型 — 题目较少, 最短间隔 30 天"},
+        "2PL": {"min_days": 21, "note": "2PL 模型 — 参数较丰富, 间隔可适当缩短"},
+        "3PL": {"min_days": 21, "note": "3PL 模型含猜测参数, 间隔可适当缩短"}
+      },
+      "by_trigger": {
+        "rtt-stage-advance": 21,
+        "rtt-scheduled": 90,
+        "rtt-coaching-milestone": 14,
+        "rtt-plateau-detection": 14,
+        "rtt-student-request": 30
+      }
+    },
+    "item_overlap_control": {
+      "max_overlap_ratio": 0.30,
+      "description": "复测与上次测评题目重叠率不超过 30%; 由 CAT 曝光控制器保障"
+    }
+  },
+  "retest_record_schema": {
+    "description": "复测记录结构",
+    "fields": {
+      "retest_id": {
+        "type": "string",
+        "pattern": "^RTEST-[0-9]{8}-[A-Z0-9]{6}$",
+        "required": true
+      },
+      "student_id": {
+        "type": "string",
+        "description": "平台匿名 student_id",
+        "required": true
+      },
+      "original_session_id": {
+        "type": "string",
+        "description": "对比的原始测评会话 ID",
+        "required": true
+      },
+      "retest_session_id": {
+        "type": "string",
+        "description": "复测会话 ID",
+        "required": true
+      },
+      "trigger_id": {
+        "type": "string",
+        "enum": ["rtt-stage-advance", "rtt-scheduled", "rtt-coaching-milestone", "rtt-plateau-detection", "rtt-student-request"],
+        "required": true
+      },
+      "days_since_original": {
+        "type": "integer",
+        "minimum": 14,
+        "description": "距上次测评天数",
+        "required": true
+      },
+      "original_stage": {
+        "type": "string",
+        "enum": ["不会", "模糊", "清晰", "框架", "运用", "熟练", "创新"],
+        "required": true
+      },
+      "retest_stage": {
+        "type": "string",
+        "enum": ["不会", "模糊", "清晰", "框架", "运用", "熟练", "创新"],
+        "required": true
+      },
+      "stage_change_direction": {
+        "type": "string",
+        "enum": ["advanced", "maintained", "regressed"],
+        "description": "阶位变化方向"
+      },
+      "original_primary_bottleneck": {
+        "type": "string",
+        "enum": ["M", "E_exec", "C", "E_env"]
+      },
+      "retest_primary_bottleneck": {
+        "type": "string",
+        "enum": ["M", "E_exec", "C", "E_env"]
+      },
+      "bottleneck_resolved": {
+        "type": "boolean",
+        "description": "原主瓶颈是否在复测中已解决"
+      },
+      "flywheel_improvements": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "enum": ["计划", "预习", "复习", "听课", "作业", "考试"]
+        },
+        "description": "复测中有明显进步的飞轮列表",
+        "_dao_guard": "飞轮进步记录 — 六飞轮: 计划/预习/复习/听课/作业/考试 严格枚举"
+      },
+      "retest_validity_flag": {
+        "type": "boolean",
+        "description": "复测结果是否有效 (满足最短间隔 + 曝光控制)"
+      },
+      "coaching_plan_update_required": {
+        "type": "boolean",
+        "description": "复测结果是否需要更新教练计划"
+      }
+    }
+  },
+  "retest_comparison_rules": {
+    "description": "复测结果比较规则",
+    "meaningful_change_thresholds": {
+      "stage_advance_minimum": 1,
+      "mece_theta_change_threshold": 0.30,
+      "flywheel_theta_change_threshold": 0.25
+    },
+    "regression_alert_rule": {
+      "description": "阶位退步触发教练预警",
+      "condition": "retest_stage_rank < original_stage_rank",
+      "action": "触发教练预警 + 推送给主管",
+      "_dao_guard": "七阶退步预警 — 阶位退步须触发干预; 七阶: 不会/模糊/清晰/框架/运用/熟练/创新 排名比较"
+    },
+    "plateau_diagnosis_rule": {
+      "description": "复测结果未变化 + 原始触发为停滞 → 深度 MECE 诊断",
+      "condition": "stage_change_direction = 'maintained' AND trigger_id = 'rtt-plateau-detection'",
+      "action": "启动深度 MECE 四维度诊断分析",
+      "_dao_guard": "停滞确认 — MECE 四维度: M/E_exec/C/E_env 深度诊断守护"
+    }
+  },
+  "minor_retest_rules": {
+    "description": "未成年人复测特殊规则",
+    "under_14_requirements": {
+      "guardian_reconfirmation_required": true,
+      "description": "< 14岁学生复测前须监护人重新确认同意",
+      "halt_if_not_confirmed": "[HALT-CSO] 未成年人 < 14岁 复测前监护人同意未确认 → 暂停复测",
+      "_dao_guard": "< 14岁复测 — PIPL 第14条: 每次复测须监护人确认; 违反触发 [HALT-CSO]"
+    }
+  },
+  "validation_rules": {
+    "trigger_ids": ["rtt-stage-advance", "rtt-scheduled", "rtt-coaching-milestone", "rtt-plateau-detection", "rtt-student-request"],
+    "seven_stage_valid_names": ["不会", "模糊", "清晰", "框架", "运用", "熟练", "创新"],
+    "mece_dimension_codes": ["M", "E_exec", "C", "E_env"],
+    "six_flywheel_valid_names": ["计划", "预习", "复习", "听课", "作业", "考试"],
+    "required_retest_fields": [
+      "retest_id", "student_id", "original_session_id", "retest_session_id",
+      "trigger_id", "days_since_original", "original_stage", "retest_stage"
+    ],
+    "min_interval_days": 14,
+    "item_overlap_max_ratio": 0.30,
+    "pipl_article14_guard": "< 14岁学生复测须监护人重新确认; 未确认触发 [HALT-CSO]",
+    "pipl_constraints": "PIPL 合规: retest_record 中所有 student_id 均为平台匿名 ID; 不含真实个人信息"
+  }
+}
