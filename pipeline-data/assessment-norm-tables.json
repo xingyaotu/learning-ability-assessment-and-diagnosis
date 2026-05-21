@@ -1,0 +1,195 @@
+{
+  "$schema": "https://xingyaotu.cn/schemas/assessment-norm-tables.v1.0.json",
+  "version": "1.0",
+  "compliance": "v5.13 道层零漂移",
+  "last_updated": "2026-05-21",
+  "_meta": {
+    "description": "测评常模表 — 提供七阶 θ 分数的百分位数与常模参照，用于报告中的相对表现描述",
+    "pipl_note": "PIPL 合规: 常模数据为群体统计汇总; 不含个体识别信息",
+    "norm_basis": "基于星耀途平台历史测评数据的参考常模 (持续更新)",
+    "usage": "assessment_session(theta) → 本常模表 → 百分位数 → report-output-schema 描述层"
+  },
+  "norm_groups": [
+    {
+      "norm_group_id": "ng-junior-high",
+      "norm_group_name": "初中生",
+      "grade_range": ["初一", "初二", "初三"],
+      "age_range_years": [12, 15],
+      "sample_description": "初中在读学生，全科综合",
+      "theta_percentiles": {
+        "p10": -1.8,
+        "p20": -1.2,
+        "p30": -0.7,
+        "p40": -0.2,
+        "p50": 0.2,
+        "p60": 0.6,
+        "p70": 1.0,
+        "p80": 1.4,
+        "p90": 1.9,
+        "p95": 2.3,
+        "p99": 3.0
+      },
+      "stage_distribution": {
+        "不会": 0.08,
+        "模糊": 0.18,
+        "清晰": 0.25,
+        "框架": 0.22,
+        "运用": 0.15,
+        "熟练": 0.08,
+        "创新": 0.04
+      },
+      "mece_norms": {
+        "M_mean": 6.2,
+        "M_sd": 1.8,
+        "E_exec_mean": 5.8,
+        "E_exec_sd": 2.0,
+        "C_theta_mean": 0.1,
+        "C_theta_sd": 1.1,
+        "E_env_mean": 5.5,
+        "E_env_sd": 1.9
+      }
+    },
+    {
+      "norm_group_id": "ng-senior-high",
+      "norm_group_name": "高中生",
+      "grade_range": ["高一", "高二", "高三"],
+      "age_range_years": [15, 18],
+      "sample_description": "高中在读学生，全科综合",
+      "theta_percentiles": {
+        "p10": -1.5,
+        "p20": -0.9,
+        "p30": -0.4,
+        "p40": 0.1,
+        "p50": 0.5,
+        "p60": 0.9,
+        "p70": 1.3,
+        "p80": 1.8,
+        "p90": 2.3,
+        "p95": 2.7,
+        "p99": 3.5
+      },
+      "stage_distribution": {
+        "不会": 0.04,
+        "模糊": 0.12,
+        "清晰": 0.22,
+        "框架": 0.26,
+        "运用": 0.20,
+        "熟练": 0.11,
+        "创新": 0.05
+      },
+      "mece_norms": {
+        "M_mean": 6.5,
+        "M_sd": 1.7,
+        "E_exec_mean": 6.2,
+        "E_exec_sd": 1.9,
+        "C_theta_mean": 0.4,
+        "C_theta_sd": 1.0,
+        "E_env_mean": 5.8,
+        "E_env_sd": 1.8
+      }
+    },
+    {
+      "norm_group_id": "ng-math-focused",
+      "norm_group_name": "数学专项",
+      "grade_range": ["初一", "初二", "初三", "高一", "高二", "高三"],
+      "age_range_years": [12, 18],
+      "sample_description": "数学 MECE 专项测评学生",
+      "theta_percentiles": {
+        "p10": -2.0,
+        "p20": -1.3,
+        "p30": -0.6,
+        "p40": -0.1,
+        "p50": 0.3,
+        "p60": 0.8,
+        "p70": 1.2,
+        "p80": 1.7,
+        "p90": 2.2,
+        "p95": 2.6,
+        "p99": 3.2
+      },
+      "stage_distribution": {
+        "不会": 0.10,
+        "模糊": 0.20,
+        "清晰": 0.22,
+        "框架": 0.20,
+        "运用": 0.15,
+        "熟练": 0.09,
+        "创新": 0.04
+      },
+      "mece_norms": {
+        "M_mean": 5.9,
+        "M_sd": 2.0,
+        "E_exec_mean": 6.0,
+        "E_exec_sd": 1.9,
+        "C_theta_mean": 0.2,
+        "C_theta_sd": 1.2,
+        "E_env_mean": 5.4,
+        "E_env_sd": 1.8
+      }
+    },
+    {
+      "norm_group_id": "ng-gaokao-prep",
+      "norm_group_name": "高考备考",
+      "grade_range": ["高三"],
+      "age_range_years": [17, 18],
+      "sample_description": "高三备考阶段学生",
+      "theta_percentiles": {
+        "p10": -0.8,
+        "p20": -0.2,
+        "p30": 0.3,
+        "p40": 0.7,
+        "p50": 1.1,
+        "p60": 1.4,
+        "p70": 1.8,
+        "p80": 2.2,
+        "p90": 2.8,
+        "p95": 3.2,
+        "p99": 4.0
+      },
+      "stage_distribution": {
+        "不会": 0.01,
+        "模糊": 0.05,
+        "清晰": 0.15,
+        "框架": 0.28,
+        "运用": 0.28,
+        "熟练": 0.17,
+        "创新": 0.06
+      },
+      "mece_norms": {
+        "M_mean": 7.2,
+        "M_sd": 1.5,
+        "E_exec_mean": 7.0,
+        "E_exec_sd": 1.6,
+        "C_theta_mean": 0.9,
+        "C_theta_sd": 0.9,
+        "E_env_mean": 6.5,
+        "E_env_sd": 1.5
+      }
+    }
+  ],
+  "percentile_to_stage_guidance": {
+    "description": "百分位数与阶位的参照对应关系",
+    "mapping": [
+      {"percentile_range": [0, 10],    "stage_reference": "不会~模糊",   "interpretation": "需要基础知识重建"},
+      {"percentile_range": [10, 30],   "stage_reference": "模糊~清晰",   "interpretation": "知识点存在但结构不清晰"},
+      {"percentile_range": [30, 60],   "stage_reference": "清晰~框架",   "interpretation": "知识理解达到平均水平"},
+      {"percentile_range": [60, 80],   "stage_reference": "框架~运用",   "interpretation": "具备较好的知识框架"},
+      {"percentile_range": [80, 95],   "stage_reference": "运用~熟练",   "interpretation": "超越大多数同龄学生"},
+      {"percentile_range": [95, 100],  "stage_reference": "熟练~创新",   "interpretation": "优秀水平，接近创新阶位"}
+    ]
+  },
+  "norm_update_policy": {
+    "update_frequency": "quarterly",
+    "min_sample_size_per_group": 200,
+    "rolling_window_months": 12,
+    "normalization_method": "z_score_then_theta_scale"
+  },
+  "validation_rules": {
+    "percentile_keys": ["p10", "p20", "p30", "p40", "p50", "p60", "p70", "p80", "p90", "p95", "p99"],
+    "percentile_monotonicity": "p10 < p20 < ... < p99",
+    "stage_distribution_sum": "sum(stage_distribution.values()) == 1.0",
+    "stage_names_enum": ["不会", "模糊", "清晰", "框架", "运用", "熟练", "创新"],
+    "mece_norm_keys": ["M_mean", "M_sd", "E_exec_mean", "E_exec_sd", "C_theta_mean", "C_theta_sd", "E_env_mean", "E_env_sd"],
+    "pipl_constraints": "常模数据为群体统计; 不含个体 student_id 或真实姓名"
+  }
+}
