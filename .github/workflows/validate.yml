@@ -1,5 +1,5 @@
 name: Validate
-# 道层 Compliance: v5.0 | JSON 验证 + 内容检查
+# 道层 Compliance: v5.1 | JSON 验证 + 内容检查 + 四元组联动验证
 on:
   pull_request:
     types: [opened, synchronize, reopened]
@@ -28,19 +28,21 @@ jobs:
       - name: 检测道层漂移(6 类)
         run: |
           FAIL=0
-          # 模式1: 八步第5步误用"演示"
           if grep -rE "⑤[[:space:]]*演示|第五步[[:space:]]*演示" --include="*.md" --include="*.json" .; then
             echo "❌ 道层漂移: 八步第5步不是演示"; FAIL=1
           else echo "✅ 八步第5步合规"; fi
-
-          # 模式2: 六飞轮错误变体
           if grep -rE "错题飞轮|笔记飞轮|阅读飞轮|实践飞轮" --include="*.md" --include="*.json" .; then
             echo "❌ 道层漂移: 六飞轮含非法变体"; FAIL=1
           else echo "✅ 六飞轮名称合规"; fi
-
-          # 模式3: FIRE-UP 5字母误用
           if grep -rE "Foundation.*Identity.*Roadmap.*Execute.*UP[^a-zA-Z]" --include="*.md" --include="*.json" .; then
             echo "❌ 道层漂移: FIRE-UP 应为6字母"; FAIL=1
           else echo "✅ FIRE-UP 6字母合规"; fi
-
           exit $FAIL
+
+  quadruple-linkage:
+    name: 四元组联动验证(七阶/八步/六飞轮)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 运行四元组联动验证脚本
+        run: python3 scripts/validate-quadruple-linkage.py
