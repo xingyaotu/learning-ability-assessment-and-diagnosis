@@ -1,0 +1,145 @@
+{
+  "$schema": "https://xingyaotu.cn/schemas/assessment-audit-log.v1.0.json",
+  "version": "1.0",
+  "compliance": "v5.19 道层零漂移",
+  "last_updated": "2026-05-21",
+  "_meta": {
+    "description": "测评操作审计日志 schema — 定义测评平台所有关键操作的审计追踪结构，支持 PIPL 合规审查",
+    "pipl_note": "PIPL 合规: 审计日志中 actor_id 与 affected_student_id 均为平台匿名 ID; 审计日志本身不含真实 PII; 保留 7 年供监管审查",
+    "usage": "平台操作 → 审计事件生成 → 本 schema 记录 → 加密存储 → 定期审查 → PIPL 合规报告"
+  },
+  "audit_event_categories": [
+    {
+      "category_id": "aac-data-access",
+      "category_name": "数据访问事件",
+      "description": "对学生测评数据的读取操作",
+      "event_types": [
+        {"event_id": "aat-da-01", "name": "session_record_read", "actor_roles": ["coach", "supervisor", "system"]},
+        {"event_id": "aat-da-02", "name": "longitudinal_record_read", "actor_roles": ["coach", "supervisor"]},
+        {"event_id": "aat-da-03", "name": "consent_record_read", "actor_roles": ["system", "cso"]},
+        {"event_id": "aat-da-04", "name": "bulk_export_attempt", "actor_roles": ["admin"], "risk_level": "high"}
+      ]
+    },
+    {
+      "category_id": "aac-data-write",
+      "category_name": "数据写入事件",
+      "description": "对学生测评数据的创建/更新操作",
+      "event_types": [
+        {"event_id": "aat-dw-01", "name": "session_record_created", "actor_roles": ["system"]},
+        {"event_id": "aat-dw-02", "name": "consent_record_updated", "actor_roles": ["system", "admin"]},
+        {"event_id": "aat-dw-03", "name": "stage_estimate_updated", "actor_roles": ["system"]},
+        {"event_id": "aat-dw-04", "name": "mece_profile_updated", "actor_roles": ["system"],
+         "_dao_guard": "MECE 四维度 M/E_exec/C/E_env 更新审计 — 道层守护"}
+      ]
+    },
+    {
+      "category_id": "aac-data-deletion",
+      "category_name": "数据删除/匿名化事件",
+      "description": "数据留存期到期触发的删除或匿名化操作",
+      "event_types": [
+        {"event_id": "aat-dd-01", "name": "record_anonymized", "actor_roles": ["system"], "risk_level": "medium"},
+        {"event_id": "aat-dd-02", "name": "record_permanently_deleted", "actor_roles": ["system", "admin"], "risk_level": "high"},
+        {"event_id": "aat-dd-03", "name": "consent_revoked_deletion", "actor_roles": ["system"], "risk_level": "medium"}
+      ]
+    },
+    {
+      "category_id": "aac-compliance",
+      "category_name": "合规事件",
+      "description": "PIPL 合规、道层验证、HALT 触发等关键合规操作",
+      "event_types": [
+        {"event_id": "aat-co-01", "name": "dao_layer_drift_detected",
+         "actor_roles": ["system"], "risk_level": "critical",
+         "_dao_guard": "道层漂移检测 — 非法飞轮名/七阶外枚举 = critical 审计事件"},
+        {"event_id": "aat-co-02", "name": "pipl_halt_triggered",
+         "actor_roles": ["system"], "risk_level": "critical",
+         "description": "< 14岁学生数据或 PII 检测触发 HALT-CSO"},
+        {"event_id": "aat-co-03", "name": "consent_validation_failed",
+         "actor_roles": ["system"], "risk_level": "high"},
+        {"event_id": "aat-co-04", "name": "irt_parameter_modified",
+         "actor_roles": ["admin", "data_scientist"], "risk_level": "high"}
+      ]
+    },
+    {
+      "category_id": "aac-authentication",
+      "category_name": "认证与授权事件",
+      "description": "用户认证、角色变更、权限操作",
+      "event_types": [
+        {"event_id": "aat-au-01", "name": "coach_login", "actor_roles": ["coach"]},
+        {"event_id": "aat-au-02", "name": "admin_privilege_used", "actor_roles": ["admin"], "risk_level": "medium"},
+        {"event_id": "aat-au-03", "name": "cso_access_granted", "actor_roles": ["cso"], "risk_level": "high"}
+      ]
+    }
+  ],
+  "audit_log_record_schema": {
+    "description": "单条审计日志记录结构",
+    "fields": {
+      "audit_id": {"type": "string", "pattern": "^AUD-[0-9]{14}-[A-Z0-9]{8}$", "required": true},
+      "event_category_id": {
+        "type": "string",
+        "enum": ["aac-data-access", "aac-data-write", "aac-data-deletion", "aac-compliance", "aac-authentication"],
+        "required": true
+      },
+      "event_type_id": {"type": "string", "required": true},
+      "actor_id": {"type": "string", "description": "平台匿名操作者 ID", "required": true},
+      "actor_role": {
+        "type": "string",
+        "enum": ["coach", "supervisor", "admin", "system", "cso", "data_scientist"],
+        "required": true
+      },
+      "affected_student_id": {
+        "type": "string",
+        "description": "平台匿名 student_id (若操作涉及学生数据)",
+        "nullable": true
+      },
+      "affected_record_type": {
+        "type": "string",
+        "enum": ["session_record", "longitudinal_record", "consent_record",
+                 "irt_parameters", "mece_profile", "norm_tables", "unknown"]
+      },
+      "timestamp": {"type": "string", "format": "date-time", "required": true},
+      "risk_level": {
+        "type": "string",
+        "enum": ["low", "medium", "high", "critical"],
+        "required": true
+      },
+      "success": {"type": "boolean", "required": true},
+      "failure_reason": {"type": "string", "nullable": true},
+      "dao_layer_impact": {
+        "type": "boolean",
+        "description": "操作是否影响道层数据完整性"
+      },
+      "ip_hash": {
+        "type": "string",
+        "description": "请求来源 IP 的单向哈希 (不存储原始 IP)"
+      }
+    }
+  },
+  "audit_retention_rules": {
+    "standard_retention_years": 7,
+    "critical_event_retention_years": 10,
+    "dao_layer_event_retention_years": 10,
+    "pipl_halt_event_retention_years": 10,
+    "deletion_restriction": "审计日志本身不得删除; 仅可在法定期限届满后归档",
+    "_dao_guard": "审计日志永久保留 — 道层漂移/PIPL-HALT 事件保留 10 年"
+  },
+  "integrity_controls": {
+    "tamper_detection": "每条日志含前一条 audit_id 的哈希 (链式完整性)",
+    "immutability": "审计日志写入后不可修改; 仅系统可追加",
+    "encryption": "审计日志加密存储 (AES-256)",
+    "access_control": "仅 cso 和 admin 角色可读取审计日志; 不可通过 coach 接口访问"
+  },
+  "validation_rules": {
+    "audit_event_categories_count": 5,
+    "required_log_fields": [
+      "audit_id", "event_category_id", "event_type_id", "actor_id",
+      "actor_role", "timestamp", "risk_level", "success"
+    ],
+    "critical_events": ["aat-co-01", "aat-co-02"],
+    "dao_layer_audit_required": true,
+    "pipl_halt_audit_required": true,
+    "retention_years_minimum": 7,
+    "six_flywheel_valid_names": ["计划", "预习", "复习", "听课", "作业", "考试"],
+    "seven_stage_valid_names": ["不会", "模糊", "清晰", "框架", "运用", "熟练", "创新"],
+    "pipl_constraints": "PIPL 合规: 审计日志中 actor_id 与 affected_student_id 均为平台匿名 ID; 日志本身不含真实 PII"
+  }
+}
