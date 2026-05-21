@@ -1,0 +1,152 @@
+{
+  "$schema": "https://xingyaotu.cn/schemas/student-progress-schema.v1.0.json",
+  "version": "1.0",
+  "compliance": "v5.5 道层零漂移",
+  "last_updated": "2026-05-21",
+  "_meta": {
+    "description": "学生学习进度追踪 schema — 记录七阶位变化轨迹、IRT 能力估计历史与教练干预效果",
+    "privacy_note": "PIPL 合规: 不存储姓名/身份证等个人信息; student_id 为平台匿名 ID",
+    "data_retention": "会话数据保留 24 个月; 汇总统计数据永久保留",
+    "usage": "IRT 评分 → 阶位 → 本 schema 记录 → coaching-toolkit 干预 → 效果追踪"
+  },
+  "schema_definitions": {
+    "student_assessment_record": {
+      "description": "单次评估记录",
+      "fields": {
+        "record_id": {"type": "string", "format": "uuid-v4", "required": true},
+        "student_id": {"type": "string", "required": true, "note": "平台匿名 ID"},
+        "assessment_date": {"type": "string", "format": "ISO 8601 date", "required": true},
+        "tool_id": {"type": "string", "required": true, "enum_source": "assessment-catalog.json tool_id"},
+        "subject": {"type": "string", "required": true, "example": "数学/物理/英语"},
+        "dimension_scores": {
+          "type": "array",
+          "items": {
+            "dimension_name": {"type": "string"},
+            "theta": {"type": "number", "range": [-4.0, 4.0]},
+            "standard_error": {"type": "number", "range": [0.0, 1.0]},
+            "stage_id": {"type": "integer", "range": [1, 7]},
+            "stage_name": {"type": "string", "enum": ["不会","模糊","清晰","框架","运用","熟练","创新"]}
+          }
+        },
+        "composite_theta": {"type": "number", "range": [-4.0, 4.0], "required": true},
+        "composite_stage_id": {"type": "integer", "range": [1, 7], "required": true},
+        "composite_stage_name": {"type": "string", "required": true},
+        "irt_model_used": {"type": "string", "enum": ["1PL", "2PL", "3PL"]},
+        "item_count": {"type": "integer", "min": 4},
+        "reliability": {"type": "number", "range": [0.0, 1.0], "note": "Cronbach α 或 信息函数积分"}
+      }
+    },
+    "stage_transition_record": {
+      "description": "阶位跃迁记录 — 记录每次阶位变化",
+      "fields": {
+        "transition_id": {"type": "string", "format": "uuid-v4", "required": true},
+        "student_id": {"type": "string", "required": true},
+        "subject": {"type": "string", "required": true},
+        "tool_id": {"type": "string", "required": true},
+        "transition_date": {"type": "string", "format": "ISO 8601 datetime"},
+        "from_stage_id": {"type": "integer", "range": [1, 7]},
+        "from_stage_name": {"type": "string"},
+        "to_stage_id": {"type": "integer", "range": [1, 7]},
+        "to_stage_name": {"type": "string"},
+        "delta_theta": {"type": "number", "note": "θ 变化量 (正=进步; 负=退步)"},
+        "sessions_elapsed": {"type": "integer", "min": 0, "note": "距上次评估的教练会话次数"},
+        "transition_type": {
+          "type": "string",
+          "enum": ["advance", "hold", "regress"],
+          "note": "advance: 阶位上升; hold: 维持; regress: 阶位下降"
+        },
+        "trigger_assessment_id": {"type": "string", "note": "触发此跃迁记录的 record_id"}
+      }
+    },
+    "coaching_effectiveness_record": {
+      "description": "教练效果记录 — 关联 SOP 干预与阶位变化",
+      "fields": {
+        "effectiveness_id": {"type": "string", "format": "uuid-v4", "required": true},
+        "student_id": {"type": "string", "required": true},
+        "subject": {"type": "string", "required": true},
+        "session_date": {"type": "string", "format": "ISO 8601 date"},
+        "sop_executed": {
+          "type": "object",
+          "fields": {
+            "sop_ref": {"type": "string", "note": "e.g. sop-05 or sop-fw3"},
+            "eight_step_id": {"type": "integer", "range": [1, 8], "nullable": true},
+            "eight_step_name": {"type": "string", "nullable": true},
+            "six_flywheel_id": {"type": "integer", "range": [1, 6], "nullable": true},
+            "six_flywheel_name": {"type": "string", "nullable": true}
+          }
+        },
+        "pre_session_stage": {"type": "integer", "range": [1, 7]},
+        "post_session_stage": {"type": "integer", "range": [1, 7]},
+        "student_self_eval": {"type": "integer", "range": [1, 10], "note": "学生自评会话效果(1-10)"},
+        "coach_eval": {"type": "integer", "range": [1, 10], "note": "教练评分会话质量(1-10)"},
+        "completion_rate": {"type": "number", "range": [0.0, 1.0], "note": "会话内容完成率"},
+        "template_ref": {"type": "string", "note": "coaching-session-templates.json template_id"}
+      }
+    },
+    "student_progress_summary": {
+      "description": "学生进度汇总快照 — 定期生成的聚合统计",
+      "fields": {
+        "summary_id": {"type": "string", "format": "uuid-v4"},
+        "student_id": {"type": "string"},
+        "generated_at": {"type": "string", "format": "ISO 8601 datetime"},
+        "period_days": {"type": "integer", "note": "汇总周期(天)"},
+        "subject_summaries": {
+          "type": "array",
+          "items": {
+            "subject": {"type": "string"},
+            "current_stage": {"type": "integer", "range": [1, 7]},
+            "stage_at_period_start": {"type": "integer", "range": [1, 7]},
+            "stage_delta": {"type": "integer", "note": "阶位变化 (正=进步)"},
+            "total_sessions": {"type": "integer"},
+            "advance_sessions": {"type": "integer", "note": "带来阶位提升的会话次数"},
+            "most_used_sops": {
+              "type": "array",
+              "items": {"sop_ref": "string", "count": "integer"}
+            },
+            "theta_trajectory": {
+              "type": "array",
+              "items": {"date": "string", "theta": "number"},
+              "note": "θ 时间序列"
+            }
+          }
+        },
+        "mece_composite": {
+          "description": "MECE 四维度综合画像",
+          "fields": {
+            "M_motivation_stage": {"type": "integer", "range": [1, 7]},
+            "E_execution_stage": {"type": "integer", "range": [1, 7]},
+            "C_capability_stage": {"type": "integer", "range": [1, 7]},
+            "E_environment_stage": {"type": "integer", "range": [1, 7]},
+            "weakest_dimension": {"type": "string", "enum": ["动力", "执行力", "能力", "环境"]}
+          }
+        }
+      }
+    }
+  },
+  "validation_rules": {
+    "stage_transition_constraints": [
+      "to_stage_id - from_stage_id must match sign of delta_theta",
+      "transition_type='advance' iff to_stage_id > from_stage_id",
+      "transition_type='regress' iff to_stage_id < from_stage_id",
+      "transition_type='hold' iff to_stage_id == from_stage_id"
+    ],
+    "eight_step_name_constraints": {
+      "five": "eight_step_name for eight_step_id=5 MUST be '流程' — ⑤道层守护",
+      "all_names": {
+        "1": "穿透", "2": "提取", "3": "整理", "4": "审题",
+        "5": "流程", "6": "批改", "7": "分析", "8": "估分"
+      }
+    },
+    "six_flywheel_name_constraints": {
+      "valid_names": ["计划", "预习", "复习", "听课", "作业", "考试"],
+      "illegal_names": ["错题飞轮", "笔记飞轮", "阅读飞轮", "实践飞轮"]
+    },
+    "mece_dimension_codes": {
+      "M": "动力 (assess_mece_motivation)",
+      "E_exec": "执行力 (assess_mece_execution)",
+      "C": "能力 (assess_mece_capability)",
+      "E_env": "环境 (assess_mece_environment)"
+    }
+  },
+  "_integration_note": "本 schema 由 assessment repo 定义; 实现层在 xingyaotu-openmaic pipeline-executor 服务中"
+}

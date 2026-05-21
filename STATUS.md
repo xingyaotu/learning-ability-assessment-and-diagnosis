@@ -116,3 +116,11 @@
 - pipeline-data/irt-scoring-thresholds.json: 全局+工具专项θ切分阈值; MECE复合公式; 维度权重
 - scripts/validate-irt-scoring.py: 57项验证全通过 (边界连续/权重归一/MECE公式系数)
 - .github/workflows/validate.yml → v5.5: 新增 irt-scoring CI job (总共 7 jobs)
+
+## 2026-05-21T06:30:00Z · assessment — 学生进度 schema + CI v5.6
+### feat(pipeline-data+scripts+ci): student-progress-schema.json — 进度追踪 schema + CI v5.6
+- pipeline-data/student-progress-schema.json: 4种 schema 类型(assessment_record/transition/effectiveness/summary)
+  - PIPL 合规: 匿名 student_id / 八步枚举 / 六飞轮守护 / MECE 四维度代码
+  - ⑤守护: eight_step_name_constraints.five='流程' 内嵌 ✅
+- scripts/validate-progress-schema.py: 16/16 通过
+- .github/workflows/validate.yml → v5.6: 新增 progress-schema CI job (共 8 jobs)
