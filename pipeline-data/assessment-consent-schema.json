@@ -1,0 +1,195 @@
+{
+  "$schema": "https://xingyaotu.cn/schemas/assessment-consent.v1.0.json",
+  "version": "1.0",
+  "compliance": "v5.17 道层零漂移",
+  "last_updated": "2026-05-21",
+  "_meta": {
+    "description": "学生测评知情同意 schema — 定义 PIPL 合规的同意管理结构，特别是未成年人监护人书面同意",
+    "pipl_note": "PIPL 合规: 同意记录中 student_id 为平台匿名 ID; 监护人联系方式不存储于测评数据库; 未成年人数据处理需监护人书面同意 (PIPL 第14条)",
+    "usage": "学生注册 → 年龄核验 → 同意书生成 → 电子签名/书面签名 → 同意状态写入 → 测评会话前校验"
+  },
+  "consent_categories": [
+    {
+      "category_id": "cc-adult",
+      "category_name": "成年学生自主同意",
+      "applicability": "student_age ≥ 18",
+      "consent_level": "self",
+      "pipl_requirement": "PIPL 第13条: 本人同意",
+      "required_consent_types": [
+        "assessment_data_collection",
+        "coaching_data_sharing",
+        "anonymized_research_use"
+      ],
+      "consent_validity_months": 12,
+      "_dao_guard": "成年学生同意 — 测评数据使用 student_id 匿名化处理"
+    },
+    {
+      "category_id": "cc-minor-14plus",
+      "category_name": "14-17岁未成年学生同意",
+      "applicability": "14 ≤ student_age < 18",
+      "consent_level": "dual",
+      "pipl_requirement": "PIPL 第14条: 监护人同意 + 学生本人知情",
+      "required_consent_types": [
+        "guardian_assessment_consent",
+        "guardian_coaching_consent",
+        "student_assent_form",
+        "anonymized_research_use"
+      ],
+      "consent_validity_months": 12,
+      "guardian_verification_required": true,
+      "_dao_guard": "14-17岁 — 监护人同意 + 学生知情双重守护"
+    },
+    {
+      "category_id": "cc-minor-under14",
+      "category_name": "14岁以下未成年学生",
+      "applicability": "student_age < 14",
+      "consent_level": "guardian_only",
+      "pipl_requirement": "PIPL 第14条: 仅监护人书面同意; 学生本人无需签署",
+      "required_consent_types": [
+        "guardian_written_consent",
+        "guardian_identity_verification",
+        "data_minimization_acknowledgment"
+      ],
+      "consent_validity_months": 6,
+      "guardian_verification_required": true,
+      "cso_notification_required": true,
+      "_dao_guard": "< 14岁 — 仅监护人书面同意 PIPL 第14条强制守护; CSO 通知必须"
+    }
+  ],
+  "consent_record_schema": {
+    "description": "知情同意记录结构",
+    "fields": {
+      "consent_id": {
+        "type": "string",
+        "pattern": "^CONS-[0-9]{8}-[A-Z0-9]{8}$",
+        "required": true
+      },
+      "student_id": {
+        "type": "string",
+        "description": "平台匿名 student_id — 不含真实姓名",
+        "required": true
+      },
+      "consent_category_id": {
+        "type": "string",
+        "enum": ["cc-adult", "cc-minor-14plus", "cc-minor-under14"],
+        "required": true
+      },
+      "student_age_group": {
+        "type": "string",
+        "enum": ["adult_18plus", "minor_14to17", "minor_under14"],
+        "required": true
+      },
+      "consent_types_granted": {
+        "type": "array",
+        "items": {"type": "string"},
+        "required": true
+      },
+      "consent_granted_at": {
+        "type": "string",
+        "format": "date-time",
+        "required": true
+      },
+      "consent_expires_at": {
+        "type": "string",
+        "format": "date",
+        "required": true
+      },
+      "guardian_consent_required": {
+        "type": "boolean",
+        "description": "是否需要监护人同意 (minor_14to17 和 minor_under14 为 true)"
+      },
+      "guardian_consent_received": {
+        "type": "boolean",
+        "description": "监护人同意是否已获取"
+      },
+      "guardian_id_hash": {
+        "type": "string",
+        "description": "监护人身份验证哈希 (不存储原始证件信息; 仅用于重复验证)",
+        "nullable": true
+      },
+      "cso_notified": {
+        "type": "boolean",
+        "description": "< 14岁时是否已通知 CSO"
+      },
+      "status": {
+        "type": "string",
+        "enum": ["pending", "granted", "expired", "revoked", "cso_blocked"],
+        "required": true
+      },
+      "data_minimization_applied": {
+        "type": "boolean",
+        "description": "< 14岁学生数据是否已应用最小化收集原则"
+      }
+    }
+  },
+  "consent_validation_workflow": {
+    "pre_session_check": {
+      "description": "每次测评会话开始前执行同意校验",
+      "steps": [
+        "查找 student_id 对应的 consent_record",
+        "验证 status == 'granted'",
+        "验证 consent_expires_at > today",
+        "若 student_age_group 为 minor_under14: 验证 cso_notified == true",
+        "若 guardian_consent_required: 验证 guardian_consent_received == true",
+        "校验失败 → 禁止启动测评会话 → 返回 consent_required 状态"
+      ]
+    },
+    "under14_halt_rule": {
+      "description": "< 14岁学生数据处理的 HALT 规则",
+      "trigger": "student_age < 14 AND (cso_notified != true OR guardian_consent_received != true)",
+      "action": "[HALT-CSO] 立即停止服务; 上报平台 CSO; 不得继续处理该学生任何数据",
+      "_dao_guard": "< 14岁 HALT 规则 — PIPL 第14条强制守护"
+    }
+  },
+  "consent_types_registry": {
+    "assessment_data_collection": {
+      "description": "同意收集学习力测评数据 (IRT θ 值/MECE 维度/七阶阶位)",
+      "data_scope": ["mece_theta", "stage_estimate", "flywheel_theta", "composite_theta"]
+    },
+    "coaching_data_sharing": {
+      "description": "同意将测评结果共享给教练 (匿名化后)",
+      "data_scope": ["mece_profile", "stage_estimate", "coaching_goal"]
+    },
+    "anonymized_research_use": {
+      "description": "同意匿名化数据用于学习力研究 (不含任何个人识别信息)",
+      "data_scope": ["aggregate_statistics", "model_calibration"]
+    },
+    "guardian_assessment_consent": {
+      "description": "监护人同意学生参与学习力测评",
+      "requires_guardian_signature": true
+    },
+    "guardian_coaching_consent": {
+      "description": "监护人同意学生参与教练辅导",
+      "requires_guardian_signature": true
+    },
+    "student_assent_form": {
+      "description": "14-17岁学生的知情同意确认 (非法律意义上的同意，但需知情)",
+      "requires_student_acknowledgment": true
+    },
+    "guardian_written_consent": {
+      "description": "< 14岁学生的监护人书面同意书 (PIPL 第14条)",
+      "requires_guardian_signature": true,
+      "requires_guardian_identity_verification": true
+    },
+    "guardian_identity_verification": {
+      "description": "监护人身份核验 (哈希存储，不含原始证件)",
+      "storage_method": "hashed_id_only"
+    },
+    "data_minimization_acknowledgment": {
+      "description": "< 14岁学生数据最小化收集原则确认"
+    }
+  },
+  "validation_rules": {
+    "consent_categories_count": 3,
+    "required_fields": [
+      "consent_id", "student_id", "consent_category_id", "student_age_group",
+      "consent_types_granted", "consent_granted_at", "consent_expires_at", "status"
+    ],
+    "minor_under14_mandatory_flags": ["guardian_consent_required", "cso_notified", "data_minimization_applied"],
+    "pipl_article14_guard": "< 14岁学生必须满足: guardian_consent_received=true AND cso_notified=true",
+    "halt_trigger": "student_age < 14 AND 未满足 PIPL 第14条要求 → [HALT-CSO]",
+    "data_not_stored": ["guardian_real_name", "guardian_phone", "student_real_name", "school_full_name"],
+    "pipl_constraints": "PIPL 合规: student_id 为平台匿名 ID; guardian_id_hash 仅存储哈希; 不含真实个人识别信息",
+    "consent_category_ids": ["cc-adult", "cc-minor-14plus", "cc-minor-under14"]
+  }
+}
