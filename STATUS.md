@@ -104,3 +104,9 @@
   - 多维度工具: camiq_character/aptitude(5维) + flywheels_self_eval(6维)
   - 总计: 22工具 92维度 368题目 (MECE/JUMEQ/CAMIQ/FIRE-UP/七阶/六飞轮)
 - 道层合规: 六飞轮维度名称合规(计划/预习/复习/听课/作业/考试) ✅
+
+## 2026-05-21T05:15:00Z · assessment — IRT 种子验证脚本 + CI v5.4
+### feat(scripts+ci): validate-irt-seed.py — seed↔catalog 一致性验证 + CI v5.4
+- scripts/validate-irt-seed.py: 29项检查(工具ID集合匹配/model一致性/item参数合规/六飞轮维度名称守护)
+- .github/workflows/validate.yml → v5.4: 新增 irt-seed CI job
+- 全部 29/29 验证通过 ✅
