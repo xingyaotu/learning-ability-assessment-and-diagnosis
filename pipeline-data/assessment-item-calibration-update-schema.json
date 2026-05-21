@@ -1,0 +1,180 @@
+{
+  "$schema": "https://xingyaotu.cn/schemas/assessment-item-calibration-update.v1.0.json",
+  "version": "1.0",
+  "compliance": "v5.24 道层零漂移",
+  "last_updated": "2026-05-21",
+  "_meta": {
+    "description": "IRT 题目参数校准更新 schema — 定义测评题库 IRT 参数的定期重新标定流程、质量门控与版本管理",
+    "pipl_note": "PIPL 合规: 校准数据为聚合匿名响应矩阵; 不含个体 student_id 明文; 输出为统计参数",
+    "usage": "每季度/达到样本阈值 → 触发重新标定 → 参数审核 → 批准 → 题库更新 → CAT 重新运行"
+  },
+  "calibration_trigger_conditions": {
+    "description": "重新标定触发条件",
+    "triggers": [
+      {
+        "trigger_id": "cat-sample-threshold",
+        "trigger_name": "样本量阈值触发",
+        "description": "每道题目新增响应达到阈值后触发重新标定",
+        "min_new_responses": 500,
+        "priority": "standard"
+      },
+      {
+        "trigger_id": "cat-scheduled-quarterly",
+        "trigger_name": "季度定期标定",
+        "description": "每季度全量题库重新标定",
+        "interval_days": 90,
+        "priority": "standard"
+      },
+      {
+        "trigger_id": "cat-drift-detected",
+        "trigger_name": "参数漂移检测",
+        "description": "统计检验发现 IRT 参数显著漂移时立即触发",
+        "drift_detection_method": "sequential_probability_ratio_test",
+        "priority": "high",
+        "_dao_guard": "参数漂移触发 — IRT参数漂移可能影响七阶阈值判定; 需及时重新校准守护"
+      },
+      {
+        "trigger_id": "cat-new-items",
+        "trigger_name": "新题上线标定",
+        "description": "新题目进入题库前的初始标定",
+        "pilot_responses_required": 200,
+        "priority": "standard"
+      }
+    ]
+  },
+  "calibration_process": {
+    "description": "标定流程 (8步)",
+    "steps": [
+      "提取匿名化响应矩阵 (不含 student_id 明文, 仅用响应向量)",
+      "选择 IRT 模型 (1PL/2PL/3PL 按工具类型)",
+      "运行 MML-EM 参数估计",
+      "检验参数合规性 (a ∈ [0.5,2.0]; b ∈ [-4,4]; c ∈ [0,0.35])",
+      "与上一版本参数对比 — 检验 MECE 四维度 θ 阈值影响",
+      "更新七阶 θ 切分阈值 (如有统计显著变化)",
+      "QA 审核通过后更新 irt-params.json 版本号",
+      "重新运行全套 CI 验证脚本"
+    ],
+    "_dao_guard": "标定8步流程 — 第5步必须验证 MECE 四维度 M/E_exec/C/E_env θ 阈值影响; 第6步七阶切分守护"
+  },
+  "calibration_quality_gates": {
+    "description": "参数质量门控",
+    "gates": [
+      {
+        "gate_id": "qg-param-range",
+        "gate_name": "参数范围检验",
+        "checks": {
+          "discrimination_a": {"irt_models": ["2PL", "3PL"], "min": 0.5, "max": 2.0},
+          "difficulty_b": {"irt_models": ["1PL", "2PL", "3PL"], "min": -4.0, "max": 4.0},
+          "guessing_c": {"irt_models": ["3PL"], "min": 0.0, "max": 0.35}
+        }
+      },
+      {
+        "gate_id": "qg-fit",
+        "gate_name": "模型拟合检验",
+        "checks": {
+          "item_fit_chi_square_p": {"threshold": 0.01, "action_if_failed": "flag_for_review"},
+          "person_fit_infit_range": {"min": 0.6, "max": 1.4}
+        }
+      },
+      {
+        "gate_id": "qg-stage-threshold",
+        "gate_name": "七阶切分阈值稳定性",
+        "description": "新旧参数下七阶切分阈值变化不超过 0.1 SD",
+        "max_threshold_shift_sd": 0.10,
+        "_dao_guard": "七阶阈值稳定性门控 — 七阶: 不会/模糊/清晰/框架/运用/熟练/创新 切分稳定性守护"
+      },
+      {
+        "gate_id": "qg-mece-dimension",
+        "gate_name": "MECE 维度一致性",
+        "description": "重新标定后 MECE 四维度归属不得发生变化",
+        "valid_dimensions": ["M", "E_exec", "C", "E_env"],
+        "_dao_guard": "MECE 维度一致性门控 — M/E_exec/C/E_env 维度归属重新标定后必须一致"
+      },
+      {
+        "gate_id": "qg-flywheel-tool",
+        "gate_name": "飞轮工具归属一致性",
+        "description": "重新标定后六飞轮工具归属不得发生变化",
+        "valid_flywheels": ["计划", "预习", "复习", "听课", "作业", "考试"],
+        "_dao_guard": "飞轮工具归属门控 — 六飞轮: 计划/预习/复习/听课/作业/考试 归属守护"
+      }
+    ]
+  },
+  "calibration_record_schema": {
+    "description": "标定更新记录结构",
+    "fields": {
+      "calibration_id": {
+        "type": "string",
+        "pattern": "^CAL-[0-9]{8}-[A-Z0-9]{6}$",
+        "required": true
+      },
+      "trigger_id": {
+        "type": "string",
+        "enum": ["cat-sample-threshold", "cat-scheduled-quarterly", "cat-drift-detected", "cat-new-items"],
+        "required": true
+      },
+      "calibration_date": {
+        "type": "string",
+        "format": "date",
+        "required": true
+      },
+      "items_recalibrated_count": {
+        "type": "integer",
+        "minimum": 1,
+        "required": true
+      },
+      "irt_model_used": {
+        "type": "string",
+        "enum": ["1PL", "2PL", "3PL", "mixed"],
+        "required": true
+      },
+      "total_responses_used": {
+        "type": "integer",
+        "minimum": 200,
+        "description": "本次标定使用的匿名响应总数"
+      },
+      "stage_thresholds_changed": {
+        "type": "boolean",
+        "description": "七阶 θ 切分阈值是否发生变化"
+      },
+      "mece_dimension_assignments_changed": {
+        "type": "boolean",
+        "description": "MECE 维度归属是否发生变化"
+      },
+      "all_quality_gates_passed": {
+        "type": "boolean",
+        "required": true
+      },
+      "approver_id": {
+        "type": "string",
+        "description": "审核批准人匿名 ID"
+      },
+      "new_irt_params_version": {
+        "type": "string",
+        "description": "更新后的 irt-params.json 版本号"
+      },
+      "previous_irt_params_version": {
+        "type": "string",
+        "description": "上一版本 irt-params.json 版本号 (保留3版)"
+      }
+    }
+  },
+  "version_management": {
+    "description": "IRT 参数版本管理",
+    "retain_versions": 3,
+    "rollback_conditions": "任一质量门控失败 + 七阶阈值变化 > 0.2 SD → 回滚至上一版本",
+    "_dao_guard": "版本管理 — 七阶阈值回滚守护; MECE 维度归属回滚守护; 保留3版"
+  },
+  "validation_rules": {
+    "trigger_ids": ["cat-sample-threshold", "cat-scheduled-quarterly", "cat-drift-detected", "cat-new-items"],
+    "quality_gate_ids": ["qg-param-range", "qg-fit", "qg-stage-threshold", "qg-mece-dimension", "qg-flywheel-tool"],
+    "seven_stage_valid_names": ["不会", "模糊", "清晰", "框架", "运用", "熟练", "创新"],
+    "mece_dimension_codes": ["M", "E_exec", "C", "E_env"],
+    "six_flywheel_valid_names": ["计划", "预习", "复习", "听课", "作业", "考试"],
+    "required_calibration_fields": [
+      "calibration_id", "trigger_id", "calibration_date",
+      "items_recalibrated_count", "irt_model_used", "all_quality_gates_passed"
+    ],
+    "anonymization_rule": "校准响应矩阵不含个体 student_id; 使用聚合匿名响应向量",
+    "pipl_constraints": "PIPL 合规: 标定数据为聚合统计; 不含 student_id; calibration_record 中 approver_id 为平台匿名 ID"
+  }
+}
