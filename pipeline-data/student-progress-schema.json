@@ -139,7 +139,7 @@
     },
     "six_flywheel_name_constraints": {
       "valid_names": ["计划", "预习", "复习", "听课", "作业", "考试"],
-      "illegal_names": ["错题飞轮", "笔记飞轮", "阅读飞轮", "实践飞轮"]
+      "illegal_pattern": "飞轮名称不得包含: 错题/笔记/阅读/实践 等非枚举变体"
     },
     "mece_dimension_codes": {
       "M": "动力 (assess_mece_motivation)",

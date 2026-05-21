@@ -1,0 +1,197 @@
+{
+  "$schema": "https://xingyaotu.cn/schemas/cat-config.v1.0.json",
+  "version": "1.0",
+  "compliance": "v5.6 道层零漂移",
+  "last_updated": "2026-05-21",
+  "_meta": {
+    "description": "自适应测评(CAT) 配置 — 控制 IRT 自适应选题、停止规则与曝光控制",
+    "cat_method": "Maximum Information / Closest Difficulty Hybrid",
+    "usage": "assessment pipeline → cat-config → 动态选题 → IRT 能力估计 → irt-scoring-thresholds → 七阶分类"
+  },
+  "global_cat_settings": {
+    "ability_estimation_method": "EAP",
+    "prior_distribution": {"mean": 0.0, "sd": 1.0, "type": "normal"},
+    "initial_theta": 0.0,
+    "se_scale": "IRT information function",
+    "theta_range": [-4.0, 4.0]
+  },
+  "tool_cat_configs": [
+    {
+      "tool_id": "assess_mece_motivation",
+      "tool_name_zh": "学习动力测评",
+      "cat_enabled": true,
+      "item_selection": {
+        "method": "maximum_information",
+        "fallback": "closest_difficulty",
+        "content_balancing": true,
+        "content_constraint": "each dimension ≥ 1 item"
+      },
+      "stopping_rules": {
+        "max_items": 16,
+        "min_items": 8,
+        "se_threshold": 0.35,
+        "rule": "stop if SE ≤ se_threshold OR items_administered ≥ max_items"
+      },
+      "exposure_control": {
+        "method": "Sympson-Hetter",
+        "max_exposure_rate": 0.40,
+        "min_exposure_rate": 0.05
+      },
+      "expected_items_per_session": 10
+    },
+    {
+      "tool_id": "assess_mece_execution",
+      "tool_name_zh": "学习执行力测评",
+      "cat_enabled": true,
+      "item_selection": {
+        "method": "maximum_information",
+        "fallback": "closest_difficulty",
+        "content_balancing": true,
+        "content_constraint": "each dimension ≥ 1 item"
+      },
+      "stopping_rules": {
+        "max_items": 16,
+        "min_items": 8,
+        "se_threshold": 0.35,
+        "rule": "stop if SE ≤ se_threshold OR items_administered ≥ max_items"
+      },
+      "exposure_control": {
+        "method": "Sympson-Hetter",
+        "max_exposure_rate": 0.40,
+        "min_exposure_rate": 0.05
+      },
+      "expected_items_per_session": 10
+    },
+    {
+      "tool_id": "assess_mece_capability",
+      "tool_name_zh": "学习能力测评",
+      "cat_enabled": true,
+      "item_selection": {
+        "method": "maximum_information",
+        "fallback": "closest_difficulty",
+        "content_balancing": true,
+        "content_constraint": "each dimension ≥ 1 item"
+      },
+      "stopping_rules": {
+        "max_items": 16,
+        "min_items": 8,
+        "se_threshold": 0.30,
+        "rule": "stop if SE ≤ se_threshold OR items_administered ≥ max_items"
+      },
+      "exposure_control": {
+        "method": "Sympson-Hetter",
+        "max_exposure_rate": 0.40,
+        "min_exposure_rate": 0.05
+      },
+      "expected_items_per_session": 10
+    },
+    {
+      "tool_id": "assess_mece_environment",
+      "tool_name_zh": "学习环境测评",
+      "cat_enabled": false,
+      "cat_disabled_reason": "1PL-equivalent environment items; fixed-form administration preferred",
+      "fixed_form_items": 16,
+      "item_selection": {
+        "method": "fixed_sequential",
+        "order": "dimension_balanced"
+      },
+      "stopping_rules": {
+        "max_items": 16,
+        "min_items": 16,
+        "rule": "fixed form — administer all 16 items"
+      }
+    },
+    {
+      "tool_id": "assess_mastery_stages",
+      "tool_name_zh": "七阶掌握度综合测评",
+      "cat_enabled": true,
+      "item_selection": {
+        "method": "maximum_information",
+        "fallback": "closest_difficulty",
+        "content_balancing": true,
+        "content_constraint": "each dimension ≥ 1 item"
+      },
+      "stopping_rules": {
+        "max_items": 16,
+        "min_items": 8,
+        "se_threshold": 0.30,
+        "rule": "stop if SE ≤ se_threshold OR items_administered ≥ max_items"
+      },
+      "exposure_control": {
+        "method": "Sympson-Hetter",
+        "max_exposure_rate": 0.35,
+        "min_exposure_rate": 0.05
+      },
+      "guessing_correction": true,
+      "model_note": "3PL — guessing_correction enabled for c-parameter handling",
+      "expected_items_per_session": 10
+    },
+    {
+      "tool_id": "assess_jumeq_economy",
+      "tool_name_zh": "升学就业测评-经济规划",
+      "cat_enabled": false,
+      "cat_disabled_reason": "1PL Rasch model — fixed-form preferred for economic context assessment",
+      "fixed_form_items": 16,
+      "item_selection": {
+        "method": "fixed_sequential",
+        "order": "difficulty_ascending"
+      },
+      "stopping_rules": {
+        "max_items": 16,
+        "min_items": 16,
+        "rule": "fixed form — administer all 16 items"
+      }
+    },
+    {
+      "tool_id": "assess_camiq_monetary",
+      "tool_name_zh": "职业密码-经济资源测评",
+      "cat_enabled": false,
+      "cat_disabled_reason": "1PL Rasch model — fixed-form preferred for monetary context assessment",
+      "fixed_form_items": 16,
+      "item_selection": {
+        "method": "fixed_sequential",
+        "order": "difficulty_ascending"
+      },
+      "stopping_rules": {
+        "max_items": 16,
+        "min_items": 16,
+        "rule": "fixed form — administer all 16 items"
+      }
+    }
+  ],
+  "default_cat_config": {
+    "description": "未专项配置的 2PL 工具默认 CAT 参数",
+    "cat_enabled": true,
+    "item_selection": {
+      "method": "maximum_information",
+      "fallback": "closest_difficulty",
+      "content_balancing": true
+    },
+    "stopping_rules": {
+      "max_items": 16,
+      "min_items": 6,
+      "se_threshold": 0.35,
+      "rule": "stop if SE ≤ se_threshold OR items_administered ≥ max_items"
+    },
+    "exposure_control": {
+      "method": "Sympson-Hetter",
+      "max_exposure_rate": 0.40,
+      "min_exposure_rate": 0.05
+    },
+    "expected_items_per_session": 8
+  },
+  "cat_constraints": {
+    "global_constraints": [
+      "No item administered twice per student per session",
+      "Content balance: at least 1 item per dimension before repeating any dimension",
+      "Exposure control applied at item bank level",
+      "1PL tools always use fixed-form (cat_enabled=false)"
+    ],
+    "stopping_rule_priority": "SE threshold takes priority over item count minimum",
+    "ability_bounds": {
+      "lower": -4.0,
+      "upper": 4.0,
+      "note": "EAP estimates clamped to theta_range [-4, 4]"
+    }
+  }
+}

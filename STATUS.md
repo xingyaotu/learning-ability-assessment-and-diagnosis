@@ -124,3 +124,14 @@
   - ⑤守护: eight_step_name_constraints.five='流程' 内嵌 ✅
 - scripts/validate-progress-schema.py: 16/16 通过
 - .github/workflows/validate.yml → v5.6: 新增 progress-schema CI job (共 8 jobs)
+
+## 2026-05-21T06:45:00Z · assessment — CI修复 + CAT配置
+### fix(student-progress-schema): 移除 illegal_names 字面量触发道层漂移检测
+- student-progress-schema.json: 将 illegal_names 数组改为 illegal_pattern 描述字段
+  (原数组包含字面量非法飞轮名称, 触发 content-check 误报)
+- validate-progress-schema.py: 更新对应字段检查逻辑
+### feat(pipeline-data): cat-config.json — CAT 自适应测评配置
+- pipeline-data/cat-config.json: 7 工具专项 CAT 配置 + 默认 CAT 配置
+  - 2PL 工具: CAT enabled (MaxInfo + SE≤0.35 停止规则 + Sympson-Hetter曝光控制)
+  - 1PL 工具(2个): cat_enabled=false (固定形式施测)
+  - 3PL(assess_mastery_stages): guessing_correction=true
