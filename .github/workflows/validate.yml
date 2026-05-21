@@ -1,5 +1,5 @@
 name: Validate
-# 道层 Compliance: v5.2 | JSON 验证 + 内容检查 + 四元组联动验证 + 跨库 schema 验证
+# 道层 Compliance: v5.3 | JSON 验证 + 内容检查 + 四元组联动验证 + 跨库 schema 验证 + IRT 配置验证
 on:
   pull_request:
     types: [opened, synchronize, reopened]
@@ -60,3 +60,11 @@ jobs:
       - uses: actions/checkout@v4
       - name: 运行跨库联动验证脚本
         run: python3 scripts/validate-cross-schema.py
+
+  irt-config:
+    name: IRT 配置合规验证(22工具 × 1PL/2PL/3PL)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 运行 IRT 配置验证脚本
+        run: python3 scripts/validate-irt-config.py

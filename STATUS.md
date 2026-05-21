@@ -58,3 +58,23 @@
 - 道层: 0漂移 ✅ | CSO 0触发 ✅
 
 - [Next] assessment: IRT 参数标定数据导入(Phase 2.5)
+
+---
+
+## 2026-05-21T04:20:00Z · assessment — IRT 配置验证脚本
+
+### feat(scripts+ci): validate-irt-config.py — 22工具 IRT 参数合规验证
+
+- `scripts/validate-irt-config.py`: IRT 配置合规验证 (72 检查项)
+  - 工具数量 = 22 ✓
+  - 全部 22 工具含 irt_config ✓
+  - model ∈ {1PL, 2PL, 3PL} | difficulty_range [lo, hi] lo < hi ✓
+  - 1PL: discrimination_default = 1.0 (Rasch 约束) ✓
+  - 2PL/3PL: discrimination_default ∈ [0.5, 2.0] ✓
+  - 3PL: guessing_param ∈ [0, 0.35] ✓
+  - 模型分布: 1PL×2 / 2PL×19 / 3PL×1
+- `.github/workflows/validate.yml`: 升级 v5.2→v5.3, 新增 `irt-config` CI job
+- 本地验证: 72/72 通过 ✅
+
+- [道层] 0漂移 ✅ | CSO 0触发 ✅
+- [Next] IRT 参数标定数据导入(Phase 2.5): 22工具 × N题目 calibrated parameters
