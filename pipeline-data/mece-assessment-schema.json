@@ -1,8 +1,8 @@
 {
   "$schema": "https://xingyaotu.cn/schemas/mece-assessment.v1.0.json",
   "version": "1.0",
-  "compliance": "v5.0 道层零漂移",
-  "last_updated": "2026-05-16",
+  "compliance": "v5.1 道层零漂移",
+  "last_updated": "2026-05-21",
   "note": "MECE 学习力测评 4 维度 schema — M-动力/E-执行力/C-能力/E-环境",
   "mece_dimensions": [
     {
@@ -138,6 +138,6 @@
   ],
   "anti_drift": {
     "MECE_correct": "M-动力/E-执行力/C-能力/E-环境",
-    "MECE_forbidden": "Mutually Exclusive and Collectively Exhaustive(咨询误用)"
+    "MECE_note": "本项目 MECE 绝非管理咨询四维框架缩写, 仅代表四个学力维度首字母; 详见 CLAUDE.md 规则#1"
   }
 }
