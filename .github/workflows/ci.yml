@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  push:
+    branches: [main, 'claude/**']
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate JSON files
+        run: |
+          echo "=== JSON 格式验证 ==="
+          ERROR=0
+          while IFS= read -r -d '' f; do
+            echo -n "Checking: $f ... "
+            if python3 -c "import json,sys; json.load(open('$f'))" 2>&1; then
+              echo "✅"
+            else
+              echo "❌ Invalid JSON: $f"
+              ERROR=1
+            fi
+          done < <(find . -name "*.json" -not -path "./.github/*" -print0)
+          [ $ERROR -eq 0 ] || exit 1
+
+      - name: 道层漂移关键词检查
+        run: |
+          echo "=== 道层漂移关键词检查 ==="
+          DRIFT=$(grep -rn \
+            --include="*.json" \
+            --include="*.md" \
+            --exclude="CLAUDE.md" \
+            --exclude="README.md" \
+            --exclude-dir=".github" \
+            -E "导入|拆解|讲解|类比|演示|Judge|Understand|Match|Execute|Qualify" \
+            . 2>/dev/null || true)
+          if [ -n "$DRIFT" ]; then
+            echo "❌ 道层漂移词检测:"
+            echo "$DRIFT"
+            exit 1
+          fi
+          echo "✅ 道层漂移检查 0 命中"
+
+      - name: MECE 分类完整性
+        run: |
+          echo "=== MECE 分类完整性检查 ==="
+          if [ -f pipeline-data/assessment-catalog.json ]; then
+            python3 - <<'EOF'
+import json, sys
+with open('pipeline-data/assessment-catalog.json') as f:
+    data = json.load(f)
+tools = data.get('tools', [])
+if not tools:
+    print('⚠️  No tools found (empty catalog)')
+    sys.exit(0)
+groups = {t.get('group','') for t in tools}
+required = {'mece', 'jumeq', 'camiq', 'fireup', 'comprehensive'}
+missing = required - groups
+if missing:
+    print(f'❌ Missing groups: {missing}')
+    sys.exit(1)
+print(f'✅ All groups present: {sorted(groups)}')
+EOF
+          else
+            echo "⚠️  pipeline-data/assessment-catalog.json not found, skipping"
+          fi
