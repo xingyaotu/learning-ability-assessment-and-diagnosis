@@ -1,0 +1,47 @@
+name: 道层零漂移守护 CI
+
+# 道层 Compliance: v5.1 | grep 6 漂移=0 命中 | 2026-05-17
+
+on:
+  push:
+    branches: [main, 'claude/**', 'feat/**', 'fix/**', 'docs/**']
+  pull_request:
+    branches: [main]
+  workflow_dispatch: {}
+
+jobs:
+  dao-guard:
+    name: 道层零漂移 6 项 grep 检查
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: 确保脚本可执行
+        run: chmod +x scripts/.dao-guard.sh
+
+      - name: 运行道层守护 .dao-guard.sh
+        id: dao_guard
+        run: |
+          bash scripts/.dao-guard.sh . > /tmp/dao-guard-report.txt 2>&1
+          EXIT=$?
+          cat /tmp/dao-guard-report.txt
+          if [ $EXIT -ne 0 ]; then
+            echo '❌ 道层守护失败' >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            cat /tmp/dao-guard-report.txt >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            exit $EXIT
+          fi
+          echo '✅ 道层守护通过(6 项 0 命中)' >> $GITHUB_STEP_SUMMARY
+
+      - name: 上传报告(失败时)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dao-guard-report
+          path: /tmp/dao-guard-report.txt
+          retention-days: 30

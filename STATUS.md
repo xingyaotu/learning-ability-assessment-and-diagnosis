@@ -44,3 +44,25 @@
 - STATUS.md 只追加，绝不覆盖 ✅
 
 ---
+
+## 2026-05-21T05:40:00Z · session FlrIo 辅仓 PR 整合 (#3+#8+#6+#5)
+
+- [DONE] PR#10 已合并: `.github/workflows/ci.yml` CI pipeline ✅
+- [CLOSED] PR#4/7/9/11/12/13/14 — 过期诊断/被替代 PR 关闭 ✅
+- [DONE] `scripts/.dao-guard.sh` v5.1 — 道层零漂移守护脚本 (源自 PR#3)
+- [DONE] `.github/workflows/dao-guard-ci.yml` — 道层守护 CI (源自 PR#3)
+- [DONE] `scripts/validate-quadruple-linkage.py` — 22工具×154四元组联动验证 (源自 PR#8)
+- [DONE] `.github/workflows/validate.yml` — JSON验证+道层检测+四元组联动 CI (源自 PR#8)
+- [DONE] `pipeline-data/irt-params.json` — 22工具 IRT标定参数 MML-EM N=2847 2026-04-15 (源自 PR#6)
+- [DONE] `schemas/irt-params-schema.json` — IRT参数 JSON Schema Draft-07 (源自 PR#6)
+- [DONE] `SKILL.md` — assessment-toolkit-dispatcher 22工具×四密码×七阶位 (源自 PR#5)
+
+### 道层合规
+- MECE: M-动力/E-执行力/C-能力/E-环境 ✅
+- 八步⑤ = 流程（绝非演示）✅
+- 六飞轮: 计划/预习/复习/听课/作业/考试 ✅
+- FIRE-UP 6字母 F/I/R/E/U/P ✅
+- CSO: 0 触发 ✅
+- STATUS.md 只追加，绝不覆盖 ✅
+
+---
