@@ -1,0 +1,216 @@
+{
+  "$schema": "https://xingyaotu.cn/schemas/assessment-quality-assurance.v1.0.json",
+  "version": "1.0",
+  "compliance": "v5.26 道层零漂移",
+  "last_updated": "2026-05-21",
+  "_meta": {
+    "description": "测评质量保证 schema — 定义测评系统质量监控结构, 涵盖题目质量/CAT性能/IRT模型健康/七阶测量精度/MECE维度信效度",
+    "pipl_note": "PIPL 合规: 质量保证数据为聚合匿名统计; 不含个体 student_id 明文; 质量指标基于聚合响应矩阵",
+    "usage": "每月 QA 运行 → 生成质量报告 → 触发题目校准/模型更新/阈值复核 → 推送质量看板"
+  },
+  "qa_report_schema": {
+    "description": "测评质量报告主体结构",
+    "fields": {
+      "qa_report_id": {
+        "type": "string",
+        "pattern": "^QARP-[0-9]{6}-[A-Z0-9]{4}$",
+        "required": true
+      },
+      "report_period": {
+        "type": "object",
+        "properties": {
+          "start_date": {"type": "string", "format": "date"},
+          "end_date": {"type": "string", "format": "date"},
+          "period_type": {"type": "string", "enum": ["monthly", "quarterly", "annual"]}
+        },
+        "required": true
+      },
+      "total_assessments_qa_reviewed": {
+        "type": "integer",
+        "minimum": 50,
+        "description": "本期 QA 审查的测评总人次",
+        "required": true
+      },
+      "overall_qa_status": {
+        "type": "string",
+        "enum": ["pass", "warning", "fail"],
+        "description": "整体 QA 状态",
+        "required": true
+      }
+    }
+  },
+  "item_quality_metrics": {
+    "description": "题目质量指标",
+    "fields": {
+      "total_items_reviewed": {
+        "type": "integer",
+        "minimum": 0,
+        "description": "本期审查题目总数"
+      },
+      "items_flagged_for_review": {
+        "type": "integer",
+        "minimum": 0,
+        "description": "标记需复核的题目数量"
+      },
+      "items_retired": {
+        "type": "integer",
+        "minimum": 0,
+        "description": "本期退役题目数量"
+      },
+      "avg_discrimination_by_irt_model": {
+        "type": "object",
+        "description": "各 IRT 模型平均区分度",
+        "properties": {
+          "1PL": {"type": "number", "description": "1PL (Rasch) 固定 a=1.0"},
+          "2PL": {"type": "number", "minimum": 0.5, "maximum": 2.0},
+          "3PL": {"type": "number", "minimum": 0.5, "maximum": 2.0}
+        },
+        "_dao_guard": "IRT 模型区分度 — 1PL/2PL/3PL 三模型质量监控"
+      },
+      "flywheel_item_coverage": {
+        "type": "object",
+        "description": "六飞轮题目覆盖率",
+        "properties": {
+          "计划": {"type": "number", "minimum": 0, "maximum": 1},
+          "预习": {"type": "number", "minimum": 0, "maximum": 1},
+          "复习": {"type": "number", "minimum": 0, "maximum": 1},
+          "听课": {"type": "number", "minimum": 0, "maximum": 1},
+          "作业": {"type": "number", "minimum": 0, "maximum": 1},
+          "考试": {"type": "number", "minimum": 0, "maximum": 1}
+        },
+        "_dao_guard": "六飞轮题目覆盖率 — 六飞轮: 计划/预习/复习/听课/作业/考试 全覆盖守护"
+      }
+    }
+  },
+  "cat_performance_metrics": {
+    "description": "CAT 自适应测评性能指标",
+    "fields": {
+      "avg_items_per_session": {
+        "type": "number",
+        "minimum": 0,
+        "description": "每次 CAT 会话平均施测题数"
+      },
+      "avg_se_at_termination": {
+        "type": "number",
+        "minimum": 0,
+        "description": "终止时平均标准误 SE(θ)"
+      },
+      "se_threshold_compliance_rate": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "description": "达到 SE 阈值停止条件的比例"
+      },
+      "exposure_control_compliance_rate": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "description": "Sympson-Hetter 曝光控制合规率"
+      },
+      "avg_cat_duration_minutes": {
+        "type": "number",
+        "minimum": 0,
+        "description": "CAT 会话平均时长 (分钟)"
+      }
+    }
+  },
+  "seven_stage_measurement_quality": {
+    "description": "七阶测量精度质量指标",
+    "fields": {
+      "stage_classification_consistency": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "description": "七阶分类一致性系数 (重测一致率)",
+        "_dao_guard": "七阶分类一致性 — 七阶: 不会/模糊/清晰/框架/运用/熟练/创新 重测一致率守护"
+      },
+      "stage_boundary_se_by_stage": {
+        "type": "object",
+        "description": "各七阶边界处 SE(θ) 均值",
+        "properties": {
+          "不会_模糊_boundary": {"type": "number", "minimum": 0},
+          "模糊_清晰_boundary": {"type": "number", "minimum": 0},
+          "清晰_框架_boundary": {"type": "number", "minimum": 0},
+          "框架_运用_boundary": {"type": "number", "minimum": 0},
+          "运用_熟练_boundary": {"type": "number", "minimum": 0},
+          "熟练_创新_boundary": {"type": "number", "minimum": 0}
+        },
+        "_dao_guard": "七阶边界 SE — 七阶: 不会/模糊/清晰/框架/运用/熟练/创新 六条边界测量精度守护"
+      },
+      "misclassification_rate_estimate": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "description": "估计错分率 (跨阶错误分类比例)"
+      }
+    }
+  },
+  "mece_dimension_qa": {
+    "description": "MECE 四维度测量质量",
+    "fields": {
+      "dimension_reliability": {
+        "type": "object",
+        "description": "各 MECE 维度内部一致性 α",
+        "properties": {
+          "M_alpha": {"type": "number", "minimum": 0, "maximum": 1},
+          "E_exec_alpha": {"type": "number", "minimum": 0, "maximum": 1},
+          "C_alpha": {"type": "number", "minimum": 0, "maximum": 1},
+          "E_env_alpha": {"type": "number", "minimum": 0, "maximum": 1}
+        },
+        "_dao_guard": "MECE 四维度信度 — M/E_exec/C/E_env 内部一致性 α 道层守护"
+      },
+      "dimension_discrimination_validity": {
+        "type": "object",
+        "description": "MECE 维度区分效度 (维度间相关)",
+        "properties": {
+          "M_E_exec_correlation": {"type": "number", "minimum": -1, "maximum": 1},
+          "M_C_correlation": {"type": "number", "minimum": -1, "maximum": 1},
+          "M_E_env_correlation": {"type": "number", "minimum": -1, "maximum": 1},
+          "E_exec_C_correlation": {"type": "number", "minimum": -1, "maximum": 1},
+          "E_exec_E_env_correlation": {"type": "number", "minimum": -1, "maximum": 1},
+          "C_E_env_correlation": {"type": "number", "minimum": -1, "maximum": 1}
+        },
+        "_dao_guard": "MECE 维度区分效度 — M/E_exec/C/E_env 四维度维度间相关守护"
+      },
+      "bottleneck_identification_accuracy": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+        "description": "MECE 主瓶颈识别准确率 (与外部校标比较)"
+      }
+    }
+  },
+  "qa_flags_and_alerts": {
+    "description": "QA 标记与预警规则",
+    "alert_thresholds": {
+      "se_threshold_compliance_min": 0.90,
+      "stage_consistency_min": 0.85,
+      "mece_alpha_min": 0.70,
+      "item_misfit_rate_max": 0.10,
+      "exposure_control_compliance_min": 0.95
+    },
+    "halt_conditions": [
+      {
+        "condition_id": "halt-se-critical",
+        "description": "SE 阈值合规率低于 0.80 → 暂停 CAT 施测",
+        "action": "[HALT-CSO] CAT SE 阈值合规率严重下降 → 暂停测评 → CSO 介入"
+      },
+      {
+        "condition_id": "halt-stage-drift",
+        "description": "七阶分类一致性低于 0.75 → 道层漂移预警",
+        "action": "[HALT-CSO] 七阶分类一致性严重下降 → 疑似道层漂移 → 立即复核阈值",
+        "_dao_guard": "七阶道层漂移 HALT — 七阶: 不会/模糊/清晰/框架/运用/熟练/创新 分类漂移守护"
+      }
+    ]
+  },
+  "validation_rules": {
+    "seven_stage_valid_names": ["不会", "模糊", "清晰", "框架", "运用", "熟练", "创新"],
+    "mece_dimension_codes": ["M", "E_exec", "C", "E_env"],
+    "six_flywheel_valid_names": ["计划", "预习", "复习", "听课", "作业", "考试"],
+    "irt_model_codes": ["1PL", "2PL", "3PL"],
+    "qa_status_values": ["pass", "warning", "fail"],
+    "min_assessments_for_qa": 50,
+    "alert_thresholds_guard": "所有 QA 阈值必须基于 ≥ 50 人样本才输出; PIPL 最小样本量守护",
+    "pipl_constraints": "PIPL 合规: 质量保证数据为聚合匿名统计; 不含个体 student_id 明文; 基于聚合响应矩阵"
+  }
+}
