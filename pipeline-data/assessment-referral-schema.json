@@ -1,0 +1,208 @@
+{
+  "$schema": "https://xingyaotu.cn/schemas/assessment-referral.v1.0.json",
+  "version": "1.0",
+  "compliance": "v5.21 道层零漂移",
+  "last_updated": "2026-05-21",
+  "_meta": {
+    "description": "测评→教练转介 schema — 定义学生完成测评后转介至教练陪伴的结构、优先级规则与数据交接",
+    "pipl_note": "PIPL 合规: 转介记录中所有 student_id/coach_id 均为平台匿名 ID; 转介数据包不含真实 PII",
+    "usage": "学生完成 CAT 测评 → 系统生成转介建议 → 分配教练 → 推送测评摘要包 → 开启教练计划"
+  },
+  "referral_trigger_rules": {
+    "description": "自动触发转介的条件规则",
+    "triggers": [
+      {
+        "trigger_id": "rt-low-stage",
+        "trigger_name": "低阶位触发",
+        "description": "学生七阶阶位处于不会/模糊/清晰时自动触发高优先级转介",
+        "condition": "initial_stage IN ['不会', '模糊', '清晰']",
+        "priority": "high",
+        "_dao_guard": "低阶位触发 — 七阶: 不会/模糊/清晰 → 高优先级转介; 道层守护"
+      },
+      {
+        "trigger_id": "rt-mece-gap",
+        "trigger_name": "MECE 主瓶颈触发",
+        "description": "MECE 任一维度 θ < -1.0 时触发转介建议",
+        "condition": "any(M_theta < -1.0, E_exec_theta < -1.0, C_theta < -1.0, E_env_theta < -1.0)",
+        "priority": "medium",
+        "_dao_guard": "MECE 瓶颈触发 — M/E_exec/C/E_env 四维度 θ 阈值守护"
+      },
+      {
+        "trigger_id": "rt-flywheel-weak",
+        "trigger_name": "飞轮薄弱触发",
+        "description": "≥ 3 个飞轮 θ < -0.5 时触发转介",
+        "condition": "count(flywheel_theta < -0.5) >= 3",
+        "priority": "medium",
+        "_dao_guard": "飞轮薄弱触发 — 六飞轮: 计划/预习/复习/听课/作业/考试 弱项计数触发"
+      },
+      {
+        "trigger_id": "rt-student-request",
+        "trigger_name": "学生主动申请",
+        "description": "学生或监护人主动提出教练陪伴申请",
+        "condition": "student_request = true",
+        "priority": "standard",
+        "_dao_guard": "主动申请转介 — 仍须完成 CAT 测评获取七阶/MECE 基线; 道层守护"
+      }
+    ]
+  },
+  "referral_priority_levels": {
+    "description": "转介优先级定义",
+    "levels": [
+      {
+        "priority_id": "rp-high",
+        "label": "高优先级",
+        "max_assignment_hours": 24,
+        "description": "七阶处于不会/模糊/清晰 或 MECE 严重缺口",
+        "_dao_guard": "高优先级转介 — 七阶不会/模糊/清晰 严格触发; 道层守护"
+      },
+      {
+        "priority_id": "rp-medium",
+        "label": "中优先级",
+        "max_assignment_hours": 48,
+        "description": "存在明显 MECE 瓶颈或飞轮薄弱"
+      },
+      {
+        "priority_id": "rp-standard",
+        "label": "标准优先级",
+        "max_assignment_hours": 72,
+        "description": "常规转介, 七阶≥框架且无严重瓶颈"
+      }
+    ]
+  },
+  "referral_record_schema": {
+    "description": "转介记录结构",
+    "fields": {
+      "referral_id": {
+        "type": "string",
+        "pattern": "^REF-[0-9]{8}-[A-Z0-9]{6}$",
+        "required": true
+      },
+      "student_id": {
+        "type": "string",
+        "description": "平台匿名 student_id",
+        "required": true
+      },
+      "source_session_id": {
+        "type": "string",
+        "description": "触发转介的测评会话 ID",
+        "required": true
+      },
+      "referral_date": {
+        "type": "string",
+        "format": "date",
+        "required": true
+      },
+      "trigger_id": {
+        "type": "string",
+        "enum": ["rt-low-stage", "rt-mece-gap", "rt-flywheel-weak", "rt-student-request"],
+        "required": true
+      },
+      "priority_id": {
+        "type": "string",
+        "enum": ["rp-high", "rp-medium", "rp-standard"],
+        "required": true
+      },
+      "initial_stage": {
+        "type": "string",
+        "enum": ["不会", "模糊", "清晰", "框架", "运用", "熟练", "创新"],
+        "description": "测评时七阶阶位",
+        "required": true
+      },
+      "primary_bottleneck": {
+        "type": "string",
+        "enum": ["M", "E_exec", "C", "E_env"],
+        "description": "MECE 主瓶颈维度"
+      },
+      "recommended_flywheel_focus": {
+        "type": "string",
+        "enum": ["计划", "预习", "复习", "听课", "作业", "考试"],
+        "description": "建议首要教练飞轮焦点",
+        "_dao_guard": "转介推荐飞轮 — 六飞轮: 计划/预习/复习/听课/作业/考试 严格枚举"
+      },
+      "assigned_coach_id": {
+        "type": "string",
+        "description": "平台匿名 coach_id"
+      },
+      "referral_status": {
+        "type": "string",
+        "enum": ["pending_assignment", "assigned", "accepted", "plan_started", "declined", "expired"],
+        "required": true
+      },
+      "assessment_summary_package_id": {
+        "type": "string",
+        "description": "发送给教练的测评摘要包 ID (不含原始 θ 值明细)"
+      }
+    }
+  },
+  "assessment_summary_package": {
+    "description": "转介给教练的测评摘要包 — 精简版, 保护原始 IRT 数据",
+    "included_fields": [
+      "initial_stage (七阶阶位)",
+      "primary_bottleneck (MECE 主瓶颈维度代码)",
+      "top2_weak_flywheels (最弱两个飞轮名称)",
+      "benchmark_percentile_range (基准百分位区间, 非精确值)",
+      "trigger_id (转介触发条件)",
+      "recommended_coaching_focus"
+    ],
+    "excluded_fields": [
+      "raw_irt_theta_values",
+      "item_responses",
+      "ability_se_values",
+      "exact_percentile_scores"
+    ],
+    "_dao_guard": "测评摘要包 — 六飞轮名称严格枚举; 七阶名称严格枚举; 不含原始 θ 值; PIPL 合规",
+    "pipl_note": "PIPL 合规: 摘要包仅含聚合描述性信息; 原始 IRT θ 值不向教练直接开放"
+  },
+  "coach_matching_rules": {
+    "description": "教练匹配规则",
+    "matching_criteria": [
+      {
+        "criterion": "certification_level",
+        "description": "教练证书等级须与学生阶位匹配",
+        "rules": {
+          "不会": "ccl-1+",
+          "模糊": "ccl-1+",
+          "清晰": "ccl-2+",
+          "框架": "ccl-2+",
+          "运用": "ccl-3+",
+          "熟练": "ccl-4+",
+          "创新": "ccl-5"
+        },
+        "_dao_guard": "教练匹配 — 七阶: 不会/模糊/清晰/框架/运用/熟练/创新 与证书等级联动守护"
+      },
+      {
+        "criterion": "bottleneck_specialization",
+        "description": "优先匹配擅长对应 MECE 瓶颈的教练",
+        "valid_bottleneck_dimensions": ["M", "E_exec", "C", "E_env"]
+      },
+      {
+        "criterion": "capacity",
+        "description": "教练当前学生数未满载",
+        "max_active_students_default": 20
+      }
+    ]
+  },
+  "minor_referral_rules": {
+    "description": "未成年人转介特殊规则",
+    "under_14_requirements": {
+      "guardian_consent_verified": true,
+      "cso_notification_if_not_verified": true,
+      "halt_action": "[HALT-CSO] 未成年人 < 14岁 未完成知情同意 → 暂停转介流程",
+      "_dao_guard": "< 14岁转介 — PIPL 第14条: 监护人书面同意验证完成后方可转介; 违反触发 [HALT-CSO]"
+    }
+  },
+  "validation_rules": {
+    "trigger_ids": ["rt-low-stage", "rt-mece-gap", "rt-flywheel-weak", "rt-student-request"],
+    "priority_ids": ["rp-high", "rp-medium", "rp-standard"],
+    "seven_stage_valid_names": ["不会", "模糊", "清晰", "框架", "运用", "熟练", "创新"],
+    "mece_dimension_codes": ["M", "E_exec", "C", "E_env"],
+    "six_flywheel_valid_names": ["计划", "预习", "复习", "听课", "作业", "考试"],
+    "required_referral_fields": [
+      "referral_id", "student_id", "source_session_id", "referral_date",
+      "trigger_id", "priority_id", "initial_stage", "referral_status"
+    ],
+    "theta_sharing_rule": "原始 IRT θ 值不得出现在转介记录或摘要包中; 仅描述性信息",
+    "pipl_article14_guard": "< 14岁学生转介必须验证监护人书面同意; 未验证触发 [HALT-CSO]",
+    "pipl_constraints": "PIPL 合规: referral_record 中所有 student_id 和 coach_id 均为平台匿名 ID; 不含真实个人信息"
+  }
+}
