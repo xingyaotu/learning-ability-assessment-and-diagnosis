@@ -26,3 +26,27 @@
 - [ ] 与 xingyaotu-openmaic 的 quadruple-actions.json 联动测试
 
 ---
+
+## 2026-05-21T02:10:00Z · session cgkXV 辅仓同步 — [PAUSE-HOLD]
+
+主仓 PAUSE-NOTICE-2026-05-20.md 仍生效（持续约 41h，无 [RESUME]）。
+
+### 本仓 Open PR 状态（10 个，#3-#12）
+
+| PR# | 内容 | 建议操作 |
+|-----|------|----------|
+| #3 | .dao-guard.sh v5.1 | ★ 合并 |
+| #4 | ci+feat phase0.5（旧） | 关闭（被 #10 替代） |
+| #5 | SKILL.md only | 合并 |
+| #6 | IRT 参数标定 | 合并 |
+| #7 | ci.yml（5IDBD，旧） | 关闭（被 #10 替代） |
+| #8 | validate-quadruple-linkage.py | 合并 |
+| #9 | STATUS.md 诊断 | 关闭（纯诊断） |
+| #10 | CI 增强版（MECE 完整性） | ★ 合并（最新最全） |
+| #11 | STATUS.md 诊断 Day-2 | 关闭（纯诊断） |
+| #12 | STATUS.md 诊断 BdMZO | 关闭（纯诊断） |
+
+**推荐合并顺序**: #10 → #3 → #8 → #6 → #5
+
+- [道层] 6/6 0 命中 ✅ | CSO: 0 触发 ✅
+- [PAUSE-HOLD] 不开新业务 PR ✅ | [BACKPRESSURE] WIP ≥ 3 退出 ✅
