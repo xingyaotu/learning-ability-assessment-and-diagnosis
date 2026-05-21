@@ -78,3 +78,20 @@
 
 - [道层] 0漂移 ✅ | CSO 0触发 ✅
 - [Next] IRT 参数标定数据导入(Phase 2.5): 22工具 × N题目 calibrated parameters
+
+---
+
+## 2026-05-21T04:30:00Z · assessment — IRT 参数标定种子数据 Phase 2.5
+
+### feat(pipeline-data): irt-calibration-seed.json — Phase 2.5 IRT 标定种子
+
+- `pipeline-data/irt-calibration-seed.json`: 5 工具 × 4 维度 × 4 题目 = 80 题 IRT 参数
+  - MECE 4 工具 (2PL): 动力/执行/能力/环境
+  - 七阶综合 1 工具 (3PL): assess_mastery_stages (含 guessing_param=0.25)
+  - 参数: a(区分度) / b(难度) 按七阶分布[-3,3] | 3PL 额外 c(猜测)
+  - stage_target 与七阶对齐: 1~7 全覆盖
+  - $schema + version + compliance + _meta 元数据完整
+- 覆盖范围: 5/22 工具 80 题; Phase 2.5 完整版计划 22 工具 352 题
+
+- [道层] 0漂移 ✅ | JSON 格式: 有效 ✅ | CSO 0触发 ✅
+- [Next] 扩展至 22 工具完整标定数据(Phase 2.5 milestone)

@@ -1,0 +1,232 @@
+{
+  "$schema": "https://xingyaotu.cn/schemas/irt-calibration-seed.v1.0.json",
+  "version": "1.0",
+  "compliance": "v5.3 道层零漂移",
+  "last_updated": "2026-05-21",
+  "_meta": {
+    "description": "Phase 2.5 IRT 参数标定种子数据 — 22 工具各 4 维度各 4 题目的代表性标定参数",
+    "model_types": ["1PL", "2PL", "3PL"],
+    "items_per_dimension": 4,
+    "total_tools": 22,
+    "total_items": 352,
+    "calibration_notes": "参数值为基于道层七阶框架设计的合理初始值; 正式标定需经题目银行 α 测试"
+  },
+  "calibration_items": [
+    {
+      "tool_id": "assess_mece_motivation",
+      "tool_name_zh": "学习动力测评",
+      "model": "2PL",
+      "dimensions": [
+        {
+          "dimension": "内驱力",
+          "items": [
+            {"item_id": "mot_m1_q1", "a": 1.2, "b": -1.5, "stage_target": 1},
+            {"item_id": "mot_m1_q2", "a": 1.3, "b": -0.5, "stage_target": 2},
+            {"item_id": "mot_m1_q3", "a": 1.4, "b": 0.5, "stage_target": 4},
+            {"item_id": "mot_m1_q4", "a": 1.2, "b": 1.5, "stage_target": 6}
+          ]
+        },
+        {
+          "dimension": "目标感",
+          "items": [
+            {"item_id": "mot_m2_q1", "a": 1.1, "b": -1.2, "stage_target": 1},
+            {"item_id": "mot_m2_q2", "a": 1.3, "b": -0.3, "stage_target": 2},
+            {"item_id": "mot_m2_q3", "a": 1.2, "b": 0.8, "stage_target": 4},
+            {"item_id": "mot_m2_q4", "a": 1.4, "b": 1.8, "stage_target": 6}
+          ]
+        },
+        {
+          "dimension": "兴趣度",
+          "items": [
+            {"item_id": "mot_m3_q1", "a": 1.0, "b": -1.0, "stage_target": 1},
+            {"item_id": "mot_m3_q2", "a": 1.2, "b": 0.0, "stage_target": 3},
+            {"item_id": "mot_m3_q3", "a": 1.3, "b": 1.0, "stage_target": 5},
+            {"item_id": "mot_m3_q4", "a": 1.1, "b": 2.0, "stage_target": 7}
+          ]
+        },
+        {
+          "dimension": "成就需求",
+          "items": [
+            {"item_id": "mot_m4_q1", "a": 1.2, "b": -1.3, "stage_target": 1},
+            {"item_id": "mot_m4_q2", "a": 1.4, "b": -0.2, "stage_target": 3},
+            {"item_id": "mot_m4_q3", "a": 1.3, "b": 0.9, "stage_target": 5},
+            {"item_id": "mot_m4_q4", "a": 1.2, "b": 1.9, "stage_target": 7}
+          ]
+        }
+      ]
+    },
+    {
+      "tool_id": "assess_mece_execution",
+      "tool_name_zh": "学习执行力测评",
+      "model": "2PL",
+      "dimensions": [
+        {
+          "dimension": "计划执行",
+          "items": [
+            {"item_id": "exe_e1_q1", "a": 1.3, "b": -1.4, "stage_target": 1},
+            {"item_id": "exe_e1_q2", "a": 1.4, "b": -0.4, "stage_target": 2},
+            {"item_id": "exe_e1_q3", "a": 1.3, "b": 0.6, "stage_target": 4},
+            {"item_id": "exe_e1_q4", "a": 1.5, "b": 1.6, "stage_target": 6}
+          ]
+        },
+        {
+          "dimension": "专注度",
+          "items": [
+            {"item_id": "exe_e2_q1", "a": 1.2, "b": -1.6, "stage_target": 1},
+            {"item_id": "exe_e2_q2", "a": 1.3, "b": -0.6, "stage_target": 2},
+            {"item_id": "exe_e2_q3", "a": 1.4, "b": 0.4, "stage_target": 4},
+            {"item_id": "exe_e2_q4", "a": 1.3, "b": 1.4, "stage_target": 6}
+          ]
+        },
+        {
+          "dimension": "时间管理",
+          "items": [
+            {"item_id": "exe_e3_q1", "a": 1.1, "b": -1.2, "stage_target": 2},
+            {"item_id": "exe_e3_q2", "a": 1.3, "b": 0.0, "stage_target": 3},
+            {"item_id": "exe_e3_q3", "a": 1.4, "b": 1.0, "stage_target": 5},
+            {"item_id": "exe_e3_q4", "a": 1.2, "b": 2.0, "stage_target": 7}
+          ]
+        },
+        {
+          "dimension": "习惯养成",
+          "items": [
+            {"item_id": "exe_e4_q1", "a": 1.3, "b": -1.5, "stage_target": 1},
+            {"item_id": "exe_e4_q2", "a": 1.4, "b": -0.5, "stage_target": 3},
+            {"item_id": "exe_e4_q3", "a": 1.3, "b": 0.7, "stage_target": 5},
+            {"item_id": "exe_e4_q4", "a": 1.5, "b": 1.7, "stage_target": 7}
+          ]
+        }
+      ]
+    },
+    {
+      "tool_id": "assess_mece_capability",
+      "tool_name_zh": "学习能力测评",
+      "model": "2PL",
+      "dimensions": [
+        {
+          "dimension": "理解力",
+          "items": [
+            {"item_id": "cap_c1_q1", "a": 1.5, "b": -1.8, "stage_target": 1},
+            {"item_id": "cap_c1_q2", "a": 1.5, "b": -0.8, "stage_target": 2},
+            {"item_id": "cap_c1_q3", "a": 1.5, "b": 0.5, "stage_target": 4},
+            {"item_id": "cap_c1_q4", "a": 1.5, "b": 1.8, "stage_target": 6}
+          ]
+        },
+        {
+          "dimension": "记忆力",
+          "items": [
+            {"item_id": "cap_c2_q1", "a": 1.2, "b": -1.3, "stage_target": 1},
+            {"item_id": "cap_c2_q2", "a": 1.4, "b": -0.3, "stage_target": 3},
+            {"item_id": "cap_c2_q3", "a": 1.3, "b": 0.8, "stage_target": 4},
+            {"item_id": "cap_c2_q4", "a": 1.4, "b": 1.6, "stage_target": 6}
+          ]
+        },
+        {
+          "dimension": "迁移力",
+          "items": [
+            {"item_id": "cap_c3_q1", "a": 1.4, "b": -0.5, "stage_target": 3},
+            {"item_id": "cap_c3_q2", "a": 1.5, "b": 0.3, "stage_target": 4},
+            {"item_id": "cap_c3_q3", "a": 1.5, "b": 1.2, "stage_target": 5},
+            {"item_id": "cap_c3_q4", "a": 1.4, "b": 2.2, "stage_target": 7}
+          ]
+        },
+        {
+          "dimension": "思维力",
+          "items": [
+            {"item_id": "cap_c4_q1", "a": 1.3, "b": -0.8, "stage_target": 2},
+            {"item_id": "cap_c4_q2", "a": 1.5, "b": 0.2, "stage_target": 4},
+            {"item_id": "cap_c4_q3", "a": 1.5, "b": 1.2, "stage_target": 5},
+            {"item_id": "cap_c4_q4", "a": 1.4, "b": 2.5, "stage_target": 7}
+          ]
+        }
+      ]
+    },
+    {
+      "tool_id": "assess_mece_environment",
+      "tool_name_zh": "学习环境测评",
+      "model": "2PL",
+      "dimensions": [
+        {
+          "dimension": "家庭支持",
+          "items": [
+            {"item_id": "env_e1_q1", "a": 1.0, "b": -1.5, "stage_target": 1},
+            {"item_id": "env_e1_q2", "a": 1.0, "b": -0.5, "stage_target": 2},
+            {"item_id": "env_e1_q3", "a": 1.0, "b": 0.5, "stage_target": 4},
+            {"item_id": "env_e1_q4", "a": 1.0, "b": 1.5, "stage_target": 6}
+          ]
+        },
+        {
+          "dimension": "学校资源",
+          "items": [
+            {"item_id": "env_e2_q1", "a": 1.0, "b": -1.2, "stage_target": 1},
+            {"item_id": "env_e2_q2", "a": 1.0, "b": -0.2, "stage_target": 3},
+            {"item_id": "env_e2_q3", "a": 1.0, "b": 0.8, "stage_target": 4},
+            {"item_id": "env_e2_q4", "a": 1.0, "b": 1.8, "stage_target": 6}
+          ]
+        },
+        {
+          "dimension": "同伴影响",
+          "items": [
+            {"item_id": "env_e3_q1", "a": 1.0, "b": -1.0, "stage_target": 2},
+            {"item_id": "env_e3_q2", "a": 1.0, "b": 0.0, "stage_target": 3},
+            {"item_id": "env_e3_q3", "a": 1.0, "b": 1.0, "stage_target": 5},
+            {"item_id": "env_e3_q4", "a": 1.0, "b": 2.0, "stage_target": 7}
+          ]
+        },
+        {
+          "dimension": "学习工具",
+          "items": [
+            {"item_id": "env_e4_q1", "a": 1.0, "b": -1.3, "stage_target": 1},
+            {"item_id": "env_e4_q2", "a": 1.0, "b": -0.3, "stage_target": 3},
+            {"item_id": "env_e4_q3", "a": 1.0, "b": 0.7, "stage_target": 5},
+            {"item_id": "env_e4_q4", "a": 1.0, "b": 1.7, "stage_target": 7}
+          ]
+        }
+      ]
+    },
+    {
+      "tool_id": "assess_mastery_stages",
+      "tool_name_zh": "七阶掌握度综合测评",
+      "model": "3PL",
+      "dimensions": [
+        {
+          "dimension": "阶位识别",
+          "items": [
+            {"item_id": "ms_d1_q1", "a": 1.5, "b": -2.0, "c": 0.25, "stage_target": 1},
+            {"item_id": "ms_d1_q2", "a": 1.5, "b": -0.8, "c": 0.25, "stage_target": 2},
+            {"item_id": "ms_d1_q3", "a": 1.5, "b": 0.5, "c": 0.25, "stage_target": 4},
+            {"item_id": "ms_d1_q4", "a": 1.5, "b": 2.0, "c": 0.25, "stage_target": 7}
+          ]
+        },
+        {
+          "dimension": "跨阶迁移",
+          "items": [
+            {"item_id": "ms_d2_q1", "a": 1.4, "b": -1.5, "c": 0.25, "stage_target": 2},
+            {"item_id": "ms_d2_q2", "a": 1.5, "b": -0.5, "c": 0.25, "stage_target": 3},
+            {"item_id": "ms_d2_q3", "a": 1.5, "b": 0.8, "c": 0.25, "stage_target": 5},
+            {"item_id": "ms_d2_q4", "a": 1.4, "b": 2.2, "c": 0.25, "stage_target": 7}
+          ]
+        },
+        {
+          "dimension": "自主评估",
+          "items": [
+            {"item_id": "ms_d3_q1", "a": 1.3, "b": -1.0, "c": 0.25, "stage_target": 2},
+            {"item_id": "ms_d3_q2", "a": 1.4, "b": 0.0, "c": 0.25, "stage_target": 4},
+            {"item_id": "ms_d3_q3", "a": 1.5, "b": 1.0, "c": 0.25, "stage_target": 5},
+            {"item_id": "ms_d3_q4", "a": 1.4, "b": 2.5, "c": 0.25, "stage_target": 7}
+          ]
+        },
+        {
+          "dimension": "创新突破",
+          "items": [
+            {"item_id": "ms_d4_q1", "a": 1.5, "b": 0.5, "c": 0.25, "stage_target": 5},
+            {"item_id": "ms_d4_q2", "a": 1.5, "b": 1.2, "c": 0.25, "stage_target": 6},
+            {"item_id": "ms_d4_q3", "a": 1.5, "b": 2.0, "c": 0.25, "stage_target": 7},
+            {"item_id": "ms_d4_q4", "a": 1.4, "b": 2.8, "c": 0.25, "stage_target": 7}
+          ]
+        }
+      ]
+    }
+  ],
+  "_coverage_note": "本种子数据覆盖 5/22 工具(MECE 4 个 + 七阶综合 1 个)共 80 题; Phase 2.5 完整版将覆盖全部 22 工具 352 题"
+}
