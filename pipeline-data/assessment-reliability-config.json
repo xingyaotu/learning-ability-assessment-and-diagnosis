@@ -1,0 +1,320 @@
+{
+  "$schema": "https://xingyaotu.cn/schemas/assessment-reliability-config.v1.0.json",
+  "version": "1.0",
+  "compliance": "v5.14 道层零漂移",
+  "last_updated": "2026-05-21",
+  "_meta": {
+    "description": "测评信效度配置 — 定义各工具的心理测量质量阈值(信度/效度/区分度)",
+    "pipl_note": "PIPL 合规: 信度数据为工具级统计; 不含个体学生识别信息",
+    "usage": "题库标定完成后 → 本配置阈值检验 → 低于阈值工具触发重新标定流程"
+  },
+  "global_thresholds": {
+    "min_cronbach_alpha": 0.70,
+    "target_cronbach_alpha": 0.80,
+    "min_test_retest_r": 0.65,
+    "target_test_retest_r": 0.80,
+    "min_irt_fit_rmsea": 0.10,
+    "max_irt_fit_rmsea": 0.06,
+    "min_item_discrimination": 0.30,
+    "min_item_information": 0.50,
+    "max_item_exposure_rate": 0.40,
+    "min_calibration_sample_n": 200
+  },
+  "tool_reliability_specs": [
+    {
+      "tool_id": "assess_mece_motivation",
+      "tool_name_zh": "学习动力测评",
+      "irt_model": "2PL",
+      "min_alpha": 0.75,
+      "target_alpha": 0.82,
+      "min_test_retest_r": 0.70,
+      "construct_validity": {
+        "convergent_with": ["assess_flywheels_self_eval"],
+        "min_convergent_r": 0.45
+      },
+      "recalibration_trigger": "alpha < 0.70 OR rmsea > 0.08"
+    },
+    {
+      "tool_id": "assess_mece_execution",
+      "tool_name_zh": "学习执行力测评",
+      "irt_model": "2PL",
+      "min_alpha": 0.75,
+      "target_alpha": 0.82,
+      "min_test_retest_r": 0.72,
+      "construct_validity": {
+        "convergent_with": ["assess_flywheels_self_eval"],
+        "min_convergent_r": 0.50
+      },
+      "recalibration_trigger": "alpha < 0.70 OR rmsea > 0.08"
+    },
+    {
+      "tool_id": "assess_mece_capability",
+      "tool_name_zh": "学习能力测评",
+      "irt_model": "2PL",
+      "min_alpha": 0.78,
+      "target_alpha": 0.85,
+      "min_test_retest_r": 0.75,
+      "construct_validity": {
+        "convergent_with": ["assess_mastery_stages"],
+        "min_convergent_r": 0.55
+      },
+      "recalibration_trigger": "alpha < 0.72 OR rmsea > 0.07"
+    },
+    {
+      "tool_id": "assess_mece_environment",
+      "tool_name_zh": "学习环境测评",
+      "irt_model": "2PL",
+      "min_alpha": 0.72,
+      "target_alpha": 0.78,
+      "min_test_retest_r": 0.65,
+      "construct_validity": {
+        "convergent_with": [],
+        "min_convergent_r": 0.35
+      },
+      "recalibration_trigger": "alpha < 0.65 OR rmsea > 0.10"
+    },
+    {
+      "tool_id": "assess_mastery_stages",
+      "tool_name_zh": "七阶阶位测评",
+      "irt_model": "3PL",
+      "min_alpha": 0.80,
+      "target_alpha": 0.88,
+      "min_test_retest_r": 0.78,
+      "construct_validity": {
+        "convergent_with": ["assess_mece_capability"],
+        "min_convergent_r": 0.60
+      },
+      "recalibration_trigger": "alpha < 0.75 OR rmsea > 0.07",
+      "special_notes": "3PL 模型; 猜测参数 c ∈ [0, 0.25]; 区分度要求更高"
+    },
+    {
+      "tool_id": "assess_jumeq_jobplacement",
+      "tool_name_zh": "升学就业倾向测评",
+      "irt_model": "2PL",
+      "min_alpha": 0.72,
+      "target_alpha": 0.80,
+      "min_test_retest_r": 0.68,
+      "construct_validity": {
+        "convergent_with": [],
+        "min_convergent_r": 0.35
+      },
+      "recalibration_trigger": "alpha < 0.65 OR rmsea > 0.10"
+    },
+    {
+      "tool_id": "assess_jumeq_university",
+      "tool_name_zh": "志愿填报倾向测评",
+      "irt_model": "2PL",
+      "min_alpha": 0.72,
+      "target_alpha": 0.80,
+      "min_test_retest_r": 0.68,
+      "construct_validity": {
+        "convergent_with": [],
+        "min_convergent_r": 0.35
+      },
+      "recalibration_trigger": "alpha < 0.65 OR rmsea > 0.10"
+    },
+    {
+      "tool_id": "assess_jumeq_major",
+      "tool_name_zh": "专业选择倾向测评",
+      "irt_model": "2PL",
+      "min_alpha": 0.72,
+      "target_alpha": 0.80,
+      "min_test_retest_r": 0.68,
+      "construct_validity": {
+        "convergent_with": [],
+        "min_convergent_r": 0.35
+      },
+      "recalibration_trigger": "alpha < 0.65 OR rmsea > 0.10"
+    },
+    {
+      "tool_id": "assess_jumeq_economy",
+      "tool_name_zh": "经济意识测评",
+      "irt_model": "1PL",
+      "min_alpha": 0.70,
+      "target_alpha": 0.78,
+      "min_test_retest_r": 0.65,
+      "construct_validity": {
+        "convergent_with": [],
+        "min_convergent_r": 0.30
+      },
+      "recalibration_trigger": "alpha < 0.65 OR rmsea > 0.10",
+      "special_notes": "1PL Rasch 模型; a=1.0 固定"
+    },
+    {
+      "tool_id": "assess_jumeq_qualification",
+      "tool_name_zh": "资质能力测评",
+      "irt_model": "2PL",
+      "min_alpha": 0.72,
+      "target_alpha": 0.80,
+      "min_test_retest_r": 0.68,
+      "construct_validity": {
+        "convergent_with": [],
+        "min_convergent_r": 0.35
+      },
+      "recalibration_trigger": "alpha < 0.65 OR rmsea > 0.10"
+    },
+    {
+      "tool_id": "assess_camiq_character",
+      "tool_name_zh": "职业性格测评",
+      "irt_model": "2PL",
+      "min_alpha": 0.75,
+      "target_alpha": 0.83,
+      "min_test_retest_r": 0.72,
+      "construct_validity": {
+        "convergent_with": [],
+        "min_convergent_r": 0.40
+      },
+      "recalibration_trigger": "alpha < 0.70 OR rmsea > 0.08"
+    },
+    {
+      "tool_id": "assess_camiq_aptitude",
+      "tool_name_zh": "职业能力倾向测评",
+      "irt_model": "2PL",
+      "min_alpha": 0.78,
+      "target_alpha": 0.85,
+      "min_test_retest_r": 0.75,
+      "construct_validity": {
+        "convergent_with": ["assess_mece_capability"],
+        "min_convergent_r": 0.45
+      },
+      "recalibration_trigger": "alpha < 0.72 OR rmsea > 0.07"
+    },
+    {
+      "tool_id": "assess_camiq_monetary",
+      "tool_name_zh": "薪资期望测评",
+      "irt_model": "1PL",
+      "min_alpha": 0.70,
+      "target_alpha": 0.76,
+      "min_test_retest_r": 0.62,
+      "construct_validity": {
+        "convergent_with": [],
+        "min_convergent_r": 0.30
+      },
+      "recalibration_trigger": "alpha < 0.65 OR rmsea > 0.10",
+      "special_notes": "1PL Rasch 模型; a=1.0 固定"
+    },
+    {
+      "tool_id": "assess_camiq_interest",
+      "tool_name_zh": "职业兴趣测评",
+      "irt_model": "2PL",
+      "min_alpha": 0.73,
+      "target_alpha": 0.80,
+      "min_test_retest_r": 0.70,
+      "construct_validity": {
+        "convergent_with": ["assess_mece_motivation"],
+        "min_convergent_r": 0.40
+      },
+      "recalibration_trigger": "alpha < 0.68 OR rmsea > 0.09"
+    },
+    {
+      "tool_id": "assess_camiq_qualification",
+      "tool_name_zh": "职业资格测评",
+      "irt_model": "2PL",
+      "min_alpha": 0.72,
+      "target_alpha": 0.79,
+      "min_test_retest_r": 0.67,
+      "construct_validity": {
+        "convergent_with": [],
+        "min_convergent_r": 0.35
+      },
+      "recalibration_trigger": "alpha < 0.65 OR rmsea > 0.10"
+    },
+    {
+      "tool_id": "assess_flywheels_self_eval",
+      "tool_name_zh": "六飞轮自评测评",
+      "irt_model": "2PL",
+      "min_alpha": 0.75,
+      "target_alpha": 0.82,
+      "min_test_retest_r": 0.70,
+      "construct_validity": {
+        "convergent_with": ["assess_mece_execution"],
+        "min_convergent_r": 0.50
+      },
+      "recalibration_trigger": "alpha < 0.70 OR rmsea > 0.08",
+      "special_notes": "六维度对应六飞轮: 计划/预习/复习/听课/作业/考试"
+    },
+    {
+      "tool_id": "assess_fireup_family",
+      "tool_name_zh": "生涯家庭维度测评",
+      "irt_model": "2PL",
+      "min_alpha": 0.72,
+      "target_alpha": 0.78,
+      "min_test_retest_r": 0.65,
+      "construct_validity": {"convergent_with": [], "min_convergent_r": 0.30},
+      "recalibration_trigger": "alpha < 0.65 OR rmsea > 0.10"
+    },
+    {
+      "tool_id": "assess_fireup_individual",
+      "tool_name_zh": "生涯个人维度测评",
+      "irt_model": "2PL",
+      "min_alpha": 0.73,
+      "target_alpha": 0.80,
+      "min_test_retest_r": 0.68,
+      "construct_validity": {"convergent_with": [], "min_convergent_r": 0.35},
+      "recalibration_trigger": "alpha < 0.68 OR rmsea > 0.09"
+    },
+    {
+      "tool_id": "assess_fireup_resources",
+      "tool_name_zh": "生涯资源维度测评",
+      "irt_model": "2PL",
+      "min_alpha": 0.72,
+      "target_alpha": 0.78,
+      "min_test_retest_r": 0.65,
+      "construct_validity": {"convergent_with": [], "min_convergent_r": 0.30},
+      "recalibration_trigger": "alpha < 0.65 OR rmsea > 0.10"
+    },
+    {
+      "tool_id": "assess_fireup_ecosystem",
+      "tool_name_zh": "生涯生态维度测评",
+      "irt_model": "2PL",
+      "min_alpha": 0.72,
+      "target_alpha": 0.78,
+      "min_test_retest_r": 0.65,
+      "construct_validity": {"convergent_with": [], "min_convergent_r": 0.30},
+      "recalibration_trigger": "alpha < 0.65 OR rmsea > 0.10"
+    },
+    {
+      "tool_id": "assess_fireup_usability",
+      "tool_name_zh": "生涯可用性维度测评",
+      "irt_model": "2PL",
+      "min_alpha": 0.72,
+      "target_alpha": 0.78,
+      "min_test_retest_r": 0.65,
+      "construct_validity": {"convergent_with": [], "min_convergent_r": 0.30},
+      "recalibration_trigger": "alpha < 0.65 OR rmsea > 0.10"
+    },
+    {
+      "tool_id": "assess_fireup_pathways",
+      "tool_name_zh": "生涯路径维度测评",
+      "irt_model": "2PL",
+      "min_alpha": 0.73,
+      "target_alpha": 0.80,
+      "min_test_retest_r": 0.68,
+      "construct_validity": {"convergent_with": [], "min_convergent_r": 0.35},
+      "recalibration_trigger": "alpha < 0.68 OR rmsea > 0.09"
+    }
+  ],
+  "recalibration_workflow": {
+    "trigger_conditions": "alpha < min_alpha OR test_retest_r < min_test_retest_r OR rmsea > max_irt_fit_rmsea",
+    "min_additional_sample": 100,
+    "recalibration_steps": [
+      "收集新标定样本",
+      "重新运行 IRT 参数估计",
+      "更新 irt-calibration-seed.json",
+      "重新验证 validate-irt-seed.py",
+      "更新 irt-scoring-thresholds.json 切分点"
+    ]
+  },
+  "validation_rules": {
+    "tool_count": 22,
+    "min_alpha_global_floor": 0.65,
+    "irt_model_assignment": {
+      "1PL_tools": ["assess_jumeq_economy", "assess_camiq_monetary"],
+      "3PL_tools": ["assess_mastery_stages"],
+      "2PL_tools": "all_others"
+    },
+    "flywheels_tool_note": "assess_flywheels_self_eval 六维度对应六飞轮: 计划/预习/复习/听课/作业/考试",
+    "six_flywheel_names": ["计划", "预习", "复习", "听课", "作业", "考试"],
+    "pipl_constraints": "信效度配置为工具级统计数据; 不含个体 student_id 或真实姓名"
+  }
+}
