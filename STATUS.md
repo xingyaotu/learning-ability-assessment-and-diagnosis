@@ -26,3 +26,11 @@
 - [ ] 与 xingyaotu-openmaic 的 quadruple-actions.json 联动测试
 
 ---
+
+## 2026-05-21T · PR #5 关闭记录
+
+PR #5 (feat: SKILL.md 测评工具包分发接口, branch: claude/gallant-wozniak-ncJzm) 已关闭(closed without merging)。
+SKILL.md 代码保留在本分支。
+
+[状态] CLOSED — 等待后续明确指令方可重新开启或新建 PR
+[行动] 不 reopen / 不新建 PR — 代码已保全在分支
